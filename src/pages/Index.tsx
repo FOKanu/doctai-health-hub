@@ -1,7 +1,10 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navigation from '../components/Navigation';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '../components/AppSidebar';
+import { AppHeader } from '../components/AppHeader';
+import { MobileNavigation } from '../components/MobileNavigation';
 import HomeScreen from '../components/HomeScreen';
 import ScanScreen from '../components/ScanScreen';
 import UploadScreen from '../components/UploadScreen';
@@ -12,20 +15,28 @@ import ProfileScreen from '../components/ProfileScreen';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
-      <div className="max-w-md mx-auto bg-white min-h-screen shadow-lg">
-        <Routes>
-          <Route path="/" element={<HomeScreen />} />
-          <Route path="/scan" element={<ScanScreen />} />
-          <Route path="/upload" element={<UploadScreen />} />
-          <Route path="/specialists" element={<SpecialistScreen />} />
-          <Route path="/history" element={<HistoryScreen />} />
-          <Route path="/medications" element={<MedicationsScreen />} />
-          <Route path="/profile" element={<ProfileScreen />} />
-        </Routes>
-        <Navigation />
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-gray-50">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col">
+          <AppHeader />
+          <main className="flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-6">
+            <div className="max-w-7xl mx-auto">
+              <Routes>
+                <Route path="/" element={<HomeScreen />} />
+                <Route path="/scan" element={<ScanScreen />} />
+                <Route path="/upload" element={<UploadScreen />} />
+                <Route path="/specialists" element={<SpecialistScreen />} />
+                <Route path="/history" element={<HistoryScreen />} />
+                <Route path="/medications" element={<MedicationsScreen />} />
+                <Route path="/profile" element={<ProfileScreen />} />
+              </Routes>
+            </div>
+          </main>
+        </div>
+        <MobileNavigation />
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
