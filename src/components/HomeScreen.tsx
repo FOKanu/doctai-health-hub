@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera, Upload, TrendingUp, Activity, AlertCircle, Bell, Calendar, BarChart, Apple, Brain, Trophy, Target, Star, Zap, Award, Heart, Weight, Droplets, Moon, Thermometer, Plus } from 'lucide-react';
@@ -48,7 +49,7 @@ const HomeScreen = () => {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Section with Health Score */}
+      {/* 1. Welcome Section with Health Score */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
         <div className="flex justify-between items-start">
           <div>
@@ -68,6 +69,25 @@ const HomeScreen = () => {
         </div>
       </div>
 
+      {/* 2. Core Health Actions */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Core Health Actions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {quickActions.map((action, index) => (
+            <button
+              key={index}
+              onClick={() => navigate(action.path)}
+              className={`${action.color} text-white p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-left`}
+            >
+              <action.icon className="w-10 h-10 mb-4" />
+              <h3 className="font-semibold text-lg mb-2">{action.title}</h3>
+              <p className="text-sm opacity-90">{action.subtitle}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Gamification */}
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {stats.map((stat, index) => (
@@ -166,25 +186,7 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {/* Core Actions */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Core Health Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {quickActions.map((action, index) => (
-            <button
-              key={index}
-              onClick={() => navigate(action.path)}
-              className={`${action.color} text-white p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-left`}
-            >
-              <action.icon className="w-10 h-10 mb-4" />
-              <h3 className="font-semibold text-lg mb-2">{action.title}</h3>
-              <p className="text-sm opacity-90">{action.subtitle}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Alerts */}
+      {/* 4. Health Alerts */}
       {alerts.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-xl font-semibold text-gray-900">Health Alerts</h2>
@@ -208,7 +210,7 @@ const HomeScreen = () => {
         </div>
       )}
 
-      {/* Health Management */}
+      {/* 5. Health Management */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Health Management</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
