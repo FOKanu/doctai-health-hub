@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, Upload, User, Calendar, Pill, FileText, AlertCircle, Bell, TrendingUp, Activity } from 'lucide-react';
+import { Camera, Upload, TrendingUp, Activity, AlertCircle, Bell, Calendar, BarChart, Apple, Brain } from 'lucide-react';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -11,11 +11,11 @@ const HomeScreen = () => {
     { icon: Upload, title: 'Upload Medical Image', subtitle: 'CT, MRI, EEG analysis', color: 'bg-green-600 hover:bg-green-700', path: '/upload' },
   ];
 
-  const secondaryActions = [
-    { icon: User, title: 'Find Specialists', subtitle: 'Get AI recommendations', color: 'bg-purple-600 hover:bg-purple-700', path: '/specialists' },
-    { icon: Calendar, title: 'Book Appointment', subtitle: 'German healthcare providers', color: 'bg-orange-600 hover:bg-orange-700', path: '/appointments' },
-    { icon: Pill, title: 'Manage Medications', subtitle: 'Track & renew prescriptions', color: 'bg-pink-600 hover:bg-pink-700', path: '/medications' },
-    { icon: FileText, title: 'Treatment Plans', subtitle: 'Your health journey', color: 'bg-indigo-600 hover:bg-indigo-700', path: '/treatments' },
+  const healthManagementActions = [
+    { icon: BarChart, title: 'Results', subtitle: 'View your test results', color: 'bg-purple-600 hover:bg-purple-700', path: '/results' },
+    { icon: Activity, title: 'Fitness Metrics', subtitle: 'Track your health metrics', color: 'bg-orange-600 hover:bg-orange-700', path: '/fitness' },
+    { icon: Apple, title: 'Diet Plan', subtitle: 'Personalized nutrition', color: 'bg-pink-600 hover:bg-pink-700', path: '/diet' },
+    { icon: Brain, title: 'AI Recommendations', subtitle: 'Smart health insights', color: 'bg-indigo-600 hover:bg-indigo-700', path: '/recommendations' },
   ];
 
   const alerts = [
@@ -99,11 +99,11 @@ const HomeScreen = () => {
         </div>
       )}
 
-      {/* Additional Services */}
+      {/* Health Management */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Health Management</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {secondaryActions.map((action, index) => (
+          {healthManagementActions.map((action, index) => (
             <button
               key={index}
               onClick={() => navigate(action.path)}

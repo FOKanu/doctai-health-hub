@@ -2,8 +2,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  Camera,
-  Upload,
   User,
   Calendar,
   Pill,
@@ -29,21 +27,6 @@ import {
 export function AppSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const coreActions = [
-    {
-      title: "Skin Scan",
-      url: "/scan",
-      icon: Camera,
-      description: "Camera scan for skin lesions"
-    },
-    {
-      title: "Upload Medical Image",
-      url: "/upload",
-      icon: Upload,
-      description: "CT, MRI, EEG analysis"
-    }
-  ];
 
   const mainNavigation = [
     {
@@ -101,35 +84,6 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Core Actions
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {coreActions.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={location.pathname === item.url}
-                    className="h-auto p-4 hover:bg-blue-50 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700"
-                  >
-                    <button onClick={() => navigate(item.url)} className="w-full text-left">
-                      <div className="flex items-start space-x-3">
-                        <item.icon className="w-5 h-5 mt-0.5 text-blue-600" />
-                        <div>
-                          <div className="font-medium text-gray-900">{item.title}</div>
-                          <div className="text-xs text-gray-500 mt-1">{item.description}</div>
-                        </div>
-                      </div>
-                    </button>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
             Navigation
