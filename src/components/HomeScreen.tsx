@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, Upload, TrendingUp, Activity, AlertCircle, Bell, Calendar, BarChart, Apple, Brain } from 'lucide-react';
+import { Camera, Upload, TrendingUp, Activity, AlertCircle, Bell, Calendar, BarChart, Apple, Brain, Trophy, Target, Star, Zap, Award } from 'lucide-react';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -29,15 +29,40 @@ const HomeScreen = () => {
     { label: 'Appointments', value: '3', change: 'Next: Tomorrow', icon: Calendar, color: 'text-purple-600' },
   ];
 
+  // Gamification Elements
+  const achievements = [
+    { icon: Trophy, title: 'Health Warrior', description: 'Completed 30 health checks', unlocked: true },
+    { icon: Target, title: 'Consistency Champion', description: 'Logged health data for 7 days straight', unlocked: true },
+    { icon: Star, title: 'Early Bird', description: 'Complete morning health routine', unlocked: false },
+    { icon: Award, title: 'Wellness Expert', description: 'Achieve 90% health score', unlocked: false },
+  ];
+
+  const healthScore = 78;
+  const weeklyGoals = [
+    { title: 'Daily Steps', current: 8500, target: 10000, icon: Activity },
+    { title: 'Water Intake', current: 6, target: 8, icon: Zap },
+    { title: 'Sleep Hours', current: 7.2, target: 8, icon: Brain },
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Welcome Section */}
+      {/* Welcome Section with Health Score */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back!</h1>
-        <p className="text-blue-100 mb-4">Your AI-powered health monitoring is active</p>
-        <div className="flex items-center space-x-2 text-sm">
-          <TrendingUp className="w-4 h-4" />
-          <span>Health score improving by 12% this month</span>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back!</h1>
+            <p className="text-blue-100 mb-4">Your AI-powered health monitoring is active</p>
+            <div className="flex items-center space-x-2 text-sm">
+              <TrendingUp className="w-4 h-4" />
+              <span>Health score improving by 12% this month</span>
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-2">
+              <span className="text-2xl font-bold">{healthScore}</span>
+            </div>
+            <p className="text-sm text-blue-200">Health Score</p>
+          </div>
         </div>
       </div>
 
@@ -55,6 +80,65 @@ const HomeScreen = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Weekly Goals Progress */}
+      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Weekly Goals</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {weeklyGoals.map((goal, index) => {
+            const progress = (goal.current / goal.target) * 100;
+            return (
+              <div key={index} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <goal.icon className="w-4 h-4 text-gray-600" />
+                    <span className="text-sm font-medium text-gray-900">{goal.title}</span>
+                  </div>
+                  <span className="text-sm text-gray-500">{goal.current}/{goal.target}</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
+                    style={{ width: `${Math.min(progress, 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Achievements */}
+      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Achievements</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {achievements.map((achievement, index) => (
+            <div key={index} className={`p-4 rounded-lg border-2 ${
+              achievement.unlocked 
+                ? 'border-yellow-300 bg-yellow-50' 
+                : 'border-gray-200 bg-gray-50'
+            }`}>
+              <div className="flex items-center space-x-3">
+                <achievement.icon className={`w-8 h-8 ${
+                  achievement.unlocked ? 'text-yellow-600' : 'text-gray-400'
+                }`} />
+                <div>
+                  <h3 className={`font-semibold text-sm ${
+                    achievement.unlocked ? 'text-gray-900' : 'text-gray-500'
+                  }`}>
+                    {achievement.title}
+                  </h3>
+                  <p className={`text-xs ${
+                    achievement.unlocked ? 'text-gray-600' : 'text-gray-400'
+                  }`}>
+                    {achievement.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Core Actions */}

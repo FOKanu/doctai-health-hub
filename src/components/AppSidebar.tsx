@@ -9,7 +9,9 @@ import {
   Home,
   History,
   Activity,
-  Settings
+  Settings,
+  Mail,
+  FolderOpen
 } from 'lucide-react';
 import {
   Sidebar,
@@ -35,6 +37,11 @@ export function AppSidebar() {
       icon: Home
     },
     {
+      title: "Postbox",
+      url: "/postbox",
+      icon: Mail
+    },
+    {
       title: "Specialists",
       url: "/specialists",
       icon: User
@@ -58,6 +65,11 @@ export function AppSidebar() {
       title: "Treatment Plans",
       url: "/treatments",
       icon: FileText
+    },
+    {
+      title: "Medical Records",
+      url: "/medical-records",
+      icon: FolderOpen
     }
   ];
 
