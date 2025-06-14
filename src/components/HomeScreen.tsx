@@ -69,7 +69,39 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {/* 2. Core Health Actions */}
+      {/* 2. Recent Achievements */}
+      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Achievements</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {achievements.map((achievement, index) => (
+            <div key={index} className={`p-4 rounded-lg border-2 ${
+              achievement.unlocked 
+                ? 'border-yellow-300 bg-yellow-50' 
+                : 'border-gray-200 bg-gray-50'
+            }`}>
+              <div className="flex items-center space-x-3">
+                <achievement.icon className={`w-8 h-8 ${
+                  achievement.unlocked ? 'text-yellow-600' : 'text-gray-400'
+                }`} />
+                <div>
+                  <h3 className={`font-semibold text-sm ${
+                    achievement.unlocked ? 'text-gray-900' : 'text-gray-500'
+                  }`}>
+                    {achievement.title}
+                  </h3>
+                  <p className={`text-xs ${
+                    achievement.unlocked ? 'text-gray-600' : 'text-gray-400'
+                  }`}>
+                    {achievement.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Core Health Actions */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Core Health Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -87,7 +119,7 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {/* 3. Gamification */}
+      {/* 4. Gamification */}
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {stats.map((stat, index) => (
@@ -154,39 +186,7 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {/* Achievements */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Achievements</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {achievements.map((achievement, index) => (
-            <div key={index} className={`p-4 rounded-lg border-2 ${
-              achievement.unlocked 
-                ? 'border-yellow-300 bg-yellow-50' 
-                : 'border-gray-200 bg-gray-50'
-            }`}>
-              <div className="flex items-center space-x-3">
-                <achievement.icon className={`w-8 h-8 ${
-                  achievement.unlocked ? 'text-yellow-600' : 'text-gray-400'
-                }`} />
-                <div>
-                  <h3 className={`font-semibold text-sm ${
-                    achievement.unlocked ? 'text-gray-900' : 'text-gray-500'
-                  }`}>
-                    {achievement.title}
-                  </h3>
-                  <p className={`text-xs ${
-                    achievement.unlocked ? 'text-gray-600' : 'text-gray-400'
-                  }`}>
-                    {achievement.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 4. Health Alerts */}
+      {/* 5. Health Alerts */}
       {alerts.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-xl font-semibold text-gray-900">Health Alerts</h2>
@@ -210,7 +210,7 @@ const HomeScreen = () => {
         </div>
       )}
 
-      {/* 5. Health Management */}
+      {/* 6. Health Management */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Health Management</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, User } from 'lucide-react';
 
 export function AppHeader() {
   return (
@@ -25,6 +25,9 @@ export function AppHeader() {
           <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 relative">
             <Bell className="w-5 h-5" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
+            <User className="w-5 h-5" />
           </button>
         </div>
       </div>

@@ -11,7 +11,8 @@ import {
   Activity,
   Settings,
   Mail,
-  FolderOpen
+  FolderOpen,
+  BarChart3
 } from 'lucide-react';
 import {
   Sidebar,
@@ -37,9 +38,19 @@ export function AppSidebar() {
       icon: Home
     },
     {
+      title: "Analytics",
+      url: "/analytics",
+      icon: BarChart3
+    },
+    {
       title: "Postbox",
       url: "/postbox",
       icon: Mail
+    },
+    {
+      title: "Medical Records",
+      url: "/medical-records",
+      icon: FolderOpen
     },
     {
       title: "Specialists",
@@ -65,18 +76,13 @@ export function AppSidebar() {
       title: "Treatment Plans",
       url: "/treatments",
       icon: FileText
-    },
-    {
-      title: "Medical Records",
-      url: "/medical-records",
-      icon: FolderOpen
     }
   ];
 
   const secondaryItems = [
     {
-      title: "Profile",
-      url: "/profile",
+      title: "Settings",
+      url: "/settings",
       icon: Settings
     }
   ];
@@ -98,7 +104,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Navigation
+            Menu
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
