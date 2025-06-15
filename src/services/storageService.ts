@@ -56,7 +56,6 @@ export const storageService = {
           metadata: {
             ...metadata,
             size: file instanceof File ? file.size : 0,
-            created_at: new Date().toISOString()
           }
         })
         .select()

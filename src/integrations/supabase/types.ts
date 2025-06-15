@@ -9,7 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      image_metadata: {
+        Row: {
+          analysis_result: Json | null
+          created_at: string
+          id: string
+          metadata: Json | null
+          type: Database["public"]["Enums"]["image_type"]
+          url: string
+          user_id: string | null
+        }
+        Insert: {
+          analysis_result?: Json | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          type: Database["public"]["Enums"]["image_type"]
+          url: string
+          user_id?: string | null
+        }
+        Update: {
+          analysis_result?: Json | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          type?: Database["public"]["Enums"]["image_type"]
+          url?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +47,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      image_type: "skin_lesion" | "ct_scan" | "mri" | "xray" | "eeg"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +162,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      image_type: ["skin_lesion", "ct_scan", "mri", "xray", "eeg"],
+    },
   },
 } as const
