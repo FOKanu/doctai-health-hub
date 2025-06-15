@@ -34,8 +34,8 @@ const ScanScreen = () => {
         video: {
           facingMode,
           width: { ideal: 1920 },
-          height: { ideal: 1080 },
-          zoom: zoom
+          height: { ideal: 1080 }
+          // Note: zoom is not supported in standard MediaTrackConstraints
         }
       });
 
@@ -74,13 +74,10 @@ const ScanScreen = () => {
 
     setZoom(newZoom);
 
-    if (streamRef.current) {
-      const videoTrack = streamRef.current.getVideoTracks()[0];
-      if (videoTrack.getCapabilities().zoom) {
-        videoTrack.applyConstraints({
-          advanced: [{ zoom: newZoom }]
-        });
-      }
+    // Note: Zoom control via MediaTrackConstraints is not standardized
+    // This is visual feedback only for now
+    if (videoRef.current) {
+      videoRef.current.style.transform = `scale(${newZoom})`;
     }
 
     if (zoomTimeoutRef.current) {
@@ -99,13 +96,17 @@ const ScanScreen = () => {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 2) {
-      setTouchStartDistance(calculateTouchDistance(e.touches[0], e.touches[1]));
+      // Convert React.Touch to Touch by accessing the native event
+      const nativeEvent = e.nativeEvent;
+      setTouchStartDistance(calculateTouchDistance(nativeEvent.touches[0], nativeEvent.touches[1]));
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (e.touches.length === 2 && touchStartDistance !== null) {
-      const currentDistance = calculateTouchDistance(e.touches[0], e.touches[1]);
+      // Convert React.Touch to Touch by accessing the native event
+      const nativeEvent = e.nativeEvent;
+      const currentDistance = calculateTouchDistance(nativeEvent.touches[0], nativeEvent.touches[1]);
       const zoomFactor = currentDistance / touchStartDistance;
       const newZoom = zoom * zoomFactor;
       handleZoom(newZoom);
@@ -242,6 +243,7 @@ const ScanScreen = () => {
                 autoPlay
                 playsInline
                 className="w-full h-full object-cover transition-all duration-100"
+                style={{ transformOrigin: 'center' }}
               />
             )}
           </div>
