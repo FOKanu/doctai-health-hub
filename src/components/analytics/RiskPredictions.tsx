@@ -147,7 +147,10 @@ export const RiskPredictions: React.FC<RiskPredictionsProps> = ({ dateRange }) =
                 <YAxis domain={[0, 100]} />
                 <Tooltip 
                   labelFormatter={(value) => new Date(value).toLocaleDateString()}
-                  formatter={(value, name) => [`${value}%`, name.charAt(0).toUpperCase() + name.slice(1) + ' Risk']}
+                  formatter={(value, name) => {
+                    const nameStr = String(name);
+                    return [`${value}%`, nameStr.charAt(0).toUpperCase() + nameStr.slice(1) + ' Risk'];
+                  }}
                 />
                 <Line 
                   type="monotone" 
