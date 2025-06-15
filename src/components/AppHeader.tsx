@@ -1,9 +1,15 @@
 
 import React from 'react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Bell, Search, User } from 'lucide-react';
+import { Bell, User } from 'lucide-react';
+import ResponsiveSearchBar from './ResponsiveSearchBar';
 
 export function AppHeader() {
+  const handleSearchSelect = (result: any) => {
+    console.log('Selected:', result);
+    // Handle navigation or other actions based on the selected result
+  };
+
   return (
     <header className="bg-white border-b border-gray-200 px-4 md:px-6 py-4">
       <div className="flex items-center justify-between">
@@ -18,10 +24,23 @@ export function AppHeader() {
           </div>
         </div>
 
+        {/* Responsive Search Bar */}
+        <div className="hidden md:block flex-1 max-w-lg mx-8">
+          <ResponsiveSearchBar
+            onSelect={handleSearchSelect}
+            placeholder="Search doctors, medications, records..."
+          />
+        </div>
+
         <div className="flex items-center space-x-3">
-          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-            <Search className="w-5 h-5" />
-          </button>
+          {/* Mobile Search - Show search icon that could trigger a modal */}
+          <div className="md:hidden">
+            <ResponsiveSearchBar
+              onSelect={handleSearchSelect}
+              placeholder="Search..."
+            />
+          </div>
+          
           <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 relative">
             <Bell className="w-5 h-5" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>

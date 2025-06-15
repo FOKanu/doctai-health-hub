@@ -13,6 +13,9 @@ import HistoryScreen from '../components/HistoryScreen';
 import MedicationsScreen from '../components/MedicationsScreen';
 import ProfileScreen from '../components/ProfileScreen';
 import AnalyticsScreen from '../components/AnalyticsScreen';
+import PostboxScreen from '../components/PostboxScreen';
+import MedicalRecordsScreen from '../components/MedicalRecordsScreen';
+import SettingsScreen from '../components/SettingsScreen';
 
 const Index = () => {
   return (
@@ -26,12 +29,15 @@ const Index = () => {
               <Routes>
                 <Route path="/" element={<HomeScreen />} />
                 <Route path="/analytics" element={<AnalyticsScreen />} />
+                <Route path="/postbox" element={<PostboxScreen />} />
+                <Route path="/medical-records" element={<MedicalRecordsScreen />} />
                 <Route path="/scan" element={<ScanScreen />} />
                 <Route path="/upload" element={<UploadScreen />} />
                 <Route path="/specialists" element={<SpecialistScreen />} />
                 <Route path="/history" element={<HistoryScreen />} />
                 <Route path="/medications" element={<MedicationsScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
+                <Route path="/settings" element={<SettingsScreen />} />
               </Routes>
             </div>
           </main>
