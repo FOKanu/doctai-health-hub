@@ -12,6 +12,7 @@ import SpecialistScreen from '../components/SpecialistScreen';
 import HistoryScreen from '../components/HistoryScreen';
 import MedicationsScreen from '../components/MedicationsScreen';
 import ProfileScreen from '../components/ProfileScreen';
+import AnalyticsScreen from '../components/AnalyticsScreen';
 
 const Index = () => {
   return (
@@ -24,6 +25,7 @@ const Index = () => {
             <div className="max-w-7xl mx-auto">
               <Routes>
                 <Route path="/" element={<HomeScreen />} />
+                <Route path="/analytics" element={<AnalyticsScreen />} />
                 <Route path="/scan" element={<ScanScreen />} />
                 <Route path="/upload" element={<UploadScreen />} />
                 <Route path="/specialists" element={<SpecialistScreen />} />
