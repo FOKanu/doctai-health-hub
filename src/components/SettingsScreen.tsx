@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Bell, Shield, Globe, Moon, Smartphone, Database, HelpCircle, Info, ChevronRight, Toggle } from 'lucide-react';
+import { ArrowLeft, Bell, Shield, Globe, Moon, Smartphone, Database, HelpCircle, Info, ChevronRight } from 'lucide-react';
 
 const SettingsScreen = () => {
   const navigate = useNavigate();
