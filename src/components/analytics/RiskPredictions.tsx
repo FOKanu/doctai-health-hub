@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { AlertTriangle, TrendingUp, Shield, Eye } from 'lucide-react';
+import { RiskDistributionChart } from './risk/RiskDistributionChart';
+import { RiskProgressionChart } from './risk/RiskProgressionChart';
+import { RiskAlerts } from './risk/RiskAlerts';
 
 interface RiskPredictionsProps {
   dateRange: string;
@@ -52,173 +52,13 @@ export const RiskPredictions: React.FC<RiskPredictionsProps> = ({ dateRange }) =
     },
   ];
 
-  const getRiskColor = (risk: string) => {
-    switch (risk) {
-      case 'high': return 'text-red-600 bg-red-50 border-red-200';
-      case 'medium': return 'text-orange-600 bg-orange-50 border-orange-200';
-      case 'low': return 'text-green-600 bg-green-50 border-green-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
-    }
-  };
-
-  const getRiskIcon = (risk: string) => {
-    switch (risk) {
-      case 'high': return <AlertTriangle className="w-4 h-4" />;
-      case 'medium': return <TrendingUp className="w-4 h-4" />;
-      case 'low': return <Shield className="w-4 h-4" />;
-      default: return <Eye className="w-4 h-4" />;
-    }
-  };
-
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Risk Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5 text-orange-600" />
-              Risk Category Distribution
-            </CardTitle>
-            <CardDescription>
-              Current health risk assessment based on AI analysis
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center mb-4">
-              <ResponsiveContainer width="100%" height={200}>
-                <PieChart>
-                  <Pie
-                    data={riskDistribution}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {riskDistribution.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => `${value}%`} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            
-            <div className="space-y-2">
-              {riskDistribution.map((item, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div 
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span className="text-sm font-medium">{item.name}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">{item.count} items</span>
-                    <span className="text-sm font-medium">{item.value}%</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Risk Progression */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-blue-600" />
-              Risk Level Progression
-            </CardTitle>
-            <CardDescription>
-              How your risk levels have changed over time
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={riskProgression}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="date" 
-                  tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                />
-                <YAxis domain={[0, 100]} />
-                <Tooltip 
-                  labelFormatter={(value) => new Date(value).toLocaleDateString()}
-                  formatter={(value, name) => {
-                    const nameStr = String(name);
-                    return [`${value}%`, nameStr.charAt(0).toUpperCase() + nameStr.slice(1) + ' Risk'];
-                  }}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="low" 
-                  stroke="#10b981" 
-                  strokeWidth={2}
-                  name="low"
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="medium" 
-                  stroke="#f59e0b" 
-                  strokeWidth={2}
-                  name="medium"
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="high" 
-                  stroke="#ef4444" 
-                  strokeWidth={2}
-                  name="high"
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+        <RiskDistributionChart data={riskDistribution} />
+        <RiskProgressionChart data={riskProgression} />
       </div>
-
-      {/* AI Risk Alerts */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-red-600" />
-            AI Risk Alerts
-          </CardTitle>
-          <CardDescription>
-            Recent health alerts and recommendations from AI analysis
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {alerts.map((alert) => (
-              <div 
-                key={alert.id} 
-                className={`p-4 rounded-lg border ${getRiskColor(alert.risk)}`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1">
-                      {getRiskIcon(alert.risk)}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-sm">{alert.title}</h4>
-                      <p className="text-sm opacity-90 mt-1">{alert.description}</p>
-                      <p className="text-xs mt-2 font-medium">
-                        Recommended Action: {alert.action}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-xs opacity-75">
-                    {new Date(alert.date).toLocaleDateString()}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <RiskAlerts alerts={alerts} />
     </div>
   );
 };
