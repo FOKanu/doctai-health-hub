@@ -1,4 +1,5 @@
-import { supabase } from './supabaseClient';
+
+import { supabase } from '@/integrations/supabase/client';
 
 export interface ImageMetadata {
   id: string;
@@ -102,18 +103,28 @@ export const storageService = {
 
     if (image) {
       // Extract the file path from the URL
-      const filePath = image.url.split('/').pop();
+      const urlParts = image.url.split('/');
+      const filePath = urlParts[urlParts.length - 1];
 
       // Delete from storage
-      await supabase.storage
+      const { error: storageError } = await supabase.storage
         .from('medical-images')
         .remove([filePath]);
 
+      if (storageError) {
+        console.error('Error deleting from storage:', storageError);
+      }
+
       // Delete metadata record
-      await supabase
+      const { error: dbError } = await supabase
         .from('image_metadata')
         .delete()
         .eq('id', imageId);
+
+      if (dbError) {
+        console.error('Error deleting metadata:', dbError);
+        throw dbError;
+      }
     }
   },
 
