@@ -1,13 +1,16 @@
+
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'outline' | 'ghost';
+  size?: 'sm' | 'default' | 'lg';
   children: React.ReactNode;
 }
 
 export function Button({
   children,
   variant = 'default',
+  size = 'default',
   className = '',
   ...props
 }: ButtonProps) {
@@ -19,9 +22,15 @@ export function Button({
     ghost: 'hover:bg-gray-100 focus-visible:ring-gray-500'
   };
 
+  const sizeStyles = {
+    sm: 'h-8 px-3 text-xs',
+    default: 'h-10 px-4 py-2',
+    lg: 'h-12 px-8 text-base'
+  };
+
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
       {...props}
     >
       {children}
