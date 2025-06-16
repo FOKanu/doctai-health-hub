@@ -20,40 +20,30 @@ export async function analyzePrediction(imageUri: string): Promise<PredictionRes
     // Upload image to Supabase Storage first
     const publicImageUrl = await uploadImageToSupabase(imageUri);
 
+    // Convert image URI to Blob for form data
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+
     const formData = new FormData();
-    let formDataType = 'image/jpeg';
-    if (imageUri.toLowerCase().endsWith('.png')) {
-      formDataType = 'image/png';
-    } else if (imageUri.toLowerCase().endsWith('.webp')) {
-      formDataType = 'image/webp';
-    }
+    formData.append('file', blob, 'photo.jpg');
 
-    formData.append('file', {
-      uri: imageUri,
-      name: 'photo.jpg',
-      type: formDataType,
-    });
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SCORING_API_URL}/predict`, {
+    const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_SCORING_API_URL}/predict`, {
       method: 'POST',
       body: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
     });
 
-    const apiResponse = await response.json();
-    if (apiResponse.status === 'error') {
-      throw new Error(apiResponse.error || 'Prediction failed');
+    const apiResponseData = await apiResponse.json();
+    if (apiResponseData.status === 'error') {
+      throw new Error(apiResponseData.error || 'Prediction failed');
     }
 
-    const prediction = apiResponse.predicted_class === 0 ? 'benign' : 'malignant';
-    const malignantProbability = apiResponse.predicted_class === 1 ? apiResponse.confidence : (1 - apiResponse.confidence);
+    const prediction = apiResponseData.predicted_class === 0 ? 'benign' : 'malignant';
+    const malignantProbability = apiResponseData.predicted_class === 1 ? apiResponseData.confidence : (1 - apiResponseData.confidence);
     const benignProbability = 1 - malignantProbability;
 
     return {
       prediction,
-      confidence: apiResponse.confidence,
+      confidence: apiResponseData.confidence,
       probabilities: {
         benign: benignProbability,
         malignant: malignantProbability,

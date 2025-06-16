@@ -1,3 +1,4 @@
+
 import { supabase } from './supabaseClient';
 import { AnalyticsData, ScanResult } from '../types/analysis';
 
@@ -90,7 +91,7 @@ export const analyticsService = {
 };
 
 // Helper functions
-function calculateChanges(scans: any[]) {
+function calculateChanges(scans: any[]): { type: 'improvement' | 'deterioration' | 'stable'; percentage: number } {
   if (scans.length < 2) {
     return {
       type: 'stable',
@@ -106,8 +107,15 @@ function calculateChanges(scans: any[]) {
 
   const change = ((latestRisk - previousRisk) / previousRisk) * 100;
 
+  let type: 'improvement' | 'deterioration' | 'stable' = 'stable';
+  if (change > 0) {
+    type = 'deterioration';
+  } else if (change < 0) {
+    type = 'improvement';
+  }
+
   return {
-    type: change > 0 ? 'deterioration' : change < 0 ? 'improvement' : 'stable',
+    type,
     percentage: Math.abs(change)
   };
 }
