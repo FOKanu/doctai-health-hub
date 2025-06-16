@@ -111,7 +111,7 @@ export const storageService = {
     return data.map(convertDbRowToImageMetadata);
   },
 
-  async deleteImage(imageId: string): Promise<void> => {
+  async deleteImage(imageId: string): Promise<void> {
     // Get the image metadata first
     const { data: image } = await supabase
       .from('image_metadata')
