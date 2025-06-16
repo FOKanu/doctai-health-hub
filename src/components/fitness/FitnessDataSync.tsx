@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Smartphone, Watch, Wifi, WifiOff, Sync, CheckCircle2, AlertCircle, Clock, Activity } from 'lucide-react';
+import { Smartphone, Watch, Wifi, WifiOff, RefreshCw, CheckCircle2, AlertCircle, Clock, Activity } from 'lucide-react';
 
 export const FitnessDataSync: React.FC = () => {
   const [syncSettings, setSyncSettings] = useState({
@@ -120,7 +119,7 @@ export const FitnessDataSync: React.FC = () => {
           <p className="text-gray-600">Connect your devices and apps to automatically track fitness data</p>
         </div>
         <Button className="bg-blue-600 hover:bg-blue-700">
-          <Sync className="w-4 h-4 mr-2" />
+          <RefreshCw className="w-4 h-4 mr-2" />
           Sync All
         </Button>
       </div>
