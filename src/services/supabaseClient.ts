@@ -1,13 +1,16 @@
+
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://vplnxxpdfevhxddffcrl.supabase.co';
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 
+let supabase: any;
+
 if (!supabaseKey) {
   if (import.meta.env.DEV) {
     console.warn('Missing Supabase key in development environment. Using mock implementation.');
     // Mock Supabase client for development when key is missing
-    export const supabase = {
+    supabase = {
       storage: {
         from: (bucket: string) => ({
           upload: async (path: string, file: File | Blob, options?: any) => {
@@ -64,11 +67,31 @@ if (!supabaseKey) {
             }
           })
         })
-      })
+      }),
+      auth: {
+        signUp: async (credentials: any) => {
+          console.log('Mock sign up:', credentials);
+          return { data: { user: null, session: null }, error: null };
+        },
+        signInWithPassword: async (credentials: any) => {
+          console.log('Mock sign in:', credentials);
+          return { data: { user: null, session: null }, error: null };
+        },
+        signOut: async () => {
+          console.log('Mock sign out');
+          return { error: null };
+        },
+        getSession: async () => {
+          console.log('Mock get session');
+          return { data: { session: null }, error: null };
+        }
+      }
     };
   } else {
     throw new Error('Missing Supabase key environment variable');
   }
 } else {
-  export const supabase = createClient(supabaseUrl, supabaseKey);
+  supabase = createClient(supabaseUrl, supabaseKey);
 }
+
+export { supabase };
