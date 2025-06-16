@@ -2,6 +2,13 @@
 import { supabase } from '@/integrations/supabase/client';
 import { AnalyticsData, ScanResult } from '../types/analysis';
 
+interface AnalysisResult {
+  riskLevel?: string;
+  confidence?: number;
+  findings?: string[];
+  recommendations?: string[];
+}
+
 export const analyticsService = {
   async getAnalyticsData(userId: string): Promise<AnalyticsData> {
     try {
@@ -20,8 +27,9 @@ export const analyticsService = {
           riskLevels: {
             dates: scans.map(scan => scan.created_at),
             values: scans.map(scan => {
+              const analysisResult = scan.analysis_result as AnalysisResult;
               // Convert risk level to numeric value
-              switch (scan.analysis_result?.riskLevel) {
+              switch (analysisResult?.riskLevel) {
                 case 'high': return 3;
                 case 'medium': return 2;
                 case 'low': return 1;
@@ -31,21 +39,33 @@ export const analyticsService = {
           },
           confidence: {
             dates: scans.map(scan => scan.created_at),
-            values: scans.map(scan => scan.analysis_result?.confidence || 0)
+            values: scans.map(scan => {
+              const analysisResult = scan.analysis_result as AnalysisResult;
+              return analysisResult?.confidence || 0;
+            })
           }
         },
         comparisons: {
-          previousScans: scans.map(scan => ({
-            id: scan.id,
-            image: scan.url,
-            timestamp: scan.created_at,
-            findings: scan.analysis_result?.findings || [],
-            riskLevel: scan.analysis_result?.riskLevel || 'low',
-            confidence: scan.analysis_result?.confidence || 0,
-            recommendations: scan.analysis_result?.recommendations || [],
-            type: scan.type,
-            metadata: scan.metadata
-          })),
+          previousScans: scans.map(scan => {
+            const analysisResult = scan.analysis_result as AnalysisResult;
+            const metadata = scan.metadata as any;
+            return {
+              id: scan.id,
+              image: scan.url,
+              timestamp: scan.created_at,
+              findings: analysisResult?.findings || [],
+              riskLevel: (analysisResult?.riskLevel || 'low') as 'low' | 'medium' | 'high',
+              confidence: analysisResult?.confidence || 0,
+              recommendations: analysisResult?.recommendations || [],
+              type: scan.type,
+              metadata: metadata || {
+                size: 0,
+                width: 0,
+                height: 0,
+                format: ''
+              }
+            };
+          }),
           changes: calculateChanges(scans)
         },
         insights: {
@@ -72,16 +92,24 @@ export const analyticsService = {
 
       if (error) throw error;
 
+      const analysisResult = data.analysis_result as AnalysisResult;
+      const metadata = data.metadata as any;
+
       return {
         id: data.id,
         image: data.url,
         timestamp: data.created_at,
-        findings: data.analysis_result?.findings || [],
-        riskLevel: data.analysis_result?.riskLevel || 'low',
-        confidence: data.analysis_result?.confidence || 0,
-        recommendations: data.analysis_result?.recommendations || [],
+        findings: analysisResult?.findings || [],
+        riskLevel: (analysisResult?.riskLevel || 'low') as 'low' | 'medium' | 'high',
+        confidence: analysisResult?.confidence || 0,
+        recommendations: analysisResult?.recommendations || [],
         type: data.type,
-        metadata: data.metadata
+        metadata: metadata || {
+          size: 0,
+          width: 0,
+          height: 0,
+          format: ''
+        }
       };
     } catch (error) {
       console.error('Error fetching scan details:', error);
@@ -105,8 +133,11 @@ function calculateChanges(scans: any[]): {
   const latest = scans[0];
   const previous = scans[1];
 
-  const latestRisk = getRiskValue(latest.analysis_result?.riskLevel);
-  const previousRisk = getRiskValue(previous.analysis_result?.riskLevel);
+  const latestAnalysis = latest.analysis_result as AnalysisResult;
+  const previousAnalysis = previous.analysis_result as AnalysisResult;
+
+  const latestRisk = getRiskValue(latestAnalysis?.riskLevel);
+  const previousRisk = getRiskValue(previousAnalysis?.riskLevel);
 
   const change = ((latestRisk - previousRisk) / previousRisk) * 100;
 
@@ -116,7 +147,7 @@ function calculateChanges(scans: any[]): {
   };
 }
 
-function getRiskValue(riskLevel: string): number {
+function getRiskValue(riskLevel?: string): number {
   switch (riskLevel) {
     case 'high': return 3;
     case 'medium': return 2;
@@ -167,14 +198,17 @@ function calculateProgress(scans: any[]): {
   const firstScan = scans[scans.length - 1];
   const latestScan = scans[0];
 
-  const firstRisk = getRiskValue(firstScan.analysis_result?.riskLevel);
-  const latestRisk = getRiskValue(latestScan.analysis_result?.riskLevel);
+  const firstAnalysis = firstScan.analysis_result as AnalysisResult;
+  const latestAnalysis = latestScan.analysis_result as AnalysisResult;
+
+  const firstRisk = getRiskValue(firstAnalysis?.riskLevel);
+  const latestRisk = getRiskValue(latestAnalysis?.riskLevel);
 
   const improvement = ((firstRisk - latestRisk) / firstRisk) * 100;
 
   return {
     startDate: firstScan.created_at,
-    currentStatus: `Current risk level: ${latestScan.analysis_result?.riskLevel}`,
+    currentStatus: `Current risk level: ${latestAnalysis?.riskLevel}`,
     improvement: Math.max(0, improvement)
   };
 }

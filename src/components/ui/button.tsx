@@ -35,19 +35,22 @@ export function buttonVariants({
   return cn(baseStyles, variantStyles[variant], sizeStyles[size], className);
 }
 
-export function Button({
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   children,
   variant = 'default',
   size = 'default',
   className = '',
   ...props
-}: ButtonProps) {
+}, ref) => {
   return (
     <button
+      ref={ref}
       className={buttonVariants({ variant, size, className })}
       {...props}
     >
       {children}
     </button>
   );
-}
+});
+
+Button.displayName = 'Button';
