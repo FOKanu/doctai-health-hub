@@ -84,6 +84,19 @@ if (!supabaseKey) {
         getSession: async () => {
           console.log('Mock get session');
           return { data: { session: null }, error: null };
+        },
+        onAuthStateChange: (callback: any) => {
+          console.log('Mock onAuthStateChange setup');
+          // Return a subscription object with unsubscribe method
+          return {
+            data: {
+              subscription: {
+                unsubscribe: () => {
+                  console.log('Mock subscription unsubscribed');
+                }
+              }
+            }
+          };
         }
       }
     };
