@@ -17,6 +17,7 @@ import PostboxScreen from '../components/PostboxScreen';
 import MedicalRecordsScreen from '../components/MedicalRecordsScreen';
 import SettingsScreen from '../components/SettingsScreen';
 import AppointmentsScreen from '../components/AppointmentsScreen';
+import FitnessScreen from '../components/FitnessScreen';
 
 const Index = () => {
   return (
@@ -38,6 +39,7 @@ const Index = () => {
                 <Route path="/history" element={<HistoryScreen />} />
                 <Route path="/medications" element={<MedicationsScreen />} />
                 <Route path="/appointments" element={<AppointmentsScreen />} />
+                <Route path="/fitness" element={<FitnessScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
                 <Route path="/settings" element={<SettingsScreen />} />
               </Routes>
