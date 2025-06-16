@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -19,6 +18,7 @@ import SettingsScreen from '../components/SettingsScreen';
 import AppointmentsScreen from '../components/AppointmentsScreen';
 import FitnessScreen from '../components/FitnessScreen';
 import ResultsScreen from '../components/ResultsScreen';
+import DietPlanScreen from '../components/DietPlanScreen';
 
 const Index = () => {
   return (
@@ -42,6 +42,7 @@ const Index = () => {
                 <Route path="/medications" element={<MedicationsScreen />} />
                 <Route path="/appointments" element={<AppointmentsScreen />} />
                 <Route path="/fitness" element={<FitnessScreen />} />
+                <Route path="/diet" element={<DietPlanScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
                 <Route path="/settings" element={<SettingsScreen />} />
               </Routes>
