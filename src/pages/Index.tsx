@@ -18,31 +18,8 @@ import MedicalRecordsScreen from '../components/MedicalRecordsScreen';
 import SettingsScreen from '../components/SettingsScreen';
 import AppointmentsScreen from '../components/AppointmentsScreen';
 import FitnessScreen from '../components/FitnessScreen';
-import DietScreen from '../components/DietScreen';
-import AIRecommendationsScreen from '../components/AIRecommendationsScreen';
 
 const Index = () => {
-  // Mock data for analytics
-  const mockAnalyticsData = {
-    trends: {
-      riskLevels: { dates: [], values: [] },
-      confidence: { dates: [], values: [] }
-    },
-    comparisons: {
-      previousScans: [],
-      changes: { type: 'stable' as const, percentage: 0 }
-    },
-    insights: {
-      patterns: [],
-      recommendations: [],
-      progress: { startDate: '', currentStatus: '', improvement: 0 }
-    }
-  };
-
-  const handleViewDetails = (scanId: string) => {
-    console.log('View details for scan:', scanId);
-  };
-
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -53,7 +30,7 @@ const Index = () => {
             <div className="max-w-7xl mx-auto">
               <Routes>
                 <Route path="/" element={<HomeScreen />} />
-                <Route path="/analytics" element={<AnalyticsScreen data={mockAnalyticsData} onViewDetails={handleViewDetails} />} />
+                <Route path="/analytics" element={<AnalyticsScreen />} />
                 <Route path="/postbox" element={<PostboxScreen />} />
                 <Route path="/medical-records" element={<MedicalRecordsScreen />} />
                 <Route path="/scan" element={<ScanScreen />} />

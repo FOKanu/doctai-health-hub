@@ -1,5 +1,7 @@
+import { supabase } from './supabaseClient';
 
-import { supabase } from '@/integrations/supabase/client';
+const SCANS_TABLE_NAME = 'scans';
+const SPOTS_TABLE_NAME = 'spots';
 
 export interface PredictionResult {
   prediction: 'benign' | 'malignant';
@@ -26,29 +28,32 @@ export async function analyzePrediction(imageUri: string): Promise<PredictionRes
       formDataType = 'image/webp';
     }
 
-    // Convert imageUri to blob first
-    const response = await fetch(imageUri);
-    const blob = await response.blob();
-    
-    formData.append('file', blob, 'photo.jpg');
-
-    const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_SCORING_API_URL}/predict`, {
-      method: 'POST',
-      body: formData,
+    formData.append('file', {
+      uri: imageUri,
+      name: 'photo.jpg',
+      type: formDataType,
     });
 
-    const apiResponseJson = await apiResponse.json();
-    if (apiResponseJson.status === 'error') {
-      throw new Error(apiResponseJson.error || 'Prediction failed');
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SCORING_API_URL}/predict`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    const apiResponse = await response.json();
+    if (apiResponse.status === 'error') {
+      throw new Error(apiResponse.error || 'Prediction failed');
     }
 
-    const prediction = apiResponseJson.predicted_class === 0 ? 'benign' : 'malignant';
-    const malignantProbability = apiResponseJson.predicted_class === 1 ? apiResponseJson.confidence : (1 - apiResponseJson.confidence);
+    const prediction = apiResponse.predicted_class === 0 ? 'benign' : 'malignant';
+    const malignantProbability = apiResponse.predicted_class === 1 ? apiResponse.confidence : (1 - apiResponse.confidence);
     const benignProbability = 1 - malignantProbability;
 
     return {
       prediction,
-      confidence: apiResponseJson.confidence,
+      confidence: apiResponse.confidence,
       probabilities: {
         benign: benignProbability,
         malignant: malignantProbability,
@@ -65,29 +70,16 @@ export async function analyzePrediction(imageUri: string): Promise<PredictionRes
 export async function savePredictionToSupabase(result: PredictionResult, imageUri: string, spotId?: string) {
   try {
     const { data, error } = await supabase
-      .from('image_metadata')
+      .from(SCANS_TABLE_NAME)
       .insert([
         {
-          url: result.uploadedImageUrl,
-          type: 'skin_lesion',
-          analysis_result: {
-            prediction: result.prediction,
-            confidence: result.confidence,
-            probabilities: result.probabilities,
-            riskLevel: result.prediction === 'malignant' ? 'high' : 'low',
-            findings: [`Prediction: ${result.prediction}`, `Confidence: ${(result.confidence * 100).toFixed(1)}%`],
-            recommendations: result.prediction === 'malignant' ? 
-              ['Consult a dermatologist immediately', 'Schedule follow-up examination'] : 
-              ['Continue regular monitoring', 'Maintain skin health routine']
-          },
-          metadata: {
-            size: 0,
-            width: 0,
-            height: 0,
-            format: 'jpg',
-            spotId: spotId
-          },
-          created_at: result.timestamp,
+          spot_id: spotId,
+          image_url: result.uploadedImageUrl,
+          prediction: result.prediction,
+          confidence: result.confidence,
+          benign_probability: result.probabilities.benign,
+          malignant_probability: result.probabilities.malignant,
+          scanned_at: result.timestamp,
         },
       ]);
 
@@ -110,12 +102,14 @@ export async function savePredictionToSupabase(result: PredictionResult, imageUr
 
 export async function getPredictionHistory(userId?: string) {
   let query = supabase
-    .from('image_metadata')
-    .select('*')
-    .eq('type', 'skin_lesion');
+    .from(SCANS_TABLE_NAME)
+    .select(`*,\
+      spot:spot_id (
+        user_id
+      )`);
 
   if (userId) {
-    query = query.eq('user_id', userId);
+    query = query.eq('spot.user_id', userId);
   }
 
   const { data, error } = await query;
