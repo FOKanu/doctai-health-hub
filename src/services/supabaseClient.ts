@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://vplnxxpdfevhxddffcrl.supabase.co';
@@ -7,7 +8,7 @@ if (!supabaseKey) {
   if (import.meta.env.DEV) {
     console.warn('Missing Supabase key in development environment. Using mock implementation.');
     // Mock Supabase client for development when key is missing
-    export const supabase = {
+    const mockSupabase = {
       storage: {
         from: (bucket: string) => ({
           upload: async (path: string, file: File | Blob, options?: any) => {
@@ -66,6 +67,8 @@ if (!supabaseKey) {
         })
       })
     };
+    
+    export const supabase = mockSupabase;
   } else {
     throw new Error('Missing Supabase key environment variable');
   }

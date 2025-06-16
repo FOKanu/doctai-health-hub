@@ -1,4 +1,5 @@
-import { supabase } from './supabaseClient';
+
+import { supabase } from '@/integrations/supabase/client';
 import { AnalyticsData, ScanResult } from '../types/analysis';
 
 export const analyticsService = {
@@ -90,7 +91,10 @@ export const analyticsService = {
 };
 
 // Helper functions
-function calculateChanges(scans: any[]) {
+function calculateChanges(scans: any[]): {
+  type: 'improvement' | 'deterioration' | 'stable';
+  percentage: number;
+} {
   if (scans.length < 2) {
     return {
       type: 'stable',

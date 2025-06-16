@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient';
+import { supabase } from '@/integrations/supabase/client';
 
 const SCANS_TABLE_NAME = 'scans';
 const SPOTS_TABLE_NAME = 'spots';
@@ -28,32 +28,29 @@ export async function analyzePrediction(imageUri: string): Promise<PredictionRes
       formDataType = 'image/webp';
     }
 
-    formData.append('file', {
-      uri: imageUri,
-      name: 'photo.jpg',
-      type: formDataType,
-    });
+    // Convert imageUri to blob first
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+    
+    formData.append('file', blob, 'photo.jpg');
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SCORING_API_URL}/predict`, {
+    const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_SCORING_API_URL}/predict`, {
       method: 'POST',
       body: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
     });
 
-    const apiResponse = await response.json();
-    if (apiResponse.status === 'error') {
-      throw new Error(apiResponse.error || 'Prediction failed');
+    const apiResponseJson = await apiResponse.json();
+    if (apiResponseJson.status === 'error') {
+      throw new Error(apiResponseJson.error || 'Prediction failed');
     }
 
-    const prediction = apiResponse.predicted_class === 0 ? 'benign' : 'malignant';
-    const malignantProbability = apiResponse.predicted_class === 1 ? apiResponse.confidence : (1 - apiResponse.confidence);
+    const prediction = apiResponseJson.predicted_class === 0 ? 'benign' : 'malignant';
+    const malignantProbability = apiResponseJson.predicted_class === 1 ? apiResponseJson.confidence : (1 - apiResponseJson.confidence);
     const benignProbability = 1 - malignantProbability;
 
     return {
       prediction,
-      confidence: apiResponse.confidence,
+      confidence: apiResponseJson.confidence,
       probabilities: {
         benign: benignProbability,
         malignant: malignantProbability,

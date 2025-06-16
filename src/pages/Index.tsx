@@ -18,6 +18,8 @@ import MedicalRecordsScreen from '../components/MedicalRecordsScreen';
 import SettingsScreen from '../components/SettingsScreen';
 import AppointmentsScreen from '../components/AppointmentsScreen';
 import FitnessScreen from '../components/FitnessScreen';
+import DietScreen from '../components/DietScreen';
+import AIRecommendationsScreen from '../components/AIRecommendationsScreen';
 
 const Index = () => {
   return (
