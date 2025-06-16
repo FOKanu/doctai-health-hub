@@ -1,129 +1,112 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AnalyticsData } from '../types/analysis';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { ArrowLeft, TrendingUp, Calendar, Clock } from 'lucide-react';
 
-interface AnalyticsScreenProps {
-  data: AnalyticsData;
-  onViewDetails: (scanId: string) => void;
-}
+import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Download, Filter, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { HealthOverview } from './analytics/HealthOverview';
+import { MetricsDashboard } from './analytics/MetricsDashboard';
+import { RiskPredictions } from './analytics/RiskPredictions';
+import { ImagingStats } from './analytics/ImagingStats';
+import { AppointmentsMedications } from './analytics/AppointmentsMedications';
+import { RescanCompliance } from './analytics/RescanCompliance';
 
-export default function AnalyticsScreen({ data, onViewDetails }: AnalyticsScreenProps) {
-  const navigate = useNavigate();
+const AnalyticsScreen = () => {
+  const [dateRange, setDateRange] = useState('30d');
+  const [selectedMetric, setSelectedMetric] = useState('all');
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
-  };
-
-  const getImprovementColor = (type: string) => {
-    switch (type) {
-      case 'improvement':
-        return 'text-green-600';
-      case 'deterioration':
-        return 'text-red-600';
-      default:
-        return 'text-gray-600';
-    }
+  const handleExport = (format: 'pdf' | 'csv') => {
+    console.log(`Exporting analytics data as ${format}`);
+    // Implementation for export functionality
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <Button
-          variant="ghost"
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back
-        </Button>
-        <h1 className="text-2xl font-bold">Health Analytics</h1>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+          <p className="text-gray-600">AI-powered health insights and visualizations</p>
+        </div>
+        
+        {/* Filters and Export */}
+        <div className="flex flex-wrap items-center gap-3">
+          <Select value={dateRange} onValueChange={setDateRange}>
+            <SelectTrigger className="w-32">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7d">Last 7 days</SelectItem>
+              <SelectItem value="30d">Last 30 days</SelectItem>
+              <SelectItem value="90d">Last 3 months</SelectItem>
+              <SelectItem value="custom">Custom range</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={selectedMetric} onValueChange={setSelectedMetric}>
+            <SelectTrigger className="w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Metrics</SelectItem>
+              <SelectItem value="steps">Steps</SelectItem>
+              <SelectItem value="heart-rate">Heart Rate</SelectItem>
+              <SelectItem value="sleep">Sleep</SelectItem>
+              <SelectItem value="weight">Weight</SelectItem>
+              <SelectItem value="temperature">Temperature</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Button variant="outline" size="sm" onClick={() => handleExport('pdf')}>
+            <Download className="w-4 h-4 mr-2" />
+            Export PDF
+          </Button>
+          
+          <Button variant="outline" size="sm" onClick={() => handleExport('csv')}>
+            <Download className="w-4 h-4 mr-2" />
+            Export CSV
+          </Button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Trends Section */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Risk Level Trends</h2>
-          <div className="h-64">
-            {/* Add your chart component here */}
-            <div className="flex items-center justify-center h-full text-gray-500">
-              Chart visualization will be implemented here
-            </div>
-          </div>
-        </Card>
+      {/* Main Analytics Content */}
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-6">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="metrics">Metrics</TabsTrigger>
+          <TabsTrigger value="risks">Risk Analysis</TabsTrigger>
+          <TabsTrigger value="imaging">Imaging</TabsTrigger>
+          <TabsTrigger value="appointments">Care</TabsTrigger>
+          <TabsTrigger value="compliance">Compliance</TabsTrigger>
+        </TabsList>
 
-        {/* Progress Section */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Progress Overview</h2>
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-gray-500" />
-              <span>Started: {formatDate(data.insights.progress.startDate)}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-gray-500" />
-              <span>{data.insights.progress.currentStatus}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-gray-500" />
-              <span className={getImprovementColor(data.comparisons.changes.type)}>
-                {data.comparisons.changes.percentage.toFixed(1)}% {data.comparisons.changes.type}
-              </span>
-            </div>
-          </div>
-        </Card>
+        <TabsContent value="overview" className="space-y-6">
+          <HealthOverview dateRange={dateRange} />
+        </TabsContent>
 
-        {/* Previous Scans */}
-        <Card className="p-6 md:col-span-2">
-          <h2 className="text-xl font-semibold mb-4">Previous Scans</h2>
-          <div className="space-y-4">
-            {data.comparisons.previousScans.map((scan) => (
-              <div
-                key={scan.id}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-              >
-                <div>
-                  <p className="font-medium">{scan.type}</p>
-                  <p className="text-sm text-gray-500">
-                    {formatDate(scan.timestamp)}
-                  </p>
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => onViewDetails(scan.id)}
-                >
-                  View Details
-                </Button>
-              </div>
-            ))}
-          </div>
-        </Card>
+        <TabsContent value="metrics" className="space-y-6">
+          <MetricsDashboard dateRange={dateRange} selectedMetric={selectedMetric} />
+        </TabsContent>
 
-        {/* Insights */}
-        <Card className="p-6 md:col-span-2">
-          <h2 className="text-xl font-semibold mb-4">Insights</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-medium mb-2">Patterns</h3>
-              <ul className="list-disc list-inside space-y-2">
-                {data.insights.patterns.map((pattern, index) => (
-                  <li key={index} className="text-gray-600">{pattern}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-medium mb-2">Recommendations</h3>
-              <ul className="list-disc list-inside space-y-2">
-                {data.insights.recommendations.map((recommendation, index) => (
-                  <li key={index} className="text-gray-600">{recommendation}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Card>
-      </div>
+        <TabsContent value="risks" className="space-y-6">
+          <RiskPredictions dateRange={dateRange} />
+        </TabsContent>
+
+        <TabsContent value="imaging" className="space-y-6">
+          <ImagingStats dateRange={dateRange} />
+        </TabsContent>
+
+        <TabsContent value="appointments" className="space-y-6">
+          <AppointmentsMedications dateRange={dateRange} />
+        </TabsContent>
+
+        <TabsContent value="compliance" className="space-y-6">
+          <RescanCompliance dateRange={dateRange} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
-}
+};
+
+export default AnalyticsScreen;

@@ -1,7 +1,3 @@
-import { supabase } from './supabaseClient';
-
-const SCANS_TABLE_NAME = 'scans';
-const SPOTS_TABLE_NAME = 'spots';
 
 export interface PredictionResult {
   prediction: 'benign' | 'malignant';
@@ -10,128 +6,43 @@ export interface PredictionResult {
     benign: number;
     malignant: number;
   };
-  uploadedImageUrl: string;
   timestamp: string;
   imageId?: string;
 }
 
-export async function analyzePrediction(imageUri: string): Promise<PredictionResult> {
-  try {
-    // Upload image to Supabase Storage first
-    const publicImageUrl = await uploadImageToSupabase(imageUri);
+export const analyzePrediction = async (imageUri: string): Promise<PredictionResult> => {
+  // Simulate AI analysis - in a real app, this would call an ML API
+  await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate processing time
+  
+  // Mock prediction results
+  const benignProbability = Math.random();
+  const malignantProbability = 1 - benignProbability;
+  const prediction = benignProbability > 0.5 ? 'benign' : 'malignant';
+  
+  return {
+    prediction,
+    confidence: Math.max(benignProbability, malignantProbability),
+    probabilities: {
+      benign: benignProbability,
+      malignant: malignantProbability
+    },
+    timestamp: new Date().toISOString()
+  };
+};
 
-    // Convert image URI to Blob for form data
-    const response = await fetch(imageUri);
-    const blob = await response.blob();
-
-    const formData = new FormData();
-    formData.append('file', blob, 'photo.jpg');
-
-    const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_SCORING_API_URL}/predict`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    const apiResponseData = await apiResponse.json();
-    if (apiResponseData.status === 'error') {
-      throw new Error(apiResponseData.error || 'Prediction failed');
-    }
-
-    const prediction = apiResponseData.predicted_class === 0 ? 'benign' : 'malignant';
-    const malignantProbability = apiResponseData.predicted_class === 1 ? apiResponseData.confidence : (1 - apiResponseData.confidence);
-    const benignProbability = 1 - malignantProbability;
-
-    return {
-      prediction,
-      confidence: apiResponseData.confidence,
-      probabilities: {
-        benign: benignProbability,
-        malignant: malignantProbability,
-      },
-      uploadedImageUrl: publicImageUrl,
-      timestamp: new Date().toISOString(),
-    };
-  } catch (error) {
-    console.error('Error predicting skin lesion:', error);
-    throw error;
-  }
-}
-
-export async function savePredictionToSupabase(result: PredictionResult, imageUri: string, spotId?: string) {
-  try {
-    const { data, error } = await supabase
-      .from(SCANS_TABLE_NAME)
-      .insert([
-        {
-          spot_id: spotId,
-          image_url: result.uploadedImageUrl,
-          prediction: result.prediction,
-          confidence: result.confidence,
-          benign_probability: result.probabilities.benign,
-          malignant_probability: result.probabilities.malignant,
-          scanned_at: result.timestamp,
-        },
-      ]);
-
-    if (error) {
-      console.error('Error saving prediction to Supabase:', {
-        error,
-        details: error.details,
-        hint: error.hint,
-        code: error.code
-      });
-      throw error;
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Error in savePredictionToSupabase:', error);
-    throw error;
-  }
-}
-
-export async function getPredictionHistory(userId?: string) {
-  let query = supabase
-    .from(SCANS_TABLE_NAME)
-    .select(`*,\
-      spot:spot_id (
-        user_id
-      )`);
-
-  if (userId) {
-    query = query.eq('spot.user_id', userId);
-  }
-
-  const { data, error } = await query;
-  if (error) {
-    console.error('Error fetching prediction history:', error);
-    return [];
-  }
-  return data;
-}
-
-async function uploadImageToSupabase(imageUri: string): Promise<string> {
-  try {
-    const response = await fetch(imageUri);
-    const blob = await response.blob();
-    const filename = `skin-scans/${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`;
-
-    const { data, error } = await supabase.storage
-      .from('medical-images')
-      .upload(filename, blob, {
-        contentType: 'image/jpeg',
-        cacheControl: '3600',
-      });
-
-    if (error) throw error;
-
-    const { data: { publicUrl } } = supabase.storage
-      .from('medical-images')
-      .getPublicUrl(filename);
-
-    return publicUrl;
-  } catch (error) {
-    console.error('Error uploading image to Supabase:', error);
-    throw error;
-  }
-}
+export const savePredictionToSupabase = async (
+  predictionResult: PredictionResult, 
+  imageUri: string
+): Promise<void> => {
+  // Mock save to database - in a real app, this would save to Supabase
+  console.log('Saving prediction to database:', predictionResult);
+  console.log('Image URI:', imageUri);
+  
+  // Simulate database save
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  // In a real implementation, you would:
+  // 1. Upload the image to Supabase Storage
+  // 2. Save the prediction results to a database table
+  // 3. Link the image and prediction data
+};
