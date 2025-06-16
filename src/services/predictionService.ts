@@ -11,6 +11,8 @@ export interface PredictionResult {
     malignant: number;
   };
   uploadedImageUrl: string;
+  timestamp: string;
+  imageId?: string;
 }
 
 export async function analyzePrediction(imageUri: string): Promise<PredictionResult> {
@@ -57,6 +59,7 @@ export async function analyzePrediction(imageUri: string): Promise<PredictionRes
         malignant: malignantProbability,
       },
       uploadedImageUrl: publicImageUrl,
+      timestamp: new Date().toISOString(),
     };
   } catch (error) {
     console.error('Error predicting skin lesion:', error);
@@ -76,7 +79,7 @@ export async function savePredictionToSupabase(result: PredictionResult, imageUr
           confidence: result.confidence,
           benign_probability: result.probabilities.benign,
           malignant_probability: result.probabilities.malignant,
-          scanned_at: new Date().toISOString(),
+          scanned_at: result.timestamp,
         },
       ]);
 

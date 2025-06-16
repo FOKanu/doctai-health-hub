@@ -1,4 +1,9 @@
-import { supabase } from './supabaseClient';
+
+import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
+
+type DbImageMetadata = Database['public']['Tables']['image_metadata']['Row'];
+type DbImageMetadataInsert = Database['public']['Tables']['image_metadata']['Insert'];
 
 export interface ImageMetadata {
   id: string;
@@ -9,9 +14,9 @@ export interface ImageMetadata {
   analysis_result?: any;
   metadata?: {
     size: number;
-    width: number;
-    height: number;
-    format: string;
+    width?: number;
+    height?: number;
+    format?: string;
     device_info?: {
       model: string;
       os: string;
@@ -19,6 +24,19 @@ export interface ImageMetadata {
     };
   };
 }
+
+// Helper function to convert database row to ImageMetadata
+const convertDbRowToImageMetadata = (row: DbImageMetadata): ImageMetadata => {
+  return {
+    id: row.id,
+    url: row.url,
+    created_at: row.created_at,
+    user_id: row.user_id || '',
+    type: row.type,
+    analysis_result: row.analysis_result,
+    metadata: row.metadata as ImageMetadata['metadata']
+  };
+};
 
 export const storageService = {
   async uploadImage(
@@ -47,23 +65,24 @@ export const storageService = {
         .getPublicUrl(fileName);
 
       // Create metadata record in the database
+      const insertData: DbImageMetadataInsert = {
+        url: publicUrl,
+        type,
+        metadata: {
+          ...metadata,
+          size: file instanceof File ? file.size : 0,
+        }
+      };
+
       const { data: metadataRecord, error: metadataError } = await supabase
         .from('image_metadata')
-        .insert({
-          url: publicUrl,
-          type,
-          metadata: {
-            ...metadata,
-            size: file instanceof File ? file.size : 0,
-            created_at: new Date().toISOString()
-          }
-        })
+        .insert(insertData)
         .select()
         .single();
 
       if (metadataError) throw metadataError;
 
-      return metadataRecord;
+      return convertDbRowToImageMetadata(metadataRecord);
     } catch (error) {
       console.error('Error uploading image:', error);
       throw error;
@@ -78,7 +97,7 @@ export const storageService = {
       .single();
 
     if (error) throw error;
-    return data;
+    return convertDbRowToImageMetadata(data);
   },
 
   async getUserImages(userId: string): Promise<ImageMetadata[]> {
@@ -89,7 +108,7 @@ export const storageService = {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data;
+    return data.map(convertDbRowToImageMetadata);
   },
 
   async deleteImage(imageId: string): Promise<void> {
@@ -102,24 +121,34 @@ export const storageService = {
 
     if (image) {
       // Extract the file path from the URL
-      const filePath = image.url.split('/').pop();
+      const urlParts = image.url.split('/');
+      const filePath = urlParts.slice(-2).join('/'); // Get type/filename
 
       // Delete from storage
-      await supabase.storage
+      const { error: storageError } = await supabase.storage
         .from('medical-images')
         .remove([filePath]);
 
+      if (storageError) {
+        console.error('Error deleting from storage:', storageError);
+      }
+
       // Delete metadata record
-      await supabase
+      const { error: dbError } = await supabase
         .from('image_metadata')
         .delete()
         .eq('id', imageId);
+
+      if (dbError) {
+        console.error('Error deleting metadata:', dbError);
+        throw dbError;
+      }
     }
   },
 
   async updateImageMetadata(
     imageId: string,
-    updates: Partial<ImageMetadata>
+    updates: Partial<Pick<ImageMetadata, 'analysis_result' | 'metadata'>>
   ): Promise<ImageMetadata> {
     const { data, error } = await supabase
       .from('image_metadata')
@@ -129,6 +158,6 @@ export const storageService = {
       .single();
 
     if (error) throw error;
-    return data;
+    return convertDbRowToImageMetadata(data);
   }
 };
