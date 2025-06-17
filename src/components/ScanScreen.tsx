@@ -1,10 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Camera, ArrowLeft, Flashlight, RefreshCw, Upload, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { analyzePrediction, savePredictionToSupabase, PredictionResult } from '../services/predictionService';
+import { BodyPart } from './BodyPartSelectionDialog';
+
+interface ScanMetaData {
+  bodyPart: BodyPart;
+}
 
 const ScanScreen = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const scanMetaData = location.state?.scanMetaData as ScanMetaData | undefined;
+  
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [flashlightOn, setFlashlightOn] = useState(false);
@@ -21,6 +29,13 @@ const ScanScreen = () => {
   const zoomTimeoutRef = useRef<NodeJS.Timeout>();
   const captureTimeoutRef = useRef<NodeJS.Timeout>();
 
+  // Redirect if no body part is selected
+  useEffect(() => {
+    if (!scanMetaData?.bodyPart) {
+      navigate('/');
+    }
+  }, [scanMetaData, navigate]);
+
   useEffect(() => {
     startCamera();
     return () => {
@@ -35,7 +50,6 @@ const ScanScreen = () => {
           facingMode,
           width: { ideal: 1920 },
           height: { ideal: 1080 }
-          // Note: zoom is not supported in standard MediaTrackConstraints
         }
       });
 
@@ -74,8 +88,6 @@ const ScanScreen = () => {
 
     setZoom(newZoom);
 
-    // Note: Zoom control via MediaTrackConstraints is not standardized
-    // This is visual feedback only for now
     if (videoRef.current) {
       videoRef.current.style.transform = `scale(${newZoom})`;
     }
@@ -96,7 +108,6 @@ const ScanScreen = () => {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 2) {
-      // Convert React.Touch to Touch by accessing the native event
       const nativeEvent = e.nativeEvent;
       setTouchStartDistance(calculateTouchDistance(nativeEvent.touches[0], nativeEvent.touches[1]));
     }
@@ -104,7 +115,6 @@ const ScanScreen = () => {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (e.touches.length === 2 && touchStartDistance !== null) {
-      // Convert React.Touch to Touch by accessing the native event
       const nativeEvent = e.nativeEvent;
       const currentDistance = calculateTouchDistance(nativeEvent.touches[0], nativeEvent.touches[1]);
       const zoomFactor = currentDistance / touchStartDistance;
@@ -123,12 +133,10 @@ const ScanScreen = () => {
 
     setIsCapturing(true);
 
-    // Visual feedback for capture
     if (videoRef.current) {
       videoRef.current.style.filter = 'brightness(0.8)';
     }
 
-    // Capture after a short delay for visual feedback
     captureTimeoutRef.current = setTimeout(async () => {
       const canvas = document.createElement('canvas');
       canvas.width = videoRef.current!.videoWidth;
@@ -142,7 +150,6 @@ const ScanScreen = () => {
         await analyzeImage(imageUrl);
       }
 
-      // Reset visual feedback
       if (videoRef.current) {
         videoRef.current.style.filter = '';
       }
@@ -163,8 +170,19 @@ const ScanScreen = () => {
     setIsAnalyzing(true);
     try {
       const predictionResult = await analyzePrediction(imageUri);
-      await savePredictionToSupabase(predictionResult, imageUri);
-      setResult(predictionResult);
+      
+      // Include body part metadata in the result
+      const enhancedResult = {
+        ...predictionResult,
+        metadata: {
+          bodyPart: scanMetaData?.bodyPart
+        }
+      };
+      
+      await savePredictionToSupabase(enhancedResult, imageUri);
+      setResult(enhancedResult);
+      
+      console.log('Scan completed for body part:', scanMetaData?.bodyPart);
     } catch (error) {
       console.error('Error analyzing image:', error);
       alert('Failed to analyze image. Please try again.');
@@ -184,6 +202,11 @@ const ScanScreen = () => {
     startCamera();
   };
 
+  // Don't render if no body part selected
+  if (!scanMetaData?.bodyPart) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-black relative">
       {/* Header */}
@@ -194,7 +217,10 @@ const ScanScreen = () => {
         >
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <h1 className="text-white font-semibold">Skin Lesion Scan</h1>
+        <div className="text-center">
+          <h1 className="text-white font-semibold">Skin Lesion Scan</h1>
+          <p className="text-white text-sm opacity-75">Scanning: {scanMetaData.bodyPart}</p>
+        </div>
         <div className="flex gap-2">
           <button
             onClick={handleSwitchCamera}
@@ -327,6 +353,10 @@ const ScanScreen = () => {
             <h2 className="text-xl font-bold mb-4">Analysis Complete</h2>
 
             <div className={`p-4 rounded-lg mb-4 ${result.prediction === 'benign' ? 'bg-green-50' : 'bg-red-50'}`}>
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold">Body Part:</span>
+                <span className="font-bold text-blue-600">{scanMetaData.bodyPart}</span>
+              </div>
               <div className="flex justify-between items-center mb-2">
                 <span className="font-semibold">Prediction:</span>
                 <span className={`font-bold ${result.prediction === 'benign' ? 'text-green-600' : 'text-red-600'}`}>
