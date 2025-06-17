@@ -69,7 +69,8 @@ class ModernPredictionService {
       i === predictedClass ? confidence : (1 - confidence) / (labels.length - 1)
     );
 
-    const riskLevel = predictedClass === 0 ? 'low' : predictedClass === 1 ? 'medium' : 'high';
+    // Ensure riskLevel is properly typed
+    const riskLevel: 'low' | 'medium' | 'high' = predictedClass === 0 ? 'low' : predictedClass === 1 ? 'medium' : 'high';
 
     const result = {
       id: crypto.randomUUID(),
@@ -112,7 +113,8 @@ const originalAnalyzePrediction = async (imageUri: string): Promise<PredictionRe
   // Mock prediction results
   const benignProbability = Math.random();
   const malignantProbability = 1 - benignProbability;
-  const prediction = benignProbability > 0.5 ? 'benign' : 'malignant';
+  // Ensure prediction is properly typed
+  const prediction: 'benign' | 'malignant' = benignProbability > 0.5 ? 'benign' : 'malignant';
 
   const result = {
     prediction,
@@ -157,7 +159,8 @@ export const analyzeImage = async (imageUri: string): Promise<PredictionResult> 
         : (modernResult.riskLevel === 'low' ? 0.8 : 0.2);
 
       const malignantProbability = 1 - benignProbability;
-      const prediction = benignProbability > 0.5 ? 'benign' : 'malignant';
+      // Ensure prediction is properly typed
+      const prediction: 'benign' | 'malignant' = benignProbability > 0.5 ? 'benign' : 'malignant';
 
       return {
         prediction,
