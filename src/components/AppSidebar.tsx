@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -58,7 +57,7 @@ export function AppSidebar() {
       icon: User
     },
     {
-      title: "Appointments",
+      title: "Schedule",
       url: "/appointments",
       icon: Calendar
     },
