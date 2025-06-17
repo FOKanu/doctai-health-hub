@@ -4,6 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '../components/AppSidebar';
 import { AppHeader } from '../components/AppHeader';
 import { MobileNavigation } from '../components/MobileNavigation';
+import ErrorBoundary from '../components/ErrorBoundary';
 import HomeScreen from '../components/HomeScreen';
 import ScanScreen from '../components/ScanScreen';
 import UploadScreen from '../components/UploadScreen';
@@ -35,7 +36,19 @@ const Index = () => {
                 <Route path="/analytics" element={<AnalyticsScreen />} />
                 <Route path="/postbox" element={<PostboxScreen />} />
                 <Route path="/medical-records" element={<MedicalRecordsScreen />} />
-                <Route path="/scan" element={<ScanScreen />} />
+                <Route
+                  path="/scan"
+                  element={
+                    <ErrorBoundary
+                      onError={(error, errorInfo) => {
+                        console.error('ScanScreen Error:', error, errorInfo);
+                        // You could send this to an error reporting service
+                      }}
+                    >
+                      <ScanScreen />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route path="/upload" element={<UploadScreen />} />
                 <Route path="/specialists" element={<SpecialistScreen />} />
                 <Route path="/history" element={<HistoryScreen />} />
