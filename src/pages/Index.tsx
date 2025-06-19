@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -20,6 +21,8 @@ import AppointmentsScreen from '../components/AppointmentsScreen';
 import FitnessScreen from '../components/FitnessScreen';
 import ResultsScreen from '../components/ResultsScreen';
 import DietPlanScreen from '../components/DietPlanScreen';
+import TotalScansScreen from '../components/TotalScansScreen';
+import RiskAssessmentsScreen from '../components/RiskAssessmentsScreen';
 
 const Index = () => {
   return (
@@ -36,6 +39,8 @@ const Index = () => {
                 <Route path="/analytics" element={<AnalyticsScreen />} />
                 <Route path="/postbox" element={<PostboxScreen />} />
                 <Route path="/medical-records" element={<MedicalRecordsScreen />} />
+                <Route path="/total-scans" element={<TotalScansScreen />} />
+                <Route path="/risk-assessments" element={<RiskAssessmentsScreen />} />
                 <Route
                   path="/scan"
                   element={

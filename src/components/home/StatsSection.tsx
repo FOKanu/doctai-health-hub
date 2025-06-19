@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Camera, Activity, Calendar } from 'lucide-react';
 
 interface Stat {
@@ -8,28 +9,56 @@ interface Stat {
   change: string;
   icon: React.ComponentType<any>;
   color: string;
+  path: string;
 }
 
 export const StatsSection: React.FC = () => {
+  const navigate = useNavigate();
+
   const stats: Stat[] = [
-    { label: 'Total Scans', value: '24', change: '+3 this week', icon: Camera, color: 'text-blue-600' },
-    { label: 'Risk Assessments', value: '18', change: '2 high priority', icon: Activity, color: 'text-green-600' },
-    { label: 'Appointments', value: '3', change: 'Next: Tomorrow', icon: Calendar, color: 'text-purple-600' },
+    { 
+      label: 'Total Scans', 
+      value: '24', 
+      change: '+3 this week', 
+      icon: Camera, 
+      color: 'text-blue-600',
+      path: '/total-scans'
+    },
+    { 
+      label: 'Risk Assessments', 
+      value: '18', 
+      change: '2 high priority', 
+      icon: Activity, 
+      color: 'text-green-600',
+      path: '/risk-assessments'
+    },
+    { 
+      label: 'Appointments', 
+      value: '3', 
+      change: 'Next: Tomorrow', 
+      icon: Calendar, 
+      color: 'text-purple-600',
+      path: '/appointments'
+    },
   ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {stats.map((stat, index) => (
-        <div key={index} className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <button
+          key={index}
+          onClick={() => navigate(stat.path)}
+          className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-200 text-left group"
+        >
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">{stat.label}</p>
               <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
               <p className="text-xs text-gray-500 mt-1">{stat.change}</p>
             </div>
-            <stat.icon className={`w-8 h-8 ${stat.color}`} />
+            <stat.icon className={`w-8 h-8 ${stat.color} group-hover:scale-110 transition-transform duration-200`} />
           </div>
-        </div>
+        </button>
       ))}
     </div>
   );
