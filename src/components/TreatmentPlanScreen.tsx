@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,7 @@ import {
   Calendar, 
   Pill, 
   Hospital, 
-  Pharmacy, 
+  Pills, 
   Dumbbell, 
   Utensils,
   Phone,
@@ -85,7 +84,7 @@ const TreatmentPlanScreen = () => {
   const filterOptions = [
     { id: 'all', label: 'All', icon: MapPin },
     { id: 'hospital', label: 'Hospitals', icon: Hospital },
-    { id: 'pharmacy', label: 'Pharmacies', icon: Pharmacy },
+    { id: 'pharmacy', label: 'Pharmacies', icon: Pills },
     { id: 'fitness', label: 'Fitness', icon: Dumbbell },
     { id: 'dental', label: 'Dental', icon: Utensils }
   ];

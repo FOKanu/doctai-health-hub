@@ -267,7 +267,7 @@ export class CloudHealthcareService {
     const consensusRiskLevel = this.calculateConsensusRiskLevel(riskLevels);
 
     return {
-      provider: 'consensus',
+      provider: 'google' as const, // Use a valid provider type instead of 'consensus'
       prediction: consensusPrediction,
       confidence: avgConfidence,
       findings: [...new Set(allFindings)], // Remove duplicates

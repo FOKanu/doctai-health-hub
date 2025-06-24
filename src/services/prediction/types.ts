@@ -13,6 +13,14 @@ export interface PredictionResult {
   };
   timestamp: string;
   imageId?: string;
+  metadata?: {
+    provider?: string;
+    findings?: string[];
+    recommendations?: string[];
+    riskLevel?: 'low' | 'medium' | 'high';
+    processingTime?: number;
+    modelVersion?: string;
+  };
 }
 
 // Modern prediction result interface
@@ -21,6 +29,7 @@ export interface ModernPredictionResult {
   imageId: string;
   imageType: 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg';
   modelName: string;
+  modelVersion: string;
   predictedClass: number;
   confidence: number;
   probabilities: number[];
