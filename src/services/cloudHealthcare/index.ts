@@ -266,8 +266,11 @@ export class CloudHealthcareService {
     const riskLevels = results.map(r => r.riskLevel);
     const consensusRiskLevel = this.calculateConsensusRiskLevel(riskLevels);
 
+    // Use the first available provider as the consensus provider
+    const consensusProvider = results[0]?.provider || 'google';
+
     return {
-      provider: 'consensus',
+      provider: consensusProvider,
       prediction: consensusPrediction,
       confidence: avgConfidence,
       findings: [...new Set(allFindings)], // Remove duplicates

@@ -1,4 +1,5 @@
 
+
 // Feature flags for controlled rollout
 export const USE_NEW_PREDICTION_API = import.meta.env?.VITE_USE_NEW_PREDICTION_API === 'true' || false;
 export const DEBUG_PREDICTIONS = import.meta.env?.VITE_DEBUG_PREDICTIONS === 'true' || false;
@@ -13,14 +14,25 @@ export interface PredictionResult {
   };
   timestamp: string;
   imageId?: string;
+  metadata?: {
+    provider?: string;
+    modelVersion?: string;
+    findings?: string[];
+    recommendations?: string[];
+    riskLevel?: 'low' | 'medium' | 'high';
+    processingTime?: number;
+    bodyPart?: any; // Allow for backward compatibility
+    [key: string]: any; // Allow additional properties
+  };
 }
 
 // Modern prediction result interface
 export interface ModernPredictionResult {
   id: string;
   imageId: string;
-  imageType: 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg';
+  imageType: 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg' | 'general';
   modelName: string;
+  modelVersion?: string;
   predictedClass: number;
   confidence: number;
   probabilities: number[];
@@ -30,5 +42,6 @@ export interface ModernPredictionResult {
   createdAt: string;
 }
 
-// Supported image types
-export type ImageType = 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg';
+// Supported image types (includes 'general' for compatibility)
+export type ImageType = 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg' | 'general';
+

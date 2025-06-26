@@ -52,7 +52,7 @@ export function AppSidebar() {
       icon: FolderOpen
     },
     {
-      title: "Specialists",
+      title: "Find Care",
       url: "/specialists",
       icon: User
     },
