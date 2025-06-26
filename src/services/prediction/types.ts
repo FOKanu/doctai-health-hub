@@ -1,4 +1,5 @@
 
+
 // Feature flags for controlled rollout
 export const USE_NEW_PREDICTION_API = import.meta.env?.VITE_USE_NEW_PREDICTION_API === 'true' || false;
 export const DEBUG_PREDICTIONS = import.meta.env?.VITE_DEBUG_PREDICTIONS === 'true' || false;
@@ -20,6 +21,8 @@ export interface PredictionResult {
     recommendations?: string[];
     riskLevel?: 'low' | 'medium' | 'high';
     processingTime?: number;
+    bodyPart?: any; // Allow for backward compatibility
+    [key: string]: any; // Allow additional properties
   };
 }
 
@@ -27,7 +30,7 @@ export interface PredictionResult {
 export interface ModernPredictionResult {
   id: string;
   imageId: string;
-  imageType: 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg';
+  imageType: 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg' | 'general';
   modelName: string;
   modelVersion?: string;
   predictedClass: number;
@@ -41,3 +44,4 @@ export interface ModernPredictionResult {
 
 // Supported image types (includes 'general' for compatibility)
 export type ImageType = 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg' | 'general';
+
