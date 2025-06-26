@@ -13,6 +13,14 @@ export interface PredictionResult {
   };
   timestamp: string;
   imageId?: string;
+  metadata?: {
+    provider?: string;
+    modelVersion?: string;
+    findings?: string[];
+    recommendations?: string[];
+    riskLevel?: 'low' | 'medium' | 'high';
+    processingTime?: number;
+  };
 }
 
 // Modern prediction result interface
@@ -21,6 +29,7 @@ export interface ModernPredictionResult {
   imageId: string;
   imageType: 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg';
   modelName: string;
+  modelVersion?: string;
   predictedClass: number;
   confidence: number;
   probabilities: number[];
@@ -30,5 +39,5 @@ export interface ModernPredictionResult {
   createdAt: string;
 }
 
-// Supported image types
-export type ImageType = 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg';
+// Supported image types (includes 'general' for compatibility)
+export type ImageType = 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg' | 'general';
