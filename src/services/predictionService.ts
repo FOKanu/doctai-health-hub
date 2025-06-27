@@ -19,7 +19,7 @@ let cloudHealthcareService: CloudHealthcareService | null = null;
 if (USE_CLOUD_HEALTHCARE) {
   const cloudConfig = {
     googleHealthcare: {
-      projectId: import.meta.env.VITE_GOOGLE_HEALTHCARE_PROJECT_ID,
+      projectId: 'doctai-project',
       location: import.meta.env.VITE_GOOGLE_HEALTHCARE_LOCATION || 'us-central1',
       datasetId: import.meta.env.VITE_GOOGLE_HEALTHCARE_DATASET_ID,
       apiKey: import.meta.env.VITE_GOOGLE_HEALTHCARE_API_KEY
