@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { SettingsSection } from './SettingsSection';
 import { createSettingsSections } from './settingsData';
 import { NotificationSettings, PrivacySettings } from './types';
+import { GoogleCloudConfigValidator } from '../GoogleCloudConfigValidator';
 
 const SettingsScreen = () => {
   const navigate = useNavigate();
@@ -37,10 +37,16 @@ const SettingsScreen = () => {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 space-y-6">
         {settingSections.map((section, sectionIndex) => (
           <SettingsSection key={sectionIndex} section={section} />
         ))}
+
+        {/* Google Cloud Configuration Validator */}
+        <div className="bg-white rounded-lg shadow-sm p-4">
+          <h2 className="text-lg font-semibold mb-4">Google Cloud Configuration</h2>
+          <GoogleCloudConfigValidator />
+        </div>
 
         {/* App Info */}
         <div className="text-center text-gray-500 text-sm mt-8">
