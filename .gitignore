@@ -18,6 +18,19 @@ dist-ssr
 .env.production
 .env.development
 
+# Security and credentials
+CI-CD-secrets/
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig.*.json
+!components.json
+!tailwind.config.js
+!postcss.config.js
+!vite.config.ts
+!eslint.config.js
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
