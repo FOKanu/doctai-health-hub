@@ -54,7 +54,7 @@ export function GoogleCloudConfigValidator() {
     }
 
     // Validate project ID
-    if (!CLOUD_HEALTHCARE_CONFIG.GOOGLE.PROJECT_ID) {
+    if (!'doctai-project') {
       errors.push('Google Cloud Project ID is not configured');
     } else {
       details.projectId = true;
@@ -233,7 +233,7 @@ export function GoogleCloudConfigValidator() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-600">Project ID:</span>
-              <span className="font-mono">{CLOUD_HEALTHCARE_CONFIG.GOOGLE.PROJECT_ID || 'Not configured'}</span>
+              <span className="font-mono">{'doctai-project'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Location:</span>

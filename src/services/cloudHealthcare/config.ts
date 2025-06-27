@@ -15,9 +15,10 @@ export const CLOUD_HEALTHCARE_CONFIG = {
 
   // Google Cloud Healthcare
   GOOGLE: {
-    PROJECT_ID: import.meta.env.VITE_GOOGLE_HEALTHCARE_PROJECT_ID,
+    PROJECT_ID: 'doctai-project',
     LOCATION: import.meta.env.VITE_GOOGLE_HEALTHCARE_LOCATION || 'us-central1',
     DATASET_ID: import.meta.env.VITE_GOOGLE_HEALTHCARE_DATASET_ID,
+    STORAGE_BUCKET: import.meta.env.VITE_GOOGLE_CLOUD_STORAGE_BUCKET || 'doctai-personal-health-data',
     API_KEY: import.meta.env.VITE_GOOGLE_HEALTHCARE_API_KEY,
     ENABLED: import.meta.env.VITE_ENABLE_GOOGLE_HEALTHCARE === 'true' &&
              !!import.meta.env.VITE_GOOGLE_HEALTHCARE_PROJECT_ID
@@ -120,9 +121,10 @@ VITE_ENABLE_AZURE_HEALTH_BOT=false
 VITE_ENABLE_WATSON_HEALTH=false
 
 # Google Cloud Healthcare
-VITE_GOOGLE_HEALTHCARE_PROJECT_ID=your-project-id
+VITE_GOOGLE_HEALTHCARE_PROJECT_ID=doctai-project
 VITE_GOOGLE_HEALTHCARE_LOCATION=us-central1
 VITE_GOOGLE_HEALTHCARE_DATASET_ID=your-dataset-id
+VITE_GOOGLE_CLOUD_STORAGE_BUCKET=doctai-personal-health-data
 VITE_GOOGLE_HEALTHCARE_API_KEY=your-api-key
 
 # Azure Health Bot

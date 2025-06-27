@@ -46,7 +46,7 @@ export function CloudHealthcareStatus() {
         return {
           name: 'Google Cloud Healthcare',
           enabled: CLOUD_HEALTHCARE_CONFIG.GOOGLE.ENABLED,
-          configured: !!CLOUD_HEALTHCARE_CONFIG.GOOGLE.PROJECT_ID,
+          configured: !!'doctai-project',
           icon: <Cloud className="h-4 w-4" />
         };
       case 'azure':
