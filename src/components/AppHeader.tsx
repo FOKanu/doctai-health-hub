@@ -1,13 +1,19 @@
 
 import React from 'react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Bell, User } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import ResponsiveSearchBar from './ResponsiveSearchBar';
+import { UserProfileDropdown } from './UserProfileDropdown';
 
 export function AppHeader() {
   const handleSearchSelect = (result: any) => {
     console.log('Selected:', result);
     // Handle navigation or other actions based on the selected result
+  };
+
+  const handleLogout = () => {
+    console.log('User logged out');
+    // Additional logout logic can be added here
   };
 
   return (
@@ -45,9 +51,11 @@ export function AppHeader() {
             <Bell className="w-5 h-5" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
-          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-            <User className="w-5 h-5" />
-          </button>
+          
+          {/* User Profile Dropdown */}
+          <UserProfileDropdown 
+            onLogout={handleLogout}
+          />
         </div>
       </div>
     </header>

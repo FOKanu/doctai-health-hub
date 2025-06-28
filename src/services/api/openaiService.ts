@@ -1,4 +1,3 @@
-
 import { BaseApiService, ApiResponse } from './baseApiService';
 
 export interface OpenAIConfig {
@@ -159,12 +158,18 @@ export class OpenAIService extends BaseApiService {
       try {
         const parsedData = JSON.parse(response.data.text) as HealthInsightResponse;
         return {
-          ...response,
-          data: parsedData
+          data: parsedData,
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
+          success: true
         };
       } catch (error) {
         return {
-          ...response,
+          data: null,
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
           success: false,
           error: 'Failed to parse AI response'
         };
