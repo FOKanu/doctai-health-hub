@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -46,7 +47,7 @@ export function CloudHealthcareStatus() {
         return {
           name: 'Google Cloud Healthcare',
           enabled: CLOUD_HEALTHCARE_CONFIG.GOOGLE.ENABLED,
-          configured: !!'doctai-project',
+          configured: Boolean(CLOUD_HEALTHCARE_CONFIG.GOOGLE.PROJECT_ID),
           icon: <Cloud className="h-4 w-4" />
         };
       case 'azure':

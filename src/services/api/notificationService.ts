@@ -1,3 +1,4 @@
+
 import { BaseApiService, ApiResponse } from './baseApiService';
 
 export interface NotificationConfig {
@@ -46,6 +47,29 @@ export interface NotificationResponse {
   error?: string;
 }
 
+interface TwilioResponse {
+  sid: string;
+  status: string;
+  error_message?: string;
+}
+
+interface SendGridEmailData {
+  personalizations: Array<{
+    to: Array<{ email: string }>;
+  }>;
+  from: { email: string };
+  subject: string;
+  content: Array<{
+    type: string;
+    value: string;
+  }>;
+  attachments?: Array<{
+    filename: string;
+    content: string;
+    type: string;
+  }>;
+}
+
 export class NotificationService extends BaseApiService {
   private twilioConfig?: NotificationConfig['twilio'];
   private sendGridConfig?: NotificationConfig['sendGrid'];
@@ -89,13 +113,14 @@ export class NotificationService extends BaseApiService {
       );
 
       if (response.success && response.data) {
+        const twilioData = response.data as TwilioResponse;
         return {
           data: {
-            id: response.data.sid,
-            status: response.data.status === 'sent' ? 'sent' : 'failed',
+            id: twilioData.sid,
+            status: twilioData.status === 'sent' ? 'sent' : 'failed',
             provider: 'twilio',
             timestamp: new Date().toISOString(),
-            error: response.data.error_message
+            error: twilioData.error_message
           },
           status: response.status,
           statusText: response.statusText,
@@ -104,7 +129,14 @@ export class NotificationService extends BaseApiService {
         };
       }
 
-      return response;
+      return {
+        data: null,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        success: false,
+        error: 'Failed to send SMS'
+      };
     } catch (error: any) {
       return {
         data: null,
@@ -130,7 +162,7 @@ export class NotificationService extends BaseApiService {
     }
 
     try {
-      const emailData = {
+      const emailData: SendGridEmailData = {
         personalizations: [
           {
             to: [{ email: notification.to }]
@@ -176,7 +208,14 @@ export class NotificationService extends BaseApiService {
         };
       }
 
-      return response;
+      return {
+        data: null,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        success: false,
+        error: 'Failed to send email'
+      };
     } catch (error: any) {
       return {
         data: null,

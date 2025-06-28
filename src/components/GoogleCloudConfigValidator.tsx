@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -54,7 +55,7 @@ export function GoogleCloudConfigValidator() {
     }
 
     // Validate project ID
-    if (!'doctai-project') {
+    if (!CLOUD_HEALTHCARE_CONFIG.GOOGLE.PROJECT_ID) {
       errors.push('Google Cloud Project ID is not configured');
     } else {
       details.projectId = true;
@@ -233,7 +234,7 @@ export function GoogleCloudConfigValidator() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-600">Project ID:</span>
-              <span className="font-mono">{'doctai-project'}</span>
+              <span className="font-mono">{CLOUD_HEALTHCARE_CONFIG.GOOGLE.PROJECT_ID || 'Not configured'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Location:</span>

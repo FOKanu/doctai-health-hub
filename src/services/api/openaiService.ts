@@ -1,3 +1,4 @@
+
 import { BaseApiService, ApiResponse } from './baseApiService';
 
 export interface OpenAIConfig {
@@ -39,6 +40,19 @@ export interface HealthInsightResponse {
   urgency: 'routine' | 'soon' | 'urgent' | 'emergency';
   explanation: string;
   disclaimer: string;
+}
+
+interface OpenAIApiResponse {
+  choices: Array<{
+    message: {
+      content: string;
+    };
+  }>;
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
 }
 
 export class OpenAIService extends BaseApiService {
@@ -84,20 +98,32 @@ export class OpenAIService extends BaseApiService {
     });
 
     if (response.success && response.data) {
-      const choice = response.data.choices?.[0];
+      const apiData = response.data as OpenAIApiResponse;
+      const choice = apiData.choices?.[0];
       if (choice) {
         return {
           ...response,
           data: {
             text: choice.message.content,
-            usage: response.data.usage,
+            usage: {
+              promptTokens: apiData.usage.prompt_tokens,
+              completionTokens: apiData.usage.completion_tokens,
+              totalTokens: apiData.usage.total_tokens
+            },
             model: this.model
           }
         };
       }
     }
 
-    return response;
+    return {
+      data: null,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      success: false,
+      error: 'Failed to generate text'
+    };
   }
 
   async analyzeHealthInsights(request: HealthInsightRequest): Promise<ApiResponse<HealthInsightResponse>> {
@@ -131,7 +157,7 @@ export class OpenAIService extends BaseApiService {
 
     if (response.success && response.data) {
       try {
-        const parsedData = JSON.parse(response.data.text);
+        const parsedData = JSON.parse(response.data.text) as HealthInsightResponse;
         return {
           ...response,
           data: parsedData
@@ -145,7 +171,14 @@ export class OpenAIService extends BaseApiService {
       }
     }
 
-    return response;
+    return {
+      data: null,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      success: false,
+      error: response.error || 'Failed to analyze health insights'
+    };
   }
 
   async explainMedicalTerm(term: string): Promise<ApiResponse<{ explanation: string; simplified: string }>> {
@@ -196,7 +229,14 @@ export class OpenAIService extends BaseApiService {
       };
     }
 
-    return response;
+    return {
+      data: null,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      success: false,
+      error: response.error || 'Failed to explain medical term'
+    };
   }
 
   async generateHealthTips(category: string, count: number = 5): Promise<ApiResponse<string[]>> {
@@ -227,7 +267,14 @@ export class OpenAIService extends BaseApiService {
       };
     }
 
-    return response;
+    return {
+      data: null,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      success: false,
+      error: response.error || 'Failed to generate health tips'
+    };
   }
 
   async summarizeMedicalReport(report: string): Promise<ApiResponse<{ summary: string; keyPoints: string[] }>> {
@@ -281,6 +328,13 @@ export class OpenAIService extends BaseApiService {
       };
     }
 
-    return response;
+    return {
+      data: null,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      success: false,
+      error: response.error || 'Failed to summarize medical report'
+    };
   }
 }
