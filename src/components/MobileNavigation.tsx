@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, History, Pill, Calendar, User } from 'lucide-react';
+import { Home, History, Pill, Calendar, User, FileText } from 'lucide-react';
 
 export function MobileNavigation() {
   const navigate = useNavigate();
@@ -11,12 +11,13 @@ export function MobileNavigation() {
     { icon: Home, label: 'Home', path: '/' },
     { icon: History, label: 'History', path: '/history' },
     { icon: Pill, label: 'Medications', path: '/medications' },
+    { icon: FileText, label: 'Treatments', path: '/treatments' },
     { icon: Calendar, label: 'Appointments', path: '/appointments' },
     { icon: User, label: 'Profile', path: '/profile' },
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 safe-area-pb">
       <div className="flex justify-around py-2">
         {navItems.map((item, index) => {
           const isActive = location.pathname === item.path;
