@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { X, Filter } from 'lucide-react';
 import { FilterOptions } from '../../types/healthcare';
@@ -56,12 +55,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     <>
       {/* Mobile Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" onClick={onClose} />
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden" onClick={onClose} />
       )}
 
       {/* Sidebar */}
       <div className={`
-        fixed md:sticky top-0 left-0 h-full md:h-auto w-80 bg-white shadow-lg z-50
+        fixed md:sticky top-0 left-0 h-full md:h-auto w-80 bg-white shadow-lg z-20
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         overflow-y-auto
