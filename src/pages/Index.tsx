@@ -23,6 +23,7 @@ import ResultsScreen from '../components/ResultsScreen';
 import DietPlanScreen from '../components/DietPlanScreen';
 import TotalScansScreen from '../components/TotalScansScreen';
 import RiskAssessmentsScreen from '../components/RiskAssessmentsScreen';
+import TreatmentsScreen from '../components/TreatmentsScreen';
 import LoginScreen from '../components/LoginScreen';
 import WelcomeScreen from '../components/WelcomeScreen';
 
@@ -50,6 +51,7 @@ const Index = () => {
                     <Route path="/medical-records" element={<MedicalRecordsScreen />} />
                     <Route path="/total-scans" element={<TotalScansScreen />} />
                     <Route path="/risk-assessments" element={<RiskAssessmentsScreen />} />
+                    <Route path="/treatments" element={<TreatmentsScreen />} />
                     <Route
                       path="/scan"
                       element={
