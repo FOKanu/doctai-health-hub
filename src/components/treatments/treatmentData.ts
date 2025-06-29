@@ -48,7 +48,7 @@ export const treatmentData = {
       time: "10:00 AM",
       specialist: "Dr. Michael Chen",
       hospital: "City Medical Center",
-      status: "confirmed"
+      status: "confirmed" as const
     },
     {
       id: "2",
@@ -57,7 +57,7 @@ export const treatmentData = {
       time: "9:30 AM",
       specialist: "Dr. Sarah Johnson",
       hospital: "Heart Care Clinic",
-      status: "pending"
+      status: "pending" as const
     }
   ],
   notes: [
@@ -80,7 +80,7 @@ export const treatmentData = {
       purpose: "Blood Pressure Check",
       location: "Heart Care Clinic",
       specialist: "Dr. Sarah Johnson",
-      status: "confirmed"
+      status: "confirmed" as const
     },
     {
       id: "2",
@@ -89,7 +89,7 @@ export const treatmentData = {
       purpose: "Medication Review",
       location: "Heart Care Clinic",
       specialist: "Dr. Sarah Johnson",
-      status: "scheduled"
+      status: "scheduled" as const
     }
   ],
   documents: [
