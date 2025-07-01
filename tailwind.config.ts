@@ -61,6 +61,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				medical: {
+					bg: 'hsl(var(--medical-bg))',
+					card: 'hsl(var(--medical-card))',
+					accent: 'hsl(var(--medical-accent))',
+					'accent-light': 'hsl(var(--medical-accent-light))',
+					text: 'hsl(var(--medical-text))',
+					'text-light': 'hsl(var(--medical-text-light))'
 				}
 			},
 			borderRadius: {
