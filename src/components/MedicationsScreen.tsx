@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Plus, Edit, Trash2, Bell, BellOff, Pill } from 'lucide-react';
+import { AddMedicationModal } from './modals/AddMedicationModal';
 
 const MedicationsScreen = () => {
   const navigate = useNavigate();
@@ -55,9 +56,8 @@ const MedicationsScreen = () => {
     }
   };
 
-  const handleAddMedication = () => {
-    // TODO: Open add medication dialog/modal
-    console.log('Add medication clicked');
+  const addMedication = (newMedication: any) => {
+    setMedications([...medications, newMedication]);
   };
 
   return (
@@ -68,13 +68,7 @@ const MedicationsScreen = () => {
           <h1 className="text-2xl font-bold text-gray-900">Medications</h1>
           <p className="text-gray-600">Manage your medications and reminders</p>
         </div>
-        <button 
-          onClick={handleAddMedication}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2"
-        >
-          <Plus className="w-5 h-5" />
-          Add Medication
-        </button>
+        <AddMedicationModal onAddMedication={addMedication} />
       </div>
 
       {/* Quick Stats */}

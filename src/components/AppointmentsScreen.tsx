@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getAppointments, Appointment } from '@/services/appointmentService';
+import { ScheduleAppointmentModal } from './modals/ScheduleAppointmentModal';
 
 const AppointmentsScreen = () => {
   const navigate = useNavigate();
@@ -92,9 +93,8 @@ const AppointmentsScreen = () => {
     });
   };
 
-  const handleScheduleNew = () => {
-    // TODO: Open schedule appointment dialog/modal
-    console.log('Schedule new appointment clicked');
+  const scheduleAppointment = (newAppointment: any) => {
+    setUpcomingAppointments([...upcomingAppointments, newAppointment]);
   };
 
   if (loading) {
@@ -117,10 +117,7 @@ const AppointmentsScreen = () => {
           <Button onClick={() => navigate('/')} variant="outline">
             Back to Dashboard
           </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleScheduleNew}>
-            <Plus className="w-4 h-4 mr-2" />
-            Schedule New
-          </Button>
+          <ScheduleAppointmentModal onScheduleAppointment={scheduleAppointment} />
         </div>
       </div>
 
@@ -182,10 +179,15 @@ const AppointmentsScreen = () => {
               <CardContent className="p-8 text-center">
                 <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <div className="text-gray-500 mb-4">No upcoming appointments</div>
-                <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleScheduleNew}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Schedule Your First Appointment
-                </Button>
+                <ScheduleAppointmentModal 
+                  onScheduleAppointment={scheduleAppointment}
+                  trigger={
+                    <Button className="bg-blue-600 hover:bg-blue-700">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Schedule Your First Appointment
+                    </Button>
+                  }
+                />
               </CardContent>
             </Card>
           ) : (

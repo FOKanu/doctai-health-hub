@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Bell, BellOff, Plus } from 'lucide-react';
+import { AddTreatmentModal } from './modals/AddTreatmentModal';
 import TreatmentOverview from './treatments/TreatmentOverview';
 import MedicationsList from './treatments/MedicationsList';
 import ProceduresList from './treatments/ProceduresList';
@@ -19,9 +20,9 @@ const TreatmentsScreen = () => {
     setNotifications(!notifications);
   };
 
-  const handleAddTreatment = () => {
-    // TODO: Open add treatment dialog/modal
-    console.log('Add treatment clicked');
+  const addTreatment = (newTreatment: any) => {
+    console.log('New treatment added:', newTreatment);
+    // In a real app, this would update the treatment data
   };
 
   const updateMedicationStatus = (medicationId: string, taken: boolean) => {
@@ -51,10 +52,7 @@ const TreatmentsScreen = () => {
             {notifications ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
             {notifications ? 'Notifications On' : 'Notifications Off'}
           </Button>
-          <Button size="sm" className="flex items-center gap-2" onClick={handleAddTreatment}>
-            <Plus className="w-4 h-4" />
-            Add Treatment
-          </Button>
+          <AddTreatmentModal onAddTreatment={addTreatment} />
         </div>
       </div>
 
