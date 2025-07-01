@@ -55,6 +55,11 @@ const MedicationsScreen = () => {
     }
   };
 
+  const handleAddMedication = () => {
+    // TODO: Open add medication dialog/modal
+    console.log('Add medication clicked');
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -63,7 +68,10 @@ const MedicationsScreen = () => {
           <h1 className="text-2xl font-bold text-gray-900">Medications</h1>
           <p className="text-gray-600">Manage your medications and reminders</p>
         </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <button 
+          onClick={handleAddMedication}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2"
+        >
           <Plus className="w-5 h-5" />
           Add Medication
         </button>

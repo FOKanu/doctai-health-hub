@@ -92,6 +92,11 @@ const AppointmentsScreen = () => {
     });
   };
 
+  const handleScheduleNew = () => {
+    // TODO: Open schedule appointment dialog/modal
+    console.log('Schedule new appointment clicked');
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-96">
@@ -112,7 +117,7 @@ const AppointmentsScreen = () => {
           <Button onClick={() => navigate('/')} variant="outline">
             Back to Dashboard
           </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleScheduleNew}>
             <Plus className="w-4 h-4 mr-2" />
             Schedule New
           </Button>
@@ -177,7 +182,7 @@ const AppointmentsScreen = () => {
               <CardContent className="p-8 text-center">
                 <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <div className="text-gray-500 mb-4">No upcoming appointments</div>
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleScheduleNew}>
                   <Plus className="w-4 h-4 mr-2" />
                   Schedule Your First Appointment
                 </Button>

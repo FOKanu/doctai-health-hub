@@ -19,6 +19,11 @@ const TreatmentsScreen = () => {
     setNotifications(!notifications);
   };
 
+  const handleAddTreatment = () => {
+    // TODO: Open add treatment dialog/modal
+    console.log('Add treatment clicked');
+  };
+
   const updateMedicationStatus = (medicationId: string, taken: boolean) => {
     setData(prev => ({
       ...prev,
@@ -46,7 +51,7 @@ const TreatmentsScreen = () => {
             {notifications ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
             {notifications ? 'Notifications On' : 'Notifications Off'}
           </Button>
-          <Button size="sm" className="flex items-center gap-2">
+          <Button size="sm" className="flex items-center gap-2" onClick={handleAddTreatment}>
             <Plus className="w-4 h-4" />
             Add Treatment
           </Button>
