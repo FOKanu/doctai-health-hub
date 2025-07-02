@@ -6,14 +6,7 @@ import { Upload, Check } from 'lucide-react';
 import { useBackgroundImages } from '@/hooks/useBackgroundImages';
 
 export const BackgroundSelector = () => {
-  const { 
-    backgroundImages, 
-    currentBackground, 
-    setBackground, 
-    addCustomBackground, 
-    enableAutoSelect,
-    currentPath 
-  } = useBackgroundImages();
+  const { backgroundImages, currentBackground, setBackground, addCustomBackground } = useBackgroundImages();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,28 +49,12 @@ export const BackgroundSelector = () => {
           />
         </div>
 
-        {/* Auto-Select Toggle */}
-        <div className="flex items-center justify-between p-3 bg-medical-accent-light rounded-lg">
-          <div>
-            <p className="text-sm font-medium text-medical-text">Auto Page Backgrounds</p>
-            <p className="text-xs text-medical-text-light">Automatically match background to current page</p>
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={enableAutoSelect}
-            className="text-xs"
-          >
-            Enable Auto
-          </Button>
-        </div>
-
         {/* Background Options */}
         <div className="grid grid-cols-2 gap-3">
           {backgroundImages.map((image) => (
             <div
               key={image.id}
-              className={`relative rounded-lg border-2 cursor-pointer transition-all duration-200 group ${
+              className={`relative rounded-lg border-2 cursor-pointer transition-all duration-200 ${
                 isSelected(image.url)
                   ? 'border-medical-accent shadow-lg'
                   : 'border-gray-200 hover:border-gray-300'
@@ -85,44 +62,22 @@ export const BackgroundSelector = () => {
               onClick={() => setBackground(image.url)}
             >
               <div
-                className="h-20 rounded-md relative overflow-hidden"
+                className="h-20 rounded-md"
                 style={{
-                  background: isGradient(image.url) || image.url.includes(',') ? image.url : `url(${image.url})`,
-                  backgroundSize: 'cover, cover',
-                  backgroundPosition: 'center, center',
-                  backgroundBlendMode: image.blendMode || 'normal'
+                  background: isGradient(image.url) ? image.url : `url(${image.url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
                 }}
-              >
-                {/* Overlay preview */}
-                {image.overlay && (
-                  <div 
-                    className="absolute inset-0"
-                    style={{
-                      background: image.overlay,
-                      mixBlendMode: 'overlay'
-                    }}
-                  />
-                )}
-              </div>
+              />
               <div className="p-2 text-center">
                 <p className="text-xs font-medium text-medical-text truncate">
                   {image.name}
                 </p>
-                {image.pageSpecific && (
-                  <p className="text-xs text-medical-text-light truncate">
-                    {image.pageSpecific.includes(currentPath) ? '• Active for this page' : `• For ${image.pageSpecific[0]}`}
-                  </p>
-                )}
               </div>
               {isSelected(image.url) && (
                 <div className="absolute top-1 right-1 bg-medical-accent text-white rounded-full p-1">
                   <Check className="w-3 h-3" />
                 </div>
-              )}
-              
-              {/* Page-specific indicator */}
-              {image.pageSpecific?.includes(currentPath) && (
-                <div className="absolute top-1 left-1 bg-blue-500 text-white rounded-full w-2 h-2 animate-pulse" />
               )}
             </div>
           ))}
