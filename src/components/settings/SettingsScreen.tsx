@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { SettingsSection } from './SettingsSection';
+import { BackgroundSelector } from './BackgroundSelector';
 import { createSettingsSections } from './settingsData';
 import { NotificationSettings, PrivacySettings } from './types';
 import { GoogleCloudConfigValidator } from '../GoogleCloudConfigValidator';
@@ -41,6 +42,9 @@ const SettingsScreen = () => {
         {settingSections.map((section, sectionIndex) => (
           <SettingsSection key={sectionIndex} section={section} />
         ))}
+
+        {/* Background Images Section */}
+        <BackgroundSelector />
 
         {/* Google Cloud Configuration Validator */}
         <div className="bg-white rounded-lg shadow-sm p-4">
