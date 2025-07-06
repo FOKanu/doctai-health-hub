@@ -1,12 +1,14 @@
 
 import { Bell, Shield, Globe, Database, HelpCircle, Info } from 'lucide-react';
 import { SettingSection, NotificationSettings, PrivacySettings } from './types';
+import { ModalType } from './hooks/useSettingsModals';
 
 export const createSettingsSections = (
   notifications: NotificationSettings,
   setNotifications: React.Dispatch<React.SetStateAction<NotificationSettings>>,
   privacy: PrivacySettings,
-  setPrivacy: React.Dispatch<React.SetStateAction<PrivacySettings>>
+  setPrivacy: React.Dispatch<React.SetStateAction<PrivacySettings>>,
+  openModal: (modal: ModalType) => void
 ): SettingSection[] => [
   {
     title: 'Notifications',
@@ -71,13 +73,13 @@ export const createSettingsSections = (
         label: 'Change Password',
         description: 'Update your account password',
         type: 'action',
-        action: () => console.log('Change password')
+        action: () => openModal('changePassword')
       },
       {
         label: 'Two-Factor Authentication',
         description: 'Add an extra layer of security',
         type: 'action',
-        action: () => console.log('Setup 2FA')
+        action: () => openModal('twoFactor')
       }
     ]
   },
@@ -89,25 +91,25 @@ export const createSettingsSections = (
         label: 'Language',
         description: 'English (US)',
         type: 'action',
-        action: () => console.log('Change language')
+        action: () => openModal('language')
       },
       {
         label: 'Date Format',
         description: 'MM/DD/YYYY',
         type: 'action',
-        action: () => console.log('Change date format')
+        action: () => openModal('dateFormat')
       },
       {
         label: 'Time Zone',
         description: 'Eastern Time (ET)',
         type: 'action',
-        action: () => console.log('Change timezone')
+        action: () => openModal('timeZone')
       },
       {
         label: 'Units',
         description: 'Imperial (lbs, ft, °F)',
         type: 'action',
-        action: () => console.log('Change units')
+        action: () => openModal('units')
       }
     ]
   },
@@ -119,25 +121,25 @@ export const createSettingsSections = (
         label: 'Sync Settings',
         description: 'Manage cloud synchronization',
         type: 'action',
-        action: () => console.log('Sync settings')
+        action: () => openModal('syncSettings')
       },
       {
         label: 'Export Data',
         description: 'Download your health data',
         type: 'action',
-        action: () => console.log('Export data')
+        action: () => openModal('exportData')
       },
       {
         label: 'Storage Usage',
         description: '2.3 GB of 5 GB used',
         type: 'action',
-        action: () => console.log('Storage usage')
+        action: () => openModal('storageUsage')
       },
       {
         label: 'Clear Cache',
         description: 'Free up space by clearing cached data',
         type: 'action',
-        action: () => console.log('Clear cache')
+        action: () => openModal('clearCache')
       }
     ]
   },
@@ -149,31 +151,31 @@ export const createSettingsSections = (
         label: 'Help Center',
         description: 'Get answers to common questions',
         type: 'action',
-        action: () => console.log('Help center')
+        action: () => openModal('helpCenter')
       },
       {
         label: 'Contact Support',
         description: 'Get help from our support team',
         type: 'action',
-        action: () => console.log('Contact support')
+        action: () => openModal('contactSupport')
       },
       {
         label: 'Report a Bug',
         description: 'Help us improve the app',
         type: 'action',
-        action: () => console.log('Report bug')
+        action: () => openModal('reportBug')
       },
       {
         label: 'Privacy Policy',
         description: 'Review our privacy policy',
         type: 'action',
-        action: () => console.log('Privacy policy')
+        action: () => openModal('privacyPolicy')
       },
       {
         label: 'Terms of Service',
         description: 'Review terms and conditions',
         type: 'action',
-        action: () => console.log('Terms of service')
+        action: () => openModal('termsOfService')
       }
     ]
   },

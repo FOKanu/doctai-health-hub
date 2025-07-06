@@ -6,9 +6,16 @@ import { BackgroundSelector } from './BackgroundSelector';
 import { createSettingsSections } from './settingsData';
 import { NotificationSettings, PrivacySettings } from './types';
 import { GoogleCloudConfigValidator } from '../GoogleCloudConfigValidator';
+import { useSettingsModals } from './hooks/useSettingsModals';
+import { ChangePasswordModal } from './modals/ChangePasswordModal';
+import { TwoFactorModal } from './modals/TwoFactorModal';
+import { PreferencesModal } from './modals/PreferencesModal';
+import { DataStorageModal } from './modals/DataStorageModal';
+import { SupportModal } from './modals/SupportModal';
 
 const SettingsScreen = () => {
   const navigate = useNavigate();
+  const { activeModal, openModal, closeModal } = useSettingsModals();
   const [notifications, setNotifications] = useState<NotificationSettings>({
     appointments: true,
     medications: true,
@@ -21,7 +28,7 @@ const SettingsScreen = () => {
     biometrics: true
   });
 
-  const settingSections = createSettingsSections(notifications, setNotifications, privacy, setPrivacy);
+  const settingSections = createSettingsSections(notifications, setNotifications, privacy, setPrivacy, openModal);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -58,6 +65,95 @@ const SettingsScreen = () => {
           <p>Made with ❤️ for your health</p>
         </div>
       </div>
+
+      {/* Modals */}
+      <ChangePasswordModal 
+        open={activeModal === 'changePassword'} 
+        onOpenChange={(open) => !open && closeModal()} 
+      />
+      
+      <TwoFactorModal 
+        open={activeModal === 'twoFactor'} 
+        onOpenChange={(open) => !open && closeModal()} 
+      />
+      
+      <PreferencesModal 
+        open={activeModal === 'language'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="language"
+      />
+      
+      <PreferencesModal 
+        open={activeModal === 'dateFormat'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="dateFormat"
+      />
+      
+      <PreferencesModal 
+        open={activeModal === 'timeZone'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="timeZone"
+      />
+      
+      <PreferencesModal 
+        open={activeModal === 'units'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="units"
+      />
+      
+      <DataStorageModal 
+        open={activeModal === 'syncSettings'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="sync"
+      />
+      
+      <DataStorageModal 
+        open={activeModal === 'exportData'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="export"
+      />
+      
+      <DataStorageModal 
+        open={activeModal === 'storageUsage'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="storage"
+      />
+      
+      <DataStorageModal 
+        open={activeModal === 'clearCache'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="cache"
+      />
+      
+      <SupportModal 
+        open={activeModal === 'helpCenter'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="help"
+      />
+      
+      <SupportModal 
+        open={activeModal === 'contactSupport'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="contact"
+      />
+      
+      <SupportModal 
+        open={activeModal === 'reportBug'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="bug"
+      />
+      
+      <SupportModal 
+        open={activeModal === 'privacyPolicy'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="privacy"
+      />
+      
+      <SupportModal 
+        open={activeModal === 'termsOfService'} 
+        onOpenChange={(open) => !open && closeModal()}
+        type="terms"
+      />
     </div>
   );
 };
