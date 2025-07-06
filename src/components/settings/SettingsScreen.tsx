@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { SettingsSection } from './SettingsSection';
 import { BackgroundSelector } from './BackgroundSelector';
-import { createSettingsSections } from './settingsData';
+import { createSettingsSections } from './data';
 import { NotificationSettings, PrivacySettings } from './types';
 import { GoogleCloudConfigValidator } from '../GoogleCloudConfigValidator';
 import { useSettingsModals } from './hooks/useSettingsModals';
