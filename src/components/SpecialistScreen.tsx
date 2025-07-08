@@ -5,7 +5,7 @@ import { ArrowLeft, List, Map, Filter, X } from 'lucide-react';
 import SearchBar from './findcare/SearchBar';
 import FilterSidebar from './findcare/FilterSidebar';
 import ProviderCard from './findcare/ProviderCard';
-import { MapView } from './MapView';
+import { GoogleMapView } from './GoogleMapView';
 import { HealthcareProvider, FilterOptions, BookingRequest } from '../types/healthcare';
 
 const SpecialistScreen = () => {
@@ -384,7 +384,7 @@ const SpecialistScreen = () => {
               )}
             </div>
           ) : (
-            <MapView providers={filteredProviders} />
+            <GoogleMapView providers={filteredProviders} />
           )}
         </div>
       </div>
