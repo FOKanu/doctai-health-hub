@@ -18,7 +18,7 @@ export const HealthManagementSection: React.FC = () => {
     { icon: BarChart, title: 'Results', subtitle: 'View your test results', color: 'bg-purple-600 hover:bg-purple-700', path: '/results' },
     { icon: Activity, title: 'Fitness', subtitle: 'Track your workouts & fitness', color: 'bg-orange-600 hover:bg-orange-700', path: '/fitness' },
     { icon: Apple, title: 'Diet Plan', subtitle: 'Personalized nutrition', color: 'bg-pink-600 hover:bg-pink-700', path: '/diet' },
-    { icon: Brain, title: 'AI Recommendations', subtitle: 'Smart health insights', color: 'bg-indigo-600 hover:bg-indigo-700', path: '/recommendations' },
+    { icon: Brain, title: 'AI Recommendations', subtitle: 'Smart health insights', color: 'bg-indigo-600 hover:bg-indigo-700', path: '/analytics' },
   ];
 
   return (
