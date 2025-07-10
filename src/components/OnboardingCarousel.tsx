@@ -8,6 +8,7 @@ import {
   Upload, 
   Search, 
   TrendingUp, 
+  MapPin,
   Lock, 
   ArrowRight, 
   ArrowLeft,
@@ -153,6 +154,36 @@ const OnboardingCarousel = () => {
             <div className="flex items-start space-x-3">
               <span className="bg-primary text-primary-foreground text-xs rounded-full w-6 h-6 flex items-center justify-center font-medium">4</span>
               <span>Export data for medical appointments</span>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'findcare',
+      title: 'Find & Connect with Healthcare Providers',
+      icon: MapPin,
+      content: (
+        <div className="space-y-4">
+          <p className="text-muted-foreground">
+            Discover and connect with healthcare providers near you using our integrated map and search features.
+          </p>
+          <div className="space-y-3">
+            <div className="flex items-start space-x-3">
+              <span className="bg-primary text-primary-foreground text-xs rounded-full w-6 h-6 flex items-center justify-center font-medium">1</span>
+              <span>Navigate to "Find Care" from the menu</span>
+            </div>
+            <div className="flex items-start space-x-3">
+              <span className="bg-primary text-primary-foreground text-xs rounded-full w-6 h-6 flex items-center justify-center font-medium">2</span>
+              <span>Search for doctors, hospitals, clinics, or pharmacies</span>
+            </div>
+            <div className="flex items-start space-x-3">
+              <span className="bg-primary text-primary-foreground text-xs rounded-full w-6 h-6 flex items-center justify-center font-medium">3</span>
+              <span>View provider details and reviews</span>
+            </div>
+            <div className="flex items-start space-x-3">
+              <span className="bg-primary text-primary-foreground text-xs rounded-full w-6 h-6 flex items-center justify-center font-medium">4</span>
+              <span>Book appointments or get directions</span>
             </div>
           </div>
         </div>
