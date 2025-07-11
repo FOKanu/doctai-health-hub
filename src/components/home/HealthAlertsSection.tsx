@@ -19,19 +19,19 @@ export const HealthAlertsSection: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-900">Health Alerts</h2>
+      <h2 className="text-xl font-semibold text-foreground">Health Alerts</h2>
       <div className="space-y-3">
         {alerts.map((alert, index) => (
           <div key={index} className={`p-4 rounded-lg border-l-4 ${
-            alert.type === 'warning' ? 'bg-orange-50 border-orange-400' : 'bg-blue-50 border-blue-400'
+            alert.type === 'warning' ? 'bg-destructive/10 border-destructive' : 'bg-primary/10 border-primary'
           }`}>
             <div className="flex items-start space-x-3">
               <alert.icon className={`w-5 h-5 mt-0.5 ${
-                alert.type === 'warning' ? 'text-orange-500' : 'text-blue-500'
+                alert.type === 'warning' ? 'text-destructive' : 'text-primary'
               }`} />
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">{alert.text}</p>
-                <p className="text-xs text-gray-500 mt-1">{alert.time}</p>
+                <p className="text-sm font-medium text-foreground">{alert.text}</p>
+                <p className="text-xs text-muted-foreground mt-1">{alert.time}</p>
               </div>
             </div>
           </div>

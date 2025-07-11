@@ -21,10 +21,10 @@ export const WeeklyGoalsSection: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+    <div className="bg-card rounded-lg p-6 shadow-sm border border-border">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-gray-900">Weekly Health Goals</h2>
-        <button className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+        <h2 className="text-xl font-semibold text-foreground">Weekly Health Goals</h2>
+        <button className="flex items-center space-x-2 text-primary hover:text-primary/80 text-sm font-medium">
           <Plus className="w-4 h-4" />
           <span>Add Metric</span>
         </button>
@@ -34,34 +34,34 @@ export const WeeklyGoalsSection: React.FC = () => {
           const progress = (goal.current / goal.target) * 100;
           const isOnTrack = progress >= 80;
           return (
-            <div key={index} className="bg-gray-50 rounded-lg p-4 space-y-3">
+            <div key={index} className="bg-muted rounded-lg p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <div className={`p-2 rounded-lg ${isOnTrack ? 'bg-green-100' : 'bg-orange-100'}`}>
-                    <goal.icon className={`w-4 h-4 ${isOnTrack ? 'text-green-600' : 'text-orange-600'}`} />
+                  <div className={`p-2 rounded-lg ${isOnTrack ? 'bg-primary/20' : 'bg-destructive/20'}`}>
+                    <goal.icon className={`w-4 h-4 ${isOnTrack ? 'text-primary' : 'text-destructive'}`} />
                   </div>
-                  <span className="text-sm font-medium text-gray-900">{goal.title}</span>
+                  <span className="text-sm font-medium text-foreground">{goal.title}</span>
                 </div>
-                <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
+                <span className="text-xs text-muted-foreground bg-background px-2 py-1 rounded">
                   {goal.current} / {goal.target} {goal.unit}
                 </span>
               </div>
-              <div className="space-y-2">
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      isOnTrack ? 'bg-green-500' : 'bg-orange-500'
-                    }`}
-                    style={{ width: `${Math.min(progress, 100)}%` }}
-                  ></div>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className={`font-medium ${isOnTrack ? 'text-green-600' : 'text-orange-600'}`}>
-                    {Math.round(progress)}% complete
-                  </span>
-                  <span className="text-gray-500">
-                    {isOnTrack ? 'On track' : 'Needs attention'}
-                  </span>
+                <div className="space-y-2">
+                  <div className="w-full bg-border rounded-full h-2">
+                    <div 
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        isOnTrack ? 'bg-primary' : 'bg-destructive'
+                      }`}
+                      style={{ width: `${Math.min(progress, 100)}%` }}
+                    ></div>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className={`font-medium ${isOnTrack ? 'text-primary' : 'text-destructive'}`}>
+                      {Math.round(progress)}% complete
+                    </span>
+                    <span className="text-muted-foreground">
+                      {isOnTrack ? 'On track' : 'Needs attention'}
+                    </span>
                 </div>
               </div>
             </div>

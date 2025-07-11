@@ -18,35 +18,35 @@ export const AchievementsSection: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Achievements</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {achievements.map((achievement, index) => (
-          <div key={index} className={`p-4 rounded-lg border-2 ${
-            achievement.unlocked 
-              ? 'border-yellow-300 bg-yellow-50' 
-              : 'border-gray-200 bg-gray-50'
-          }`}>
-            <div className="flex items-center space-x-3">
-              <achievement.icon className={`w-8 h-8 ${
-                achievement.unlocked ? 'text-yellow-600' : 'text-gray-400'
-              }`} />
-              <div>
-                <h3 className={`font-semibold text-sm ${
-                  achievement.unlocked ? 'text-gray-900' : 'text-gray-500'
-                }`}>
-                  {achievement.title}
-                </h3>
-                <p className={`text-xs ${
-                  achievement.unlocked ? 'text-gray-600' : 'text-gray-400'
-                }`}>
-                  {achievement.description}
-                </p>
+      <div className="bg-card rounded-lg p-6 shadow-sm border border-border">
+        <h2 className="text-xl font-semibold text-foreground mb-4">Recent Achievements</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {achievements.map((achievement, index) => (
+            <div key={index} className={`p-4 rounded-lg border-2 ${
+              achievement.unlocked 
+                ? 'border-primary bg-accent' 
+                : 'border-border bg-muted'
+            }`}>
+              <div className="flex items-center space-x-3">
+                <achievement.icon className={`w-8 h-8 ${
+                  achievement.unlocked ? 'text-primary' : 'text-muted-foreground'
+                }`} />
+                <div>
+                  <h3 className={`font-semibold text-sm ${
+                    achievement.unlocked ? 'text-foreground' : 'text-muted-foreground'
+                  }`}>
+                    {achievement.title}
+                  </h3>
+                  <p className={`text-xs ${
+                    achievement.unlocked ? 'text-muted-foreground' : 'text-muted-foreground'
+                  }`}>
+                    {achievement.description}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
   );
 };

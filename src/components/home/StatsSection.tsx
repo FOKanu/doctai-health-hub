@@ -21,7 +21,7 @@ export const StatsSection: React.FC = () => {
       value: '24', 
       change: '+3 this week', 
       icon: Camera, 
-      color: 'text-blue-600',
+      color: 'text-primary',
       path: '/total-scans'
     },
     { 
@@ -29,7 +29,7 @@ export const StatsSection: React.FC = () => {
       value: '18', 
       change: '2 high priority', 
       icon: Activity, 
-      color: 'text-green-600',
+      color: 'text-secondary-foreground',
       path: '/risk-assessments'
     },
     { 
@@ -37,7 +37,7 @@ export const StatsSection: React.FC = () => {
       value: '3', 
       change: 'Next: Tomorrow', 
       icon: Calendar, 
-      color: 'text-purple-600',
+      color: 'text-accent-foreground',
       path: '/appointments'
     },
   ];
@@ -48,13 +48,13 @@ export const StatsSection: React.FC = () => {
         <button
           key={index}
           onClick={() => navigate(stat.path)}
-          className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-200 text-left group"
+          className="bg-card rounded-lg p-6 shadow-sm border border-border hover:shadow-md hover:border-border/70 transition-all duration-200 text-left group"
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-              <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
-              <p className="text-xs text-gray-500 mt-1">{stat.change}</p>
+              <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+              <p className="text-2xl font-bold text-foreground mt-1">{stat.value}</p>
+              <p className="text-xs text-muted-foreground mt-1">{stat.change}</p>
             </div>
             <stat.icon className={`w-8 h-8 ${stat.color} group-hover:scale-110 transition-transform duration-200`} />
           </div>
