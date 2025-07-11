@@ -9,16 +9,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-medical-accent text-white hover:bg-medical-accent/90 shadow-lg hover:shadow-xl",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 btn-glow shadow-lg hover:shadow-xl",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-lg",
         outline:
-          "border border-medical-accent text-medical-accent bg-white hover:bg-medical-accent-light",
+          "border border-primary text-primary bg-card hover:bg-primary/10 hover:shadow-lg",
         secondary:
-          "bg-medical-accent-light text-medical-text hover:bg-medical-accent-light/80",
-        ghost: "hover:bg-medical-accent-light hover:text-medical-text",
-        link: "text-medical-accent underline-offset-4 hover:underline",
-        medical: "bg-medical-accent text-white hover:bg-medical-accent/90 rounded-full shadow-lg hover:shadow-xl",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg",
+        ghost: "hover:bg-accent/10 hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+        medical: "bg-gradient-to-r from-primary to-primary-glow text-primary-foreground hover:shadow-glow rounded-full btn-glow",
+        success: "bg-success text-success-foreground hover:bg-success/90 shadow-lg",
+        warning: "bg-warning text-warning-foreground hover:bg-warning/90 shadow-lg",
       },
       size: {
         default: "h-10 px-4 py-2",

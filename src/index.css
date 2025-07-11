@@ -6,42 +6,74 @@
 
 @layer base {
   :root {
-    --background: 248 250 252;
-    --foreground: 215 25% 27%;
+    /* Modern Sky Blue to Mint Gradient Background */
+    --background: 210 40% 98%;
+    --foreground: 220 15% 25%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    /* Glassmorphism Cards */
+    --card: 0 0% 100% / 0.85;
+    --card-foreground: 220 15% 25%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover: 0 0% 100% / 0.95;
+    --popover-foreground: 220 15% 25%;
 
-    --primary: 174 72% 56%;
+    /* Vibrant Teal Primary */
+    --primary: 174 100% 37%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 174 100% 47%;
 
-    --secondary: 174 72% 96%;
-    --secondary-foreground: 174 72% 26%;
+    /* Soft Violet Secondary */
+    --secondary: 258 55% 65%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 258 55% 95%;
 
-    --muted: 220 13% 95%;
-    --muted-foreground: 215 25% 55%;
+    --muted: 210 30% 96%;
+    --muted-foreground: 220 15% 55%;
 
-    --accent: 174 72% 90%;
-    --accent-foreground: 174 72% 26%;
+    /* Coral Accent */
+    --accent: 5 85% 70%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 5 85% 95%;
 
-    --destructive: 0 84.2% 60.2%;
+    /* Modern Error Colors */
+    --destructive: 354 70% 65%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 174 72% 56%;
+    /* Success Emerald */
+    --success: 158 64% 52%;
+    --success-foreground: 0 0% 100%;
+    --success-light: 158 64% 95%;
 
-    --medical-bg: 248 250 252;
-    --medical-card: 0 0% 100%;
-    --medical-accent: 174 72% 56%;
-    --medical-accent-light: 174 72% 96%;
-    --medical-text: 215 25% 27%;
-    --medical-text-light: 215 25% 55%;
+    /* Modern Amber Warning */
+    --warning: 35 91% 62%;
+    --warning-foreground: 0 0% 100%;
+    --warning-light: 35 91% 95%;
 
-    --radius: 0.5rem;
+    --border: 210 30% 88%;
+    --input: 210 30% 94%;
+    --ring: 174 100% 37%;
+
+    /* Medical Theme Colors */
+    --medical-bg: 210 40% 98%;
+    --medical-card: 0 0% 100% / 0.85;
+    --medical-accent: 174 100% 37%;
+    --medical-accent-light: 174 100% 95%;
+    --medical-text: 220 15% 25%;
+    --medical-text-light: 220 15% 55%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(174 100% 37%), hsl(174 100% 47%));
+    --gradient-secondary: linear-gradient(135deg, hsl(258 55% 65%), hsl(258 55% 75%));
+    --gradient-background: linear-gradient(135deg, hsl(210 40% 98%), hsl(174 40% 96%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(210 30% 98% / 0.8));
+    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(174 100% 47% / 0.2), transparent 70%);
+
+    /* Shadows & Effects */
+    --shadow-card: 0 8px 32px hsl(174 100% 37% / 0.08);
+    --shadow-hover: 0 12px 40px hsl(174 100% 37% / 0.15);
+    --shadow-glow: 0 0 40px hsl(174 100% 47% / 0.3);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -61,33 +93,72 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark Mode - Deep Navy Background */
+    --background: 220 30% 8%;
+    --foreground: 210 40% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    /* Dark Glassmorphism Cards */
+    --card: 220 30% 12% / 0.9;
+    --card-foreground: 210 40% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 30% 10% / 0.95;
+    --popover-foreground: 210 40% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Brighter Teal for Dark Mode */
+    --primary: 174 100% 47%;
+    --primary-foreground: 220 30% 8%;
+    --primary-glow: 174 100% 57%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* Bright Violet for Dark Mode */
+    --secondary: 258 65% 75%;
+    --secondary-foreground: 220 30% 8%;
+    --secondary-light: 258 65% 20%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 220 30% 15%;
+    --muted-foreground: 220 15% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Bright Coral for Dark Mode */
+    --accent: 5 85% 75%;
+    --accent-foreground: 220 30% 8%;
+    --accent-light: 5 85% 20%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    /* Bright Error for Dark Mode */
+    --destructive: 354 70% 70%;
+    --destructive-foreground: 220 30% 8%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    /* Bright Success for Dark Mode */
+    --success: 158 64% 62%;
+    --success-foreground: 220 30% 8%;
+    --success-light: 158 64% 20%;
+
+    /* Bright Warning for Dark Mode */
+    --warning: 35 91% 70%;
+    --warning-foreground: 220 30% 8%;
+    --warning-light: 35 91% 20%;
+
+    --border: 220 30% 20%;
+    --input: 220 30% 15%;
+    --ring: 174 100% 47%;
+
+    /* Dark Medical Theme */
+    --medical-bg: 220 30% 8%;
+    --medical-card: 220 30% 12% / 0.9;
+    --medical-accent: 174 100% 47%;
+    --medical-accent-light: 174 100% 20%;
+    --medical-text: 210 40% 95%;
+    --medical-text-light: 220 15% 65%;
+
+    /* Dark Mode Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(174 100% 47%), hsl(174 100% 57%));
+    --gradient-secondary: linear-gradient(135deg, hsl(258 65% 75%), hsl(258 65% 85%));
+    --gradient-background: linear-gradient(135deg, hsl(220 30% 8%), hsl(220 30% 12%));
+    --gradient-card: linear-gradient(135deg, hsl(220 30% 12% / 0.9), hsl(220 30% 10% / 0.8));
+    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(174 100% 57% / 0.3), transparent 70%);
+
+    /* Dark Mode Shadows */
+    --shadow-card: 0 8px 32px hsl(220 30% 4% / 0.5);
+    --shadow-hover: 0 12px 40px hsl(174 100% 47% / 0.2);
+    --shadow-glow: 0 0 40px hsl(174 100% 57% / 0.4);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -106,5 +177,117 @@
 
   body {
     @apply bg-background text-foreground;
+    background: var(--gradient-background);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Card Effects */
+  .card-glass {
+    background: var(--gradient-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border) / 0.2);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-glass:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Glowing Button Effects */
+  .btn-glow {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--gradient-glow);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .btn-glow:hover::before {
+    opacity: 1;
+  }
+
+  /* Health Score Glow Animation */
+  .health-score-glow {
+    position: relative;
+  }
+
+  .health-score-glow::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: var(--gradient-glow);
+    border-radius: inherit;
+    z-index: -1;
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+    0% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  /* Section Theme Colors */
+  .theme-dashboard {
+    --section-color: var(--primary);
+    --section-bg: var(--primary) / 0.05;
+  }
+
+  .theme-scan {
+    --section-color: var(--accent);
+    --section-bg: var(--accent) / 0.05;
+  }
+
+  .theme-appointments {
+    --section-color: var(--secondary);
+    --section-bg: var(--secondary) / 0.05;
+  }
+
+  .theme-analytics {
+    --section-color: var(--success);
+    --section-bg: var(--success) / 0.05;
+  }
+
+  /* Animated Underlines */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
   }
 }
