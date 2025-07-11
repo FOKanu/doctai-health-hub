@@ -102,7 +102,7 @@ export class TelemedicineService {
     ];
   }
 
-  async getAppointments(): Promise<Appointment[]> {
+  async getAppointments(params?: any): Promise<Appointment[]> {
     return [
       {
         id: '1',

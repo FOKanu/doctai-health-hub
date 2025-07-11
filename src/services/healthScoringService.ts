@@ -10,26 +10,31 @@ export interface HealthScore {
   sleep: number;
   fitness: number;
   mental: number;
-  trend?: number;
+  trend?: 'improving' | 'stable' | 'declining';
   riskLevel?: 'low' | 'medium' | 'high';
   insights?: string[];
   lastUpdated?: string;
 }
 
 export interface HealthScoreBreakdown {
-  domains: {
-    cardiovascular: { score: number; details: string[] };
-    metabolic: { score: number; details: string[] };
-    sleep: { score: number; details: string[] };
-    fitness: { score: number; details: string[] };
-    mental: { score: number; details: string[] };
-  };
+  domain: string;
+  score: number;
+  weight: number;
+  factors: Array<{
+    metric: string;
+    value: number;
+    optimal: number;
+    impact: string;
+  }>;
 }
 
 export interface PersonalizedRecommendations {
-  immediate: string[];
-  shortTerm: string[];
-  longTerm: string[];
+  title: string;
+  description: string;
+  priority: 'high' | 'medium' | 'low';
+  actionItems: string[];
+  expectedImpact: number;
+  timeframe: string;
 }
 
 export interface HealthScoreDetails {
@@ -43,31 +48,23 @@ export interface HealthScoreDetails {
 }
 
 export class HealthScoringService {
-  async calculateHealthScore(userId: string): Promise<HealthScoreDetails> {
-    // Mock implementation
+  async calculateHealthScore(userId: string): Promise<HealthScore> {
+    // Mock implementation - return just the score object
     return {
-      score: {
-        overall: 78,
-        cardiovascular: 82,
-        metabolic: 75,
-        sleep: 68,
-        fitness: 85,
-        mental: 72
-      },
+      overall: 78,
+      cardiovascular: 82,
+      metabolic: 75,
+      sleep: 68,
+      fitness: 85,
+      mental: 72,
+      trend: 'improving',
+      riskLevel: 'low',
       insights: [
         'Your cardiovascular health is excellent',
         'Sleep quality could be improved',
         'Fitness levels are above average'
       ],
-      recommendations: [
-        'Consider establishing a consistent sleep schedule',
-        'Continue your current exercise routine',
-        'Monitor stress levels and practice relaxation techniques'
-      ],
-      trends: {
-        direction: 'improving',
-        percentage: 12
-      }
+      lastUpdated: new Date().toISOString()
     };
   }
 
@@ -86,48 +83,64 @@ export class HealthScoringService {
     return trends;
   }
 
-  async getHealthScoreBreakdown(userId: string): Promise<HealthScoreBreakdown> {
-    return {
-      domains: {
-        cardiovascular: { 
-          score: 82, 
-          details: ['Blood pressure within normal range', 'Heart rate variability good'] 
-        },
-        metabolic: { 
-          score: 75, 
-          details: ['Blood sugar levels stable', 'BMI in healthy range'] 
-        },
-        sleep: { 
-          score: 68, 
-          details: ['Average 6.5 hours sleep', 'Sleep quality could improve'] 
-        },
-        fitness: { 
-          score: 85, 
-          details: ['Regular exercise routine', 'Good cardiovascular endurance'] 
-        },
-        mental: { 
-          score: 72, 
-          details: ['Moderate stress levels', 'Good overall mood'] 
-        }
+  async getHealthScoreBreakdown(userId: string): Promise<HealthScoreBreakdown[]> {
+    return [
+      {
+        domain: 'cardiovascular',
+        score: 82,
+        weight: 0.25,
+        factors: [
+          { metric: 'Blood Pressure', value: 120, optimal: 120, impact: 'positive' },
+          { metric: 'Heart Rate', value: 70, optimal: 70, impact: 'positive' }
+        ]
+      },
+      {
+        domain: 'metabolic',
+        score: 75,
+        weight: 0.20,
+        factors: [
+          { metric: 'Blood Sugar', value: 95, optimal: 90, impact: 'neutral' },
+          { metric: 'BMI', value: 23.5, optimal: 22, impact: 'positive' }
+        ]
+      },
+      {
+        domain: 'sleep',
+        score: 68,
+        weight: 0.20,
+        factors: [
+          { metric: 'Sleep Duration', value: 6.5, optimal: 8, impact: 'negative' },
+          { metric: 'Sleep Quality', value: 70, optimal: 85, impact: 'neutral' }
+        ]
       }
-    };
+    ];
   }
 
-  async getPersonalizedRecommendations(userId: string): Promise<PersonalizedRecommendations> {
-    return {
-      immediate: [
-        'Ensure 7-8 hours of sleep tonight',
-        'Take a 10-minute walk after lunch'
-      ],
-      shortTerm: [
-        'Establish a consistent sleep schedule',
-        'Reduce caffeine intake after 2 PM'
-      ],
-      longTerm: [
-        'Implement stress management techniques',
-        'Schedule regular health checkups'
-      ]
-    };
+  async getPersonalizedRecommendations(userId: string): Promise<PersonalizedRecommendations[]> {
+    return [
+      {
+        title: 'Improve Sleep Quality',
+        description: 'Your sleep metrics show room for improvement. Better sleep will boost your overall health score.',
+        priority: 'high',
+        actionItems: [
+          'Establish a consistent bedtime routine',
+          'Limit screen time before bed',
+          'Create a comfortable sleep environment'
+        ],
+        expectedImpact: 8,
+        timeframe: 'short_term'
+      },
+      {
+        title: 'Maintain Cardiovascular Health',
+        description: 'Your cardiovascular metrics are excellent. Keep up the good work!',
+        priority: 'medium',
+        actionItems: [
+          'Continue regular exercise routine',
+          'Monitor blood pressure weekly'
+        ],
+        expectedImpact: 3,
+        timeframe: 'long_term'
+      }
+    ];
   }
 }
 
