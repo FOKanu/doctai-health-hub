@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, Upload } from 'lucide-react';
+import { Camera, Upload, TrendingUp } from 'lucide-react';
 import { BodyPartSelectionDialog, BodyPart } from '../BodyPartSelectionDialog';
 
 interface QuickAction {
@@ -20,6 +20,7 @@ export const QuickActionsSection: React.FC = () => {
   const quickActions: QuickAction[] = [
     { icon: Camera, title: 'Skin Scan', subtitle: 'AI-powered lesion detection', color: 'bg-blue-600 hover:bg-blue-700', path: '/scan' },
     { icon: Upload, title: 'Upload Medical Image', subtitle: 'CT, MRI, EEG analysis', color: 'bg-green-600 hover:bg-green-700', path: '/upload' },
+    { icon: TrendingUp, title: 'Track Progression', subtitle: 'Time-series health analysis', color: 'bg-purple-600 hover:bg-purple-700', path: '/analytics?tab=progression' },
   ];
 
   const handleActionClick = (action: QuickAction) => {
@@ -33,12 +34,12 @@ export const QuickActionsSection: React.FC = () => {
   const handleBodyPartSelect = (bodyPart: BodyPart) => {
     setSelectedBodyPart(bodyPart);
     setShowBodyPartDialog(false);
-    
+
     // Navigate to scan screen with body part data
-    navigate('/scan', { 
-      state: { 
-        scanMetaData: { bodyPart } 
-      } 
+    navigate('/scan', {
+      state: {
+        scanMetaData: { bodyPart }
+      }
     });
   };
 

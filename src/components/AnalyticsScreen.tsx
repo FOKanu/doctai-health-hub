@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -11,10 +12,28 @@ import { RiskPredictions } from './analytics/RiskPredictions';
 import { ImagingStats } from './analytics/ImagingStats';
 import { AppointmentsMedications } from './analytics/AppointmentsMedications';
 import { RescanCompliance } from './analytics/RescanCompliance';
+import { SequenceAnalyzer } from './analytics/SequenceAnalyzer';
+import { HealthScoreCard } from './analytics/HealthScoreCard';
+import { TelemedicineConsultation } from './telemedicine/TelemedicineConsultation';
 
 const AnalyticsScreen = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [dateRange, setDateRange] = useState('30d');
   const [selectedMetric, setSelectedMetric] = useState('all');
+  const [activeTab, setActiveTab] = useState('overview');
+
+  // Handle URL parameters for tab navigation
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam && ['overview', 'metrics', 'risks', 'imaging', 'progression', 'appointments', 'compliance'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    setSearchParams({ tab: value });
+  };
 
   const handleExport = (format: 'pdf' | 'csv') => {
     console.log(`Exporting analytics data as ${format}`);
@@ -29,7 +48,7 @@ const AnalyticsScreen = () => {
           <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
           <p className="text-gray-600">AI-powered health insights and visualizations</p>
         </div>
-        
+
         {/* Filters and Export */}
         <div className="flex flex-wrap items-center gap-3">
           <Select value={dateRange} onValueChange={setDateRange}>
@@ -62,7 +81,7 @@ const AnalyticsScreen = () => {
             <Download className="w-4 h-4 mr-2" />
             Export PDF
           </Button>
-          
+
           <Button variant="outline" size="sm" onClick={() => handleExport('csv')}>
             <Download className="w-4 h-4 mr-2" />
             Export CSV
@@ -71,12 +90,15 @@ const AnalyticsScreen = () => {
       </div>
 
       {/* Main Analytics Content */}
-      <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-9">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="metrics">Metrics</TabsTrigger>
           <TabsTrigger value="risks">Risk Analysis</TabsTrigger>
           <TabsTrigger value="imaging">Imaging</TabsTrigger>
+          <TabsTrigger value="progression">Progression</TabsTrigger>
+          <TabsTrigger value="health-score">Health Score</TabsTrigger>
+          <TabsTrigger value="telemedicine">Telemedicine</TabsTrigger>
           <TabsTrigger value="appointments">Care</TabsTrigger>
           <TabsTrigger value="compliance">Compliance</TabsTrigger>
         </TabsList>
@@ -95,6 +117,22 @@ const AnalyticsScreen = () => {
 
         <TabsContent value="imaging" className="space-y-6">
           <ImagingStats dateRange={dateRange} />
+        </TabsContent>
+
+        <TabsContent value="progression" className="space-y-6">
+          <SequenceAnalyzer userId="mock_user" />
+        </TabsContent>
+
+        <TabsContent value="health-score" className="space-y-6">
+          <div className="grid gap-6">
+            <HealthScoreCard userId="mock_user" />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="telemedicine" className="space-y-6">
+          <div className="grid gap-6">
+            <TelemedicineConsultation userId="mock_user" />
+          </div>
         </TabsContent>
 
         <TabsContent value="appointments" className="space-y-6">
