@@ -61,12 +61,12 @@
     --medical-text: 230 20% 15%;
     --medical-text-light: 230 15% 50%;
 
-    /* Dynamic Upbeat Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(190 95% 50%), hsl(210 95% 55%));
-    --gradient-secondary: linear-gradient(135deg, hsl(15 85% 65%), hsl(35 85% 70%));
-    --gradient-background: linear-gradient(135deg, hsl(210 100% 98%), hsl(190 60% 96%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(210 40% 98% / 0.8));
-    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(190 95% 60% / 0.2), transparent 70%);
+    /* Solid Upbeat Colors */
+    --gradient-primary: hsl(190 95% 50%);
+    --gradient-secondary: hsl(15 85% 65%);
+    --gradient-background: hsl(210 100% 98%);
+    --gradient-card: hsl(0 0% 100% / 0.9);
+    --gradient-glow: hsl(190 95% 60% / 0.2);
 
     /* Dynamic Engaging Shadows */
     --shadow-card: 0 8px 32px hsl(190 95% 50% / 0.12);
@@ -148,12 +148,12 @@
     --medical-text: 210 40% 95%;
     --medical-text-light: 210 25% 65%;
 
-    /* Dynamic Dark Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(190 95% 65%), hsl(210 95% 70%));
-    --gradient-secondary: linear-gradient(135deg, hsl(15 85% 70%), hsl(35 85% 75%));
-    --gradient-background: linear-gradient(135deg, hsl(230 30% 8%), hsl(230 20% 12%));
-    --gradient-card: linear-gradient(135deg, hsl(230 30% 10% / 0.9), hsl(230 20% 12% / 0.8));
-    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(190 95% 75% / 0.25), transparent 70%);
+    /* Solid Dark Colors */
+    --gradient-primary: hsl(190 95% 65%);
+    --gradient-secondary: hsl(15 85% 70%);
+    --gradient-background: hsl(230 30% 8%);
+    --gradient-card: hsl(230 30% 10% / 0.9);
+    --gradient-glow: hsl(190 95% 75% / 0.25);
 
     /* Dynamic Dark Shadows */
     --shadow-card: 0 8px 32px hsl(230 30% 4% / 0.4);
