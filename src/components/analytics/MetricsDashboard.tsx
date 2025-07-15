@@ -1,40 +1,102 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Footprints, Heart, Moon, Thermometer, Droplets, Weight, TrendingUp, TrendingDown } from 'lucide-react';
+import { Footprints, Heart, Moon, Thermometer, Droplets, Weight, TrendingUp, TrendingDown, Loader2 } from 'lucide-react';
+import { timeSeriesService, type HealthMetricsData } from '@/services/timeseriesService';
 
 interface MetricsDashboardProps {
   dateRange: string;
   selectedMetric: string;
+  userId?: string;
 }
 
-export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, selectedMetric }) => {
-  // Sample data for different metrics
-  const stepsData = Array.from({ length: 30 }, (_, i) => ({
-    date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    steps: Math.floor(Math.random() * 5000) + 7000,
+export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
+  dateRange,
+  selectedMetric,
+  userId = 'mock_user'
+}) => {
+  const [metricsData, setMetricsData] = useState<HealthMetricsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const startDate = new Date();
+        const days = dateRange === '7d' ? 7 : dateRange === '30d' ? 30 : 90;
+        startDate.setDate(startDate.getDate() - days);
+
+        const data = await timeSeriesService.getHealthMetrics({
+          userId,
+          startDate: startDate.toISOString(),
+          endDate: new Date().toISOString()
+        });
+
+        setMetricsData(data);
+      } catch (err) {
+        console.error('Error fetching metrics:', err);
+        setError('Failed to load health metrics');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMetrics();
+  }, [dateRange, userId]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        <span className="ml-2 text-gray-600">Loading health metrics...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="text-red-600 mb-2">⚠️</div>
+          <div className="text-gray-600">{error}</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!metricsData) {
+    return null;
+  }
+
+  // Transform data for charts
+  const stepsData = metricsData.steps.map(item => ({
+    date: new Date(item.timestamp).toISOString().split('T')[0],
+    steps: item.value
   }));
 
-  const heartRateData = Array.from({ length: 7 }, (_, i) => ({
-    date: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    resting: Math.floor(Math.random() * 10) + 65,
-    active: Math.floor(Math.random() * 20) + 120,
+  const heartRateData = metricsData.heartRate.map(item => ({
+    date: new Date(item.timestamp).toISOString().split('T')[0],
+    resting: item.value,
+    active: item.value + Math.random() * 20 + 50 // Mock active HR
   }));
 
-  const sleepData = Array.from({ length: 7 }, (_, i) => ({
-    date: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    hours: Math.random() * 2 + 7,
+  const sleepData = metricsData.sleepHours.map(item => ({
+    date: new Date(item.timestamp).toISOString().split('T')[0],
+    hours: item.value
   }));
 
-  const temperatureData = Array.from({ length: 7 }, (_, i) => ({
-    date: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    temp: Math.random() * 2 + 97.5,
+  const temperatureData = metricsData.temperature.map(item => ({
+    date: new Date(item.timestamp).toISOString().split('T')[0],
+    temp: item.value
   }));
 
-  const waterData = Array.from({ length: 7 }, (_, i) => ({
-    date: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    glasses: Math.floor(Math.random() * 4) + 6,
+  const waterData = metricsData.waterIntake.map(item => ({
+    date: new Date(item.timestamp).toISOString().split('T')[0],
+    glasses: item.value
   }));
 
   const weightData = Array.from({ length: 30 }, (_, i) => ({
@@ -43,14 +105,14 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, s
     goal: 160,
   }));
 
-  const MetricCard = ({ 
-    title, 
-    icon: Icon, 
-    value, 
-    change, 
-    unit, 
-    status, 
-    children 
+  const MetricCard = ({
+    title,
+    icon: Icon,
+    value,
+    change,
+    unit,
+    status,
+    children
   }: {
     title: string;
     icon: any;
@@ -123,12 +185,12 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, s
           <ResponsiveContainer width="100%" height={150}>
             <BarChart data={stepsData.slice(-7)}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="date" 
+              <XAxis
+                dataKey="date"
                 tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { weekday: 'short' })}
               />
               <YAxis />
-              <Tooltip 
+              <Tooltip
                 labelFormatter={(value) => new Date(value).toLocaleDateString()}
                 formatter={(value) => [`${value}`, 'Steps']}
               />
@@ -154,25 +216,25 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, s
           <ResponsiveContainer width="100%" height={150}>
             <LineChart data={heartRateData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="date" 
+              <XAxis
+                dataKey="date"
                 tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { weekday: 'short' })}
               />
               <YAxis domain={[50, 150]} />
-              <Tooltip 
+              <Tooltip
                 labelFormatter={(value) => new Date(value).toLocaleDateString()}
               />
-              <Line 
-                type="monotone" 
-                dataKey="resting" 
-                stroke="#ef4444" 
+              <Line
+                type="monotone"
+                dataKey="resting"
+                stroke="#ef4444"
                 strokeWidth={2}
                 name="Resting HR"
               />
-              <Line 
-                type="monotone" 
-                dataKey="active" 
-                stroke="#f59e0b" 
+              <Line
+                type="monotone"
+                dataKey="active"
+                stroke="#f59e0b"
                 strokeWidth={2}
                 name="Active HR"
               />
@@ -198,18 +260,18 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, s
             <ResponsiveContainer width="100%" height={120}>
               <LineChart data={sleepData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { weekday: 'short' })}
                 />
                 <YAxis domain={[6, 10]} />
-                <Tooltip 
+                <Tooltip
                   formatter={(value) => [`${Number(value).toFixed(1)}h`, 'Sleep']}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="hours" 
-                  stroke="#8b5cf6" 
+                <Line
+                  type="monotone"
+                  dataKey="hours"
+                  stroke="#8b5cf6"
                   strokeWidth={2}
                 />
               </LineChart>
@@ -233,18 +295,18 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, s
             <ResponsiveContainer width="100%" height={120}>
               <LineChart data={temperatureData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { weekday: 'short' })}
                 />
                 <YAxis domain={[97, 100]} />
-                <Tooltip 
+                <Tooltip
                   formatter={(value) => [`${Number(value).toFixed(1)}°F`, 'Temperature']}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="temp" 
-                  stroke="#f59e0b" 
+                <Line
+                  type="monotone"
+                  dataKey="temp"
+                  stroke="#f59e0b"
                   strokeWidth={2}
                 />
               </LineChart>
@@ -269,12 +331,12 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, s
           <ResponsiveContainer width="100%" height={120}>
             <BarChart data={waterData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="date" 
+              <XAxis
+                dataKey="date"
                 tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { weekday: 'short' })}
               />
               <YAxis domain={[0, 12]} />
-              <Tooltip 
+              <Tooltip
                 formatter={(value) => [`${value}`, 'Glasses']}
               />
               <Bar dataKey="glasses" fill="#06b6d4" radius={[4, 4, 0, 0]} />
@@ -298,28 +360,28 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ dateRange, s
             <ResponsiveContainer width="100%" height={120}>
               <LineChart data={weightData.slice(-7)}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { weekday: 'short' })}
                 />
                 <YAxis domain={[160, 170]} />
-                <Tooltip 
+                <Tooltip
                   formatter={(value, name) => [
-                    `${Number(value).toFixed(1)} lbs`, 
+                    `${Number(value).toFixed(1)} lbs`,
                     name === 'weight' ? 'Current' : 'Goal'
                   ]}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="weight" 
-                  stroke="#10b981" 
+                <Line
+                  type="monotone"
+                  dataKey="weight"
+                  stroke="#10b981"
                   strokeWidth={2}
                   name="weight"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="goal" 
-                  stroke="#6b7280" 
+                <Line
+                  type="monotone"
+                  dataKey="goal"
+                  stroke="#6b7280"
                   strokeWidth={1}
                   strokeDasharray="5 5"
                   name="goal"
