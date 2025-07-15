@@ -17,7 +17,8 @@ import {
   Target,
   AlertTriangle,
   CheckCircle,
-  Info
+  Info,
+  Apple
 } from 'lucide-react';
 import { healthScoringService, type HealthScore, type HealthScoreBreakdown, type PersonalizedRecommendations } from '@/services/healthScoringService';
 
@@ -100,6 +101,8 @@ export function HealthScoreCard({ userId, className }: HealthScoreCardProps) {
         return <Moon className="h-4 w-4" />;
       case 'metabolic':
         return <Zap className="h-4 w-4" />;
+      case 'diet':
+        return <Apple className="h-4 w-4" />;
       default:
         return <Target className="h-4 w-4" />;
     }
@@ -223,6 +226,16 @@ export function HealthScoreCard({ userId, className }: HealthScoreCardProps) {
                 </div>
                 <div className={`text-lg font-bold ${getScoreColor(healthScore.fitness)}`}>
                   {healthScore.fitness}
+                </div>
+              </div>
+
+              <div className={`p-3 rounded-lg ${getScoreBgColor(healthScore.diet)}`}>
+                <div className="flex items-center gap-2 mb-1">
+                  <Apple className="h-4 w-4" />
+                  <span className="text-sm font-medium">Diet</span>
+                </div>
+                <div className={`text-lg font-bold ${getScoreColor(healthScore.diet)}`}>
+                  {healthScore.diet}
                 </div>
               </div>
             </div>

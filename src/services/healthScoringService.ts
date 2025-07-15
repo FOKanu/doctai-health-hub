@@ -9,6 +9,7 @@ export interface HealthScore {
   metabolic: number;
   sleep: number;
   fitness: number;
+  diet: number;
   mental: number;
   trend?: 'improving' | 'stable' | 'declining';
   riskLevel?: 'low' | 'medium' | 'high';
@@ -56,13 +57,16 @@ export class HealthScoringService {
       metabolic: 75,
       sleep: 68,
       fitness: 85,
+      diet: 72,
       mental: 72,
       trend: 'improving',
       riskLevel: 'low',
       insights: [
         'Your cardiovascular health is excellent',
         'Sleep quality could be improved',
-        'Fitness levels are above average'
+        'Fitness levels are above average',
+        'Diet adherence needs attention',
+        'Consider increasing protein intake'
       ],
       lastUpdated: new Date().toISOString()
     };
@@ -77,7 +81,9 @@ export class HealthScoringService {
         date: date.toISOString().split('T')[0],
         overall: Math.floor(Math.random() * 20) + 70,
         cardiovascular: Math.floor(Math.random() * 20) + 75,
-        sleep: Math.floor(Math.random() * 25) + 60
+        sleep: Math.floor(Math.random() * 25) + 60,
+        fitness: Math.floor(Math.random() * 20) + 75,
+        diet: Math.floor(Math.random() * 25) + 65
       });
     }
     return trends;
@@ -111,6 +117,27 @@ export class HealthScoringService {
           { metric: 'Sleep Duration', value: 6.5, optimal: 8, impact: 'negative' },
           { metric: 'Sleep Quality', value: 70, optimal: 85, impact: 'neutral' }
         ]
+      },
+      {
+        domain: 'fitness',
+        score: 85,
+        weight: 0.15,
+        factors: [
+          { metric: 'Daily Steps', value: 8547, optimal: 10000, impact: 'neutral' },
+          { metric: 'Active Minutes', value: 45, optimal: 60, impact: 'neutral' },
+          { metric: 'Workout Frequency', value: 4, optimal: 5, impact: 'positive' }
+        ]
+      },
+      {
+        domain: 'diet',
+        score: 72,
+        weight: 0.20,
+        factors: [
+          { metric: 'Calorie Intake', value: 1650, optimal: 2200, impact: 'negative' },
+          { metric: 'Protein Intake', value: 85, optimal: 110, impact: 'negative' },
+          { metric: 'Water Intake', value: 1800, optimal: 2500, impact: 'negative' },
+          { metric: 'Meal Consistency', value: 3, optimal: 4, impact: 'neutral' }
+        ]
       }
     ];
   }
@@ -130,6 +157,18 @@ export class HealthScoringService {
         timeframe: 'short_term'
       },
       {
+        title: 'Enhance Diet Adherence',
+        description: 'Your nutrition tracking shows gaps in calorie and protein intake. Focus on balanced meals.',
+        priority: 'high',
+        actionItems: [
+          'Add protein-rich snacks between meals',
+          'Increase water intake by 2-3 glasses daily',
+          'Log all meals consistently'
+        ],
+        expectedImpact: 6,
+        timeframe: 'short_term'
+      },
+      {
         title: 'Maintain Cardiovascular Health',
         description: 'Your cardiovascular metrics are excellent. Keep up the good work!',
         priority: 'medium',
@@ -139,6 +178,18 @@ export class HealthScoringService {
         ],
         expectedImpact: 3,
         timeframe: 'long_term'
+      },
+      {
+        title: 'Optimize Fitness Routine',
+        description: 'Your fitness levels are good, but you can improve step count and active minutes.',
+        priority: 'medium',
+        actionItems: [
+          'Aim for 10,000 steps daily',
+          'Increase active minutes to 60 per day',
+          'Add one more workout session per week'
+        ],
+        expectedImpact: 5,
+        timeframe: 'short_term'
       }
     ];
   }
