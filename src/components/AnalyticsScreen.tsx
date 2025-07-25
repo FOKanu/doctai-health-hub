@@ -91,17 +91,51 @@ const AnalyticsScreen = () => {
 
       {/* Main Analytics Content */}
       <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-9">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="metrics">Metrics</TabsTrigger>
-          <TabsTrigger value="risks">Risk Analysis</TabsTrigger>
-          <TabsTrigger value="imaging">Imaging</TabsTrigger>
-          <TabsTrigger value="progression">Progression</TabsTrigger>
-          <TabsTrigger value="health-score">Health Score</TabsTrigger>
-          <TabsTrigger value="telemedicine">Telemedicine</TabsTrigger>
-          <TabsTrigger value="appointments">Care</TabsTrigger>
-          <TabsTrigger value="compliance">Compliance</TabsTrigger>
-        </TabsList>
+        <div className="relative group">
+          {/* Left Scroll Arrow */}
+          <button
+            onClick={() => {
+              const container = document.querySelector('.tabs-scroll-container');
+              if (container) {
+                container.scrollBy({ left: -200, behavior: 'smooth' });
+              }
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+          >
+            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Right Scroll Arrow */}
+          <button
+            onClick={() => {
+              const container = document.querySelector('.tabs-scroll-container');
+              if (container) {
+                container.scrollBy({ left: 200, behavior: 'smooth' });
+              }
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+          >
+            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <div className="overflow-x-auto scrollbar-hide tabs-scroll-container">
+            <TabsList className="flex w-max min-w-full space-x-1 px-4">
+              <TabsTrigger value="overview" className="whitespace-nowrap">Overview</TabsTrigger>
+              <TabsTrigger value="metrics" className="whitespace-nowrap">Metrics</TabsTrigger>
+              <TabsTrigger value="risks" className="whitespace-nowrap">Risk Analysis</TabsTrigger>
+              <TabsTrigger value="imaging" className="whitespace-nowrap">Imaging</TabsTrigger>
+              <TabsTrigger value="progression" className="whitespace-nowrap">Progression</TabsTrigger>
+              <TabsTrigger value="health-score" className="whitespace-nowrap">Health Score</TabsTrigger>
+              <TabsTrigger value="telemedicine" className="whitespace-nowrap">Telemedicine</TabsTrigger>
+              <TabsTrigger value="appointments" className="whitespace-nowrap">Care</TabsTrigger>
+              <TabsTrigger value="compliance" className="whitespace-nowrap">Compliance</TabsTrigger>
+            </TabsList>
+          </div>
+        </div>
 
         <TabsContent value="overview" className="space-y-6">
           <HealthOverview dateRange={dateRange} />
