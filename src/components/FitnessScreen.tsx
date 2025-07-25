@@ -5,14 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Activity, 
-  Target, 
-  Trophy, 
-  Clock, 
-  Flame, 
-  Heart, 
-  Footprints, 
+import {
+  Activity,
+  Target,
+  Trophy,
+  Clock,
+  Flame,
+  Heart,
+  Footprints,
   Plus,
   CheckCircle2,
   Circle,
@@ -139,19 +139,53 @@ const FitnessScreen = () => {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="workouts">Workouts</TabsTrigger>
-          <TabsTrigger value="checklist">Daily Tasks</TabsTrigger>
-          <TabsTrigger value="progress">Progress</TabsTrigger>
-          <TabsTrigger value="sync">Data Sync</TabsTrigger>
-          <TabsTrigger value="motivation">Motivation</TabsTrigger>
-        </TabsList>
+        <div className="relative group">
+          {/* Left Scroll Arrow */}
+          <button
+            onClick={() => {
+              const container = document.querySelector('.fitness-tabs-scroll-container');
+              if (container) {
+                container.scrollBy({ left: -200, behavior: 'smooth' });
+              }
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+          >
+            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Right Scroll Arrow */}
+          <button
+            onClick={() => {
+              const container = document.querySelector('.fitness-tabs-scroll-container');
+              if (container) {
+                container.scrollBy({ left: 200, behavior: 'smooth' });
+              }
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+          >
+            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <div className="overflow-x-auto scrollbar-hide fitness-tabs-scroll-container">
+            <TabsList className="flex w-max min-w-full space-x-1 px-4">
+              <TabsTrigger value="overview" className="whitespace-nowrap">Overview</TabsTrigger>
+              <TabsTrigger value="workouts" className="whitespace-nowrap">Workouts</TabsTrigger>
+              <TabsTrigger value="checklist" className="whitespace-nowrap">Daily Tasks</TabsTrigger>
+              <TabsTrigger value="progress" className="whitespace-nowrap">Progress</TabsTrigger>
+              <TabsTrigger value="sync" className="whitespace-nowrap">Data Sync</TabsTrigger>
+              <TabsTrigger value="motivation" className="whitespace-nowrap">Motivation</TabsTrigger>
+            </TabsList>
+          </div>
+        </div>
 
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <HealthPointsCard points={todaysStats.healthPoints} />
-            
+
             {/* Weekly Progress */}
             <Card>
               <CardHeader>
@@ -261,8 +295,8 @@ const FitnessScreen = () => {
       </Tabs>
 
       {/* Update Workout Modal */}
-      <UpdateWorkoutModal 
-        isOpen={isUpdateModalOpen} 
+      <UpdateWorkoutModal
+        isOpen={isUpdateModalOpen}
         onClose={() => setIsUpdateModalOpen(false)}
         workout={selectedWorkout}
       />
