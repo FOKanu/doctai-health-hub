@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Apple, 
-  Calendar, 
-  Target, 
-  BarChart3, 
+import {
+  Apple,
+  Calendar,
+  Target,
+  BarChart3,
   Plus,
   Camera,
   Search,
@@ -188,13 +188,47 @@ const DietPlanScreen = () => {
 
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="meal-plan">Meal Plan</TabsTrigger>
-          <TabsTrigger value="logging">Log Meals</TabsTrigger>
-          <TabsTrigger value="tracker">Nutrients</TabsTrigger>
-          <TabsTrigger value="suggestions">Smart Tips</TabsTrigger>
-        </TabsList>
+        <div className="relative group">
+          {/* Left Scroll Arrow */}
+          <button
+            onClick={() => {
+              const container = document.querySelector('.diet-tabs-scroll-container');
+              if (container) {
+                container.scrollBy({ left: -200, behavior: 'smooth' });
+              }
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+          >
+            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Right Scroll Arrow */}
+          <button
+            onClick={() => {
+              const container = document.querySelector('.diet-tabs-scroll-container');
+              if (container) {
+                container.scrollBy({ left: 200, behavior: 'smooth' });
+              }
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+          >
+            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <div className="overflow-x-auto scrollbar-hide diet-tabs-scroll-container">
+            <TabsList className="flex w-max min-w-full space-x-1 px-4">
+              <TabsTrigger value="overview" className="whitespace-nowrap">Overview</TabsTrigger>
+              <TabsTrigger value="meal-plan" className="whitespace-nowrap">Meal Plan</TabsTrigger>
+              <TabsTrigger value="logging" className="whitespace-nowrap">Log Meals</TabsTrigger>
+              <TabsTrigger value="tracker" className="whitespace-nowrap">Nutrients</TabsTrigger>
+              <TabsTrigger value="suggestions" className="whitespace-nowrap">Smart Tips</TabsTrigger>
+            </TabsList>
+          </div>
+        </div>
 
         <TabsContent value="overview">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
