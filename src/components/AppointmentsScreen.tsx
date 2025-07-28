@@ -160,7 +160,7 @@ const AppointmentsScreen = () => {
             <TabsTrigger value="past">Past</TabsTrigger>
           </TabsList>
 
-          <Select value={sortBy} onValueChange={(value) => setSortBy(value as "date" | "type" | "status")}>
+          <Select value={sortBy} onValueChange={(value: React.SyntheticEvent) => setSortBy(value)}>
             <SelectTrigger className="w-40">
               <Filter className="w-4 h-4 mr-2" />
               <SelectValue />

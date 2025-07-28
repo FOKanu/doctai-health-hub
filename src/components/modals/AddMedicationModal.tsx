@@ -1,4 +1,3 @@
-import { Medication } from '@/types';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,7 @@ import { Plus, Pill } from 'lucide-react';
 
 interface AddMedicationModalProps {
   trigger?: React.ReactNode;
-  onAddMedication?: (medication: Medication) => void;
+  onAddMedication?: (medication: string) => void;
 }
 
 export function AddMedicationModal({ trigger, onAddMedication }: AddMedicationModalProps) {

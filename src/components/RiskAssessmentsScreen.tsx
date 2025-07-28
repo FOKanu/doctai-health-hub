@@ -150,7 +150,7 @@ const RiskAssessmentsScreen = () => {
           <Card>
             <CardContent className="p-4">
               <div className="flex gap-4">
-                <Select value={sortBy} onValueChange={(value) => setSortBy(value as "risk" | "date" | "confidence")}>
+                <Select value={sortBy} onValueChange={(value: React.SyntheticEvent) => setSortBy(value)}>
                   <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
@@ -160,7 +160,7 @@ const RiskAssessmentsScreen = () => {
                     <SelectItem value="confidence">Sort by Confidence</SelectItem>
                   </SelectContent>
                 </Select>
-                <Select value={riskFilter} onValueChange={(value) => setRiskFilter(value as "all" | "high" | "medium")}>
+                <Select value={riskFilter} onValueChange={(value: React.SyntheticEvent) => setRiskFilter(value)}>
                   <SelectTrigger className="w-40">
                     <Filter className="w-4 h-4 mr-2" />
                     <SelectValue />

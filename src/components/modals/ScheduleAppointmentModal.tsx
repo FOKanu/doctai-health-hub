@@ -1,4 +1,3 @@
-import { Appointment } from '@/types';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -32,7 +31,6 @@ export function ScheduleAppointmentModal({ trigger, onScheduleAppointment }: Sch
     e.preventDefault();
     const newAppointment = {
       id: Date.now().toString(),
-      title: `${formData.type} with ${formData.doctor}`,
       ...formData,
       status: 'pending',
       createdAt: new Date().toISOString()
