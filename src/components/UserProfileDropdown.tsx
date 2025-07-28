@@ -12,6 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { User, Settings, Bell, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UserProfileDropdownProps {
   user?: {
@@ -24,6 +25,7 @@ interface UserProfileDropdownProps {
 
 export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps) {
   const navigate = useNavigate();
+  const { logout: authLogout, user: authUser } = useAuth();
 
   const handleViewProfile = () => {
     navigate('/profile');
@@ -38,15 +40,14 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
   };
 
   const handleLogout = () => {
-    // Clear any stored auth tokens or user data
-    localStorage.removeItem('user');
-    localStorage.removeItem('authToken');
-    
-    // Call the provided logout handler
+    // Use the auth context logout method
+    authLogout();
+
+    // Call the provided logout handler if any
     if (onLogout) {
       onLogout();
     }
-    
+
     // Navigate to login page
     navigate('/login');
   };
@@ -60,19 +61,18 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
       .slice(0, 2);
   };
 
-  const defaultUser = {
-    name: 'Dr. Sarah Johnson',
-    email: 'sarah.johnson@doctai.com',
+  // Use auth context user if available, otherwise fall back to props
+  const currentUser = authUser || user || {
+    name: 'User',
+    email: 'user@doctai.com',
     avatar: undefined
   };
-
-  const currentUser = user || defaultUser;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="relative h-8 w-8 rounded-full hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           <Avatar className="h-8 w-8">
@@ -83,8 +83,8 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      
-      <DropdownMenuContent 
+
+      <DropdownMenuContent
         className="w-64 bg-white shadow-lg border border-gray-200 rounded-lg p-0"
         align="end"
         sideOffset={8}
@@ -113,7 +113,7 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
 
         {/* Menu Items */}
         <div className="py-1">
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={handleViewProfile}
             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer flex items-center space-x-2"
           >
@@ -121,7 +121,7 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
             <span>View Profile</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={handleAccountSettings}
             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer flex items-center space-x-2"
           >
@@ -129,7 +129,7 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
             <span>Account Settings</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={handleNotificationPreferences}
             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer flex items-center space-x-2"
           >
@@ -142,7 +142,7 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
 
         {/* Logout Section */}
         <div className="py-1">
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={handleLogout}
             className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer flex items-center space-x-2"
           >

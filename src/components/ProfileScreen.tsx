@@ -2,13 +2,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, Settings, Bell, Shield, HelpCircle, LogOut, Edit, Camera } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const ProfileScreen = () => {
   const navigate = useNavigate();
+  const { logout: authLogout, user: authUser } = useAuth();
 
   const userInfo = {
-    name: 'John Doe',
-    email: 'john.doe@email.com',
+    name: authUser?.name || 'John Doe',
+    email: authUser?.email || 'john.doe@email.com',
     phone: '+49 123 456 7890',
     dateOfBirth: '1985-03-15',
     insuranceProvider: 'TK - Techniker Krankenkasse',
@@ -24,82 +26,76 @@ const ProfileScreen = () => {
     { icon: HelpCircle, label: 'Help & Support', action: () => {} },
   ];
 
+  const handleLogout = () => {
+    // Use the auth context logout method
+    authLogout();
+
+    // Navigate to login page
+    navigate('/login');
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="flex items-center p-4">
-          <button
-            onClick={() => navigate('/')}
-            className="p-2 -ml-2 rounded-full hover:bg-gray-100"
-          >
-            <ArrowLeft className="w-6 h-6" />
-          </button>
-          <h1 className="text-xl font-semibold ml-2">Profile</h1>
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 text-gray-600" />
+            </button>
+            <h1 className="text-xl font-semibold text-gray-900">Profile</h1>
+          </div>
         </div>
       </div>
 
-      <div className="p-4">
-        {/* User Profile Card */}
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Profile Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex items-center space-x-6">
             <div className="relative">
               <img
                 src={userInfo.avatar}
-                alt="Profile"
+                alt={userInfo.name}
                 className="w-20 h-20 rounded-full object-cover"
               />
               <button className="absolute bottom-0 right-0 p-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
-                <Camera className="w-3 h-3" />
+                <Camera className="w-4 h-4" />
               </button>
             </div>
-            
             <div className="flex-1">
-              <h2 className="text-xl font-semibold text-gray-800">{userInfo.name}</h2>
+              <div className="flex items-center space-x-3 mb-2">
+                <h2 className="text-2xl font-bold text-gray-900">{userInfo.name}</h2>
+                <button className="p-1 text-gray-400 hover:text-gray-600">
+                  <Edit className="w-4 h-4" />
+                </button>
+              </div>
               <p className="text-gray-600">{userInfo.email}</p>
-              <p className="text-sm text-gray-500">{userInfo.phone}</p>
-            </div>
-            
-            <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-full">
-              <Edit className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 gap-3 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-500">Date of Birth:</span>
-              <span className="font-medium">{userInfo.dateOfBirth}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">Insurance:</span>
-              <span className="font-medium">{userInfo.insuranceProvider}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">Emergency Contact:</span>
-              <span className="font-medium">{userInfo.emergencyContact}</span>
             </div>
           </div>
         </div>
 
-        {/* Health Stats */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <h3 className="font-semibold text-gray-800 mb-3">Health Overview</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-3 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600 mb-1">23</div>
-              <div className="text-xs text-gray-500">Total Scans</div>
+        {/* Personal Information */}
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <h3 className="font-semibold text-gray-800 mb-4">Personal Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+              <p className="text-gray-900">{userInfo.phone}</p>
             </div>
-            <div className="text-center p-3 bg-green-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-600 mb-1">5</div>
-              <div className="text-xs text-gray-500">Active Medications</div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+              <p className="text-gray-900">{userInfo.dateOfBirth}</p>
             </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600 mb-1">2</div>
-              <div className="text-xs text-gray-500">Upcoming Appointments</div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Insurance Provider</label>
+              <p className="text-gray-900">{userInfo.insuranceProvider}</p>
             </div>
-            <div className="text-center p-3 bg-orange-50 rounded-lg">
-              <div className="text-2xl font-bold text-orange-600 mb-1">1</div>
-              <div className="text-xs text-gray-500">Active Reminders</div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Contact</label>
+              <p className="text-gray-900">{userInfo.emergencyContact}</p>
             </div>
           </div>
         </div>
@@ -141,7 +137,10 @@ const ProfileScreen = () => {
         </div>
 
         {/* Sign Out Button */}
-        <button className="w-full bg-red-50 text-red-600 py-4 rounded-lg font-semibold hover:bg-red-100 transition-colors flex items-center justify-center">
+        <button
+          onClick={handleLogout}
+          className="w-full bg-red-50 text-red-600 py-4 rounded-lg font-semibold hover:bg-red-100 transition-colors flex items-center justify-center"
+        >
           <LogOut className="w-5 h-5 mr-2" />
           Sign Out
         </button>

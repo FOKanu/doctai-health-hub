@@ -4,8 +4,11 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Bell } from 'lucide-react';
 import ResponsiveSearchBar from './ResponsiveSearchBar';
 import { UserProfileDropdown } from './UserProfileDropdown';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function AppHeader() {
+  const { user, logout } = useAuth();
+
   const handleSearchSelect = (result: unknown) => {
     console.log('Selected:', result);
     // Handle navigation or other actions based on the selected result
@@ -46,14 +49,15 @@ export function AppHeader() {
               placeholder="Search..."
             />
           </div>
-          
+
           <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 relative">
             <Bell className="w-5 h-5" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
-          
+
           {/* User Profile Dropdown */}
-          <UserProfileDropdown 
+          <UserProfileDropdown
+            user={user || undefined}
             onLogout={handleLogout}
           />
         </div>
