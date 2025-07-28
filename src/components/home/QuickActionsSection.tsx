@@ -5,7 +5,7 @@ import { Camera, Upload, TrendingUp } from 'lucide-react';
 import { BodyPartSelectionDialog, BodyPart } from '../BodyPartSelectionDialog';
 
 interface QuickAction {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   subtitle: string;
   color: string;

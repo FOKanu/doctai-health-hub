@@ -3,7 +3,7 @@ import React from 'react';
 import { AlertCircle, Bell } from 'lucide-react';
 
 interface Alert {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   text: string;
   type: string;
   time: string;

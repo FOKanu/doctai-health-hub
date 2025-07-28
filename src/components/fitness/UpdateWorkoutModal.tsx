@@ -14,13 +14,13 @@ import { Clock, Flame, Award, Dumbbell } from 'lucide-react';
 interface UpdateWorkoutModalProps {
   isOpen: boolean;
   onClose: () => void;
-  workout?: any;
+  workout?: Record<string, unknown>;
 }
 
-export const UpdateWorkoutModal: React.FC<UpdateWorkoutModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  workout 
+export const UpdateWorkoutModal: React.FC<UpdateWorkoutModalProps> = ({
+  isOpen,
+  onClose,
+  workout
 }) => {
   const [formData, setFormData] = useState({
     workoutType: workout?.title || '',
@@ -61,7 +61,7 @@ export const UpdateWorkoutModal: React.FC<UpdateWorkoutModalProps> = ({
       'vigorous': 2,
       'intense': 2.5
     }[formData.intensity] || 1;
-    
+
     return Math.round(duration * intensityMultiplier * 2);
   };
 

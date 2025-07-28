@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, Target, Flame, Dumbbell, Heart, Zap } from 'lucide-react';
 
 interface WorkoutRecommendationsProps {
-  onUpdateWorkout: (workout: any) => void;
+  onUpdateWorkout: (workout: Record<string, unknown>) => void;
 }
 
 export const WorkoutRecommendations: React.FC<WorkoutRecommendationsProps> = ({ onUpdateWorkout }) => {
@@ -140,7 +140,7 @@ export const WorkoutRecommendations: React.FC<WorkoutRecommendationsProps> = ({ 
 
                 {/* Actions */}
                 <div className="flex space-x-2 pt-2">
-                  <Button 
+                  <Button
                     onClick={() => onUpdateWorkout(workout)}
                     className="flex-1"
                     variant="default"

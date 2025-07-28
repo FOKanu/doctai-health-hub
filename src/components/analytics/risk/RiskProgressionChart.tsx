@@ -5,6 +5,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { TrendingUp, Loader2 } from 'lucide-react';
 import { timeSeriesService, type RiskProgression } from '@/services/timeseriesService';
 
+interface RiskProgressionData {
+  date: string;
+  low: number;
+  medium: number;
+  high: number;
+}
+
 interface RiskProgressionChartProps {
   userId?: string;
   dateRange?: string;
@@ -14,7 +21,7 @@ export const RiskProgressionChart: React.FC<RiskProgressionChartProps> = ({
   userId = 'mock_user',
   dateRange = '90d'
 }) => {
-  const [riskData, setRiskData] = useState<any[]>([]);
+  const [riskData, setRiskData] = useState<RiskProgressionData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,7 +55,7 @@ export const RiskProgressionChart: React.FC<RiskProgressionChartProps> = ({
     fetchRiskData();
   }, [userId, dateRange]);
 
-  const processRiskData = (data: RiskProgression[]): any[] => {
+  const processRiskData = (data: RiskProgression[]): RiskProgressionData[] => {
     // Group by date and calculate percentages
     const groupedData: { [key: string]: { low: number; medium: number; high: number; total: number } } = {};
 

@@ -115,7 +115,7 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
     children
   }: {
     title: string;
-    icon: any;
+    icon: React.ComponentType<{ className?: string }>;
     value: string | number;
     change: number;
     unit: string;

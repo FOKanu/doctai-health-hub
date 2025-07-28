@@ -7,7 +7,7 @@ interface Stat {
   label: string;
   value: string;
   change: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   color: string;
   path: string;
 }
@@ -16,27 +16,27 @@ export const StatsSection: React.FC = () => {
   const navigate = useNavigate();
 
   const stats: Stat[] = [
-    { 
-      label: 'Total Scans', 
-      value: '24', 
-      change: '+3 this week', 
-      icon: Camera, 
+    {
+      label: 'Total Scans',
+      value: '24',
+      change: '+3 this week',
+      icon: Camera,
       color: 'text-primary',
       path: '/total-scans'
     },
-    { 
-      label: 'Risk Assessments', 
-      value: '18', 
-      change: '2 high priority', 
-      icon: Activity, 
+    {
+      label: 'Risk Assessments',
+      value: '18',
+      change: '2 high priority',
+      icon: Activity,
       color: 'text-secondary-foreground',
       path: '/risk-assessments'
     },
-    { 
-      label: 'Appointments', 
-      value: '3', 
-      change: 'Next: Tomorrow', 
-      icon: Calendar, 
+    {
+      label: 'Appointments',
+      value: '3',
+      change: 'Next: Tomorrow',
+      icon: Calendar,
       color: 'text-accent-foreground',
       path: '/appointments'
     },

@@ -6,7 +6,7 @@ interface WeeklyGoal {
   title: string;
   current: number;
   target: number;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   unit: string;
 }
 
@@ -48,7 +48,7 @@ export const WeeklyGoalsSection: React.FC = () => {
               </div>
                 <div className="space-y-2">
                   <div className="w-full bg-border rounded-full h-2">
-                    <div 
+                    <div
                       className={`h-2 rounded-full transition-all duration-300 ${
                         isOnTrack ? 'bg-primary' : 'bg-destructive'
                       }`}

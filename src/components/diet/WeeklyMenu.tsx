@@ -19,7 +19,7 @@ interface Meal {
 
 interface WeeklyMenuProps {
   meals: Meal[];
-  userProfile: any;
+  userProfile: React.SyntheticEvent;
 }
 
 export const WeeklyMenu: React.FC<WeeklyMenuProps> = ({ meals, userProfile }) => {

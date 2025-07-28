@@ -3,7 +3,7 @@ import React from 'react';
 import { Trophy, Target, Star, Award } from 'lucide-react';
 
 interface Achievement {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   description: string;
   unlocked: boolean;
@@ -23,8 +23,8 @@ export const AchievementsSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {achievements.map((achievement, index) => (
             <div key={index} className={`p-4 rounded-lg border-2 ${
-              achievement.unlocked 
-                ? 'border-primary bg-accent' 
+              achievement.unlocked
+                ? 'border-primary bg-accent'
                 : 'border-border bg-muted'
             }`}>
               <div className="flex items-center space-x-3">

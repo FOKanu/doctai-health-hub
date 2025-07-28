@@ -8,12 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { Camera, Search, Plus, Scan, Clock, Utensils } from 'lucide-react';
 
 interface MealLoggingProps {
-  onMealLogged: (meal: any) => void;
+  onMealLogged: (meal: Record<string, unknown>) => void;
 }
 
 export const MealLogging: React.FC<MealLoggingProps> = ({ onMealLogged }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedMeal, setSelectedMeal] = useState<any>(null);
+  const [selectedMeal, setSelectedMeal] = useState<unknown>(null);
 
   const popularFoods = [
     { name: 'Banana', calories: 105, protein: 1.3, carbs: 27, fat: 0.3, serving: '1 medium' },

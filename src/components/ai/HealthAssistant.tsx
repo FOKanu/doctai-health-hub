@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ApiResponse } from '@/types/common';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,7 +17,7 @@ export const HealthAssistant: React.FC<HealthAssistantProps> = ({ className }) =
   const [mode, setMode] = useState<'symptoms' | 'terms' | 'tips'>('symptoms');
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ApiResponse<unknown> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
@@ -30,16 +31,19 @@ export const HealthAssistant: React.FC<HealthAssistantProps> = ({ className }) =
       let response;
 
       switch (mode) {
-        case 'symptoms':
+        case 'symptoms': {
           const symptoms = input.split(',').map(s => s.trim());
           response = await apiServiceManager.generateHealthInsights(symptoms);
           break;
-        case 'terms':
+        }
+        case 'terms': {
           response = await apiServiceManager.explainMedicalTerm(input);
           break;
-        case 'tips':
+        }
+        case 'tips': {
           response = await apiServiceManager.generateHealthTips(input);
           break;
+        }
       }
 
       if (response.success) {
@@ -47,7 +51,7 @@ export const HealthAssistant: React.FC<HealthAssistantProps> = ({ className }) =
       } else {
         setError(response.error || 'Failed to get response');
       }
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);

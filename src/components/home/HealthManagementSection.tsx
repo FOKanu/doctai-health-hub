@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { BarChart, Activity, Apple, Brain } from 'lucide-react';
 
 interface HealthAction {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   subtitle: string;
   color: string;
