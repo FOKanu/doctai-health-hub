@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore:
+  # npm audit --audit-level=moderate
+  # Add ignore rules here
+  # Example:
+  # npm:some-package@1.2.3:
+  #   - CVE-2020-1234:
+  #       reason: "No fix available yet"
+  #       expires: 2021-01-01T00:00:00.000Z

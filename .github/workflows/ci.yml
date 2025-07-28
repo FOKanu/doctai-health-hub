@@ -8,7 +8,6 @@ on:
 
 env:
   NODE_VERSION: '18'
-  PNPM_VERSION: '8'
 
 jobs:
   # Code Quality & Testing
@@ -36,15 +35,20 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Run unit tests
-        run: npm test -- --coverage --watchAll=false
+        run: npm test -- --coverage --watchAll=false --testTimeout=10000
 
       - name: Upload coverage to Codecov
+        if: ${{ secrets.CODECOV_TOKEN != '' }}
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage/lcov.info
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
+
+      - name: Skip Codecov (no token)
+        if: ${{ secrets.CODECOV_TOKEN == '' }}
+        run: echo "Skipping Codecov upload - no token configured"
 
   # Build Verification
   build:
@@ -98,7 +102,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run E2E tests
-        run: npx playwright test
+        run: npx playwright test --timeout=30000
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -130,11 +134,16 @@ jobs:
         run: npm audit --audit-level=moderate
 
       - name: Run Snyk security scan
+        if: ${{ secrets.SNYK_TOKEN != '' }}
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
+
+      - name: Skip Snyk (no token)
+        if: ${{ secrets.SNYK_TOKEN == '' }}
+        run: echo "Skipping Snyk scan - no token configured"
 
   # Bundle Analysis
   bundle-analysis:
