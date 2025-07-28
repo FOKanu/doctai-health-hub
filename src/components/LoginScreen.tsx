@@ -1,210 +1,263 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Eye, EyeOff, User, Mail, Lock } from 'lucide-react';
+import { Eye, EyeOff, Activity, Stethoscope, Terminal, User } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const LoginScreen = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
-  const [errors, setErrors] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // Demo users for testing
+  const demoUsers = [
+    {
+      email: 'patient@doctai.com',
+      password: 'password',
+      role: 'patient',
+      name: 'John Doe',
+      description: 'Patient Portal'
+    },
+    {
+      email: 'doctor@doctai.com',
+      password: 'password',
+      role: 'provider',
+      name: 'Dr. Sarah Johnson',
+      description: 'Healthcare Provider'
+    },
+    {
+      email: 'engineer@doctai.com',
+      password: 'password',
+      role: 'engineer',
+      name: 'Alex Chen',
+      description: 'System Engineer'
+    },
+    {
+      email: 'admin@doctai.com',
+      password: 'password',
+      role: 'admin',
+      name: 'Admin User',
+      description: 'System Administrator'
+    }
+  ];
 
   const validateForm = () => {
-    const newErrors = {
-      username: '',
-      email: '',
-      password: ''
-    };
-
-    if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return false;
     }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return false;
     }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters long';
-    }
-
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(error => error !== '');
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
-    // Clear error when user starts typing
-    if (errors[field as keyof typeof errors]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
-    }
+    return true;
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
+    setError('');
+
+    try {
+      const success = await login(email, password);
+
+      if (success) {
+        // Redirect based on user role
+        const user = demoUsers.find(u => u.email === email);
+        if (user) {
+          switch (user.role) {
+            case 'patient':
+              navigate('/');
+              break;
+            case 'provider':
+              navigate('/provider/dashboard');
+              break;
+            case 'engineer':
+              navigate('/engineer/dashboard');
+              break;
+            case 'admin':
+              navigate('/admin/dashboard');
+              break;
+            default:
+              navigate('/');
+          }
+        } else {
+          navigate('/');
+        }
+      } else {
+        setError('Invalid credentials. Please try again.');
+      }
+    } catch (error) {
+      setError('Login failed. Please try again.');
+    } finally {
       setIsLoading(false);
-      navigate('/welcome');
-    }, 1000);
+    }
+  };
+
+  const handleDemoLogin = (demoUser: typeof demoUsers[0]) => {
+    setEmail(demoUser.email);
+    setPassword(demoUser.password);
+  };
+
+  const getRoleIcon = (role: string) => {
+    switch (role) {
+      case 'patient':
+        return <User className="w-4 h-4" />;
+      case 'provider':
+        return <Stethoscope className="w-4 h-4" />;
+      case 'engineer':
+        return <Terminal className="w-4 h-4" />;
+      case 'admin':
+        return <Activity className="w-4 h-4" />;
+      default:
+        return <User className="w-4 h-4" />;
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold text-gray-900">
-            Welcome to DoctAI
-          </CardTitle>
-          <CardDescription className="text-gray-600">
-            Sign in to access your health dashboard
-          </CardDescription>
-        </CardHeader>
-        
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            {/* Username Field */}
-            <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-gray-700">
-                Username
-              </Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="Enter your username"
-                  className={`pl-10 ${errors.username ? 'border-red-500 focus:border-red-500' : ''}`}
-                  value={formData.username}
-                  onChange={(e) => handleInputChange('username', e.target.value)}
-                  aria-describedby={errors.username ? 'username-error' : undefined}
-                />
-              </div>
-              {errors.username && (
-                <Alert variant="destructive" className="py-2">
-                  <AlertDescription id="username-error" className="text-sm">
-                    {errors.username}
-                  </AlertDescription>
-                </Alert>
-              )}
+      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Login Form */}
+        <Card className="w-full max-w-md shadow-xl">
+          <CardHeader className="space-y-1 text-center">
+            <div className="mx-auto w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mb-4">
+              <Activity className="w-6 h-6 text-white" />
             </div>
+            <CardTitle className="text-2xl font-bold text-gray-900">
+              Welcome to DoctAI
+            </CardTitle>
+            <CardDescription className="text-gray-600">
+              Sign in to access your role-specific dashboard
+            </CardDescription>
+          </CardHeader>
 
-            {/* Email Field */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                Email
-              </Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="Enter your email"
-                  className={`pl-10 ${errors.email ? 'border-red-500 focus:border-red-500' : ''}`}
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  aria-describedby={errors.email ? 'email-error' : undefined}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
-              {errors.email && (
-                <Alert variant="destructive" className="py-2">
-                  <AlertDescription id="email-error" className="text-sm">
-                    {errors.email}
-                  </AlertDescription>
-                </Alert>
-              )}
-            </div>
 
-            {/* Password Field */}
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                Password
-              </Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  className={`pl-10 pr-10 ${errors.password ? 'border-red-500 focus:border-red-500' : ''}`}
-                  value={formData.password}
-                  onChange={(e) => handleInputChange('password', e.target.value)}
-                  aria-describedby={errors.password ? 'password-error' : undefined}
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-3 h-4 w-4 text-gray-400 hover:text-gray-600"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
-              {errors.password && (
-                <Alert variant="destructive" className="py-2">
-                  <AlertDescription id="password-error" className="text-sm">
-                    {errors.password}
-                  </AlertDescription>
+
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-            </div>
 
-            {/* Login Button */}
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Signing in...' : 'Login'}
-            </Button>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing in...' : 'Sign In'}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
 
-            {/* Sign Up Link */}
-            <div className="text-center">
-              <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
-                <button
-                  type="button"
-                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
-                  onClick={() => navigate('/signup')}
-                >
-                  Sign Up
-                </button>
-              </p>
+        {/* Demo Users */}
+        <div className="space-y-4">
+          <div className="text-center lg:text-left">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Try Different Roles</h2>
+            <p className="text-gray-600">Click on any demo account to test the role-based interfaces</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {demoUsers.map((user) => (
+              <Card
+                key={user.email}
+                className="cursor-pointer hover:shadow-lg transition-shadow border-2 hover:border-blue-300"
+                onClick={() => handleDemoLogin(user)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      {getRoleIcon(user.role)}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900">{user.name}</h3>
+                      <p className="text-sm text-gray-600">{user.description}</p>
+                      <p className="text-xs text-gray-500 mt-1">{user.email}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Role Descriptions */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-gray-900">Role Overview</h3>
+            <div className="space-y-2 text-sm text-gray-600">
+              <div className="flex items-center space-x-2">
+                <User className="w-4 h-4 text-blue-600" />
+                <span><strong>Patient:</strong> Health monitoring, appointments, medical records</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Stethoscope className="w-4 h-4 text-green-600" />
+                <span><strong>Provider:</strong> Patient care, AI diagnostics, clinical workflow</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Terminal className="w-4 h-4 text-purple-600" />
+                <span><strong>Engineer:</strong> System monitoring, deployment, security</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Activity className="w-4 h-4 text-orange-600" />
+                <span><strong>Admin:</strong> System administration, user management</span>
+              </div>
             </div>
-          </form>
-        </CardContent>
-      </Card>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
