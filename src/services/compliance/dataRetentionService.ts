@@ -113,7 +113,7 @@ export class DataRetentionService {
   }
 
   // Secure data disposal
-  disposeData(resourceType: string, resourceId: string, disposedBy: string): DataDisposalRecord {
+  async disposeData(resourceType: string, resourceId: string, disposedBy: string): Promise<DataDisposalRecord> {
     const policy = this.retentionPolicies[resourceType];
     if (!policy) {
       throw new Error(`No retention policy found for resource type: ${resourceType}`);
@@ -140,7 +140,7 @@ export class DataRetentionService {
       disposalDate: new Date(),
       disposalMethod: policy.disposalMethod,
       disposedBy,
-      verificationHash: this.generateVerificationHash(resourceId, policy.disposalMethod)
+      verificationHash: await this.generateVerificationHash(resourceId, policy.disposalMethod)
     };
 
     this.disposalRecords.push(disposalRecord);
@@ -238,9 +238,19 @@ export class DataRetentionService {
     return Math.random().toString(36).substr(2, 9);
   }
 
-  private generateVerificationHash(resourceId: string, disposalMethod: string): string {
-    const data = `${resourceId}-${disposalMethod}-${Date.now()}`;
-    return require('crypto').createHash('sha256').update(data).digest('hex');
+  private async generateVerificationHash(resourceId: string, disposalMethod: string): Promise<string> {
+    try {
+      const data = `${resourceId}-${disposalMethod}-${Date.now()}`;
+      const encoder = new TextEncoder();
+      const dataBuffer = encoder.encode(data);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    } catch (error) {
+      console.error('Hash generation failed:', error);
+      // Fallback for demo purposes
+      return btoa(`${resourceId}-${disposalMethod}-${Date.now()}`).substr(0, 32);
+    }
   }
 }
 

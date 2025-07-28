@@ -44,39 +44,48 @@ const ComplianceDashboard: React.FC = () => {
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
   const [disposalRecords, setDisposalRecords] = useState<any[]>([]);
   const [accessReport, setAccessReport] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadComplianceData();
   }, []);
 
-  const loadComplianceData = () => {
-    // Load audit logs
-    const logs = hipaaService.getAuditLogs();
-    setAuditLogs(logs);
+  const loadComplianceData = async () => {
+    try {
+      setLoading(true);
 
-    // Load disposal records
-    const disposal = dataRetentionService.getDisposalRecords();
-    setDisposalRecords(disposal);
+      // Load audit logs
+      const logs = hipaaService.getAuditLogs();
+      setAuditLogs(logs);
 
-    // Load access control report
-    const access = accessControlService.generateAccessReport();
-    setAccessReport(access);
+      // Load disposal records
+      const disposal = dataRetentionService.getDisposalRecords();
+      setDisposalRecords(disposal);
 
-    // Calculate metrics
-    const recentBreaches = logs.filter(log =>
-      log.action.includes('breach') || log.action.includes('unauthorized')
-    ).length;
+      // Load access control report
+      const access = accessControlService.generateAccessReport();
+      setAccessReport(access);
 
-    const dataForDisposal = dataRetentionService.getDataForDisposal().length;
+      // Calculate metrics
+      const recentBreaches = logs.filter(log =>
+        log.action.includes('breach') || log.action.includes('unauthorized')
+      ).length;
 
-    setMetrics({
-      totalAuditLogs: logs.length,
-      recentBreaches,
-      activeSessions: access.activeSessions,
-      pendingAccessRequests: access.pendingRequests,
-      dataForDisposal,
-      complianceScore: calculateComplianceScore(logs, recentBreaches, access)
-    });
+      const dataForDisposal = dataRetentionService.getDataForDisposal().length;
+
+      setMetrics({
+        totalAuditLogs: logs.length,
+        recentBreaches,
+        activeSessions: access.activeSessions,
+        pendingAccessRequests: access.pendingRequests,
+        dataForDisposal,
+        complianceScore: calculateComplianceScore(logs, recentBreaches, access)
+      });
+    } catch (error) {
+      console.error('Error loading compliance data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const calculateComplianceScore = (logs: any[], breaches: number, access: any): number => {
@@ -102,6 +111,17 @@ const ComplianceDashboard: React.FC = () => {
   };
 
   const complianceStatus = getComplianceStatus(metrics.complianceScore);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <Activity className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p>Loading compliance data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
