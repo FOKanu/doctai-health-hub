@@ -9,10 +9,13 @@ import type {
   HealthMetricTimeseries,
   ScanSequence,
   TreatmentResponse,
-  RiskProgression,
+  RiskProgression as SupabaseRiskProgression,
   HealthMetricsTrend,
   PatientProgressionSummary
 } from '@/integrations/supabase/types';
+
+// Re-export RiskProgression type
+export type { RiskProgression } from '@/integrations/supabase/types';
 
 export interface TimeSeriesQueryParams {
   userId: string;
@@ -191,7 +194,7 @@ export class TimeSeriesService {
   /**
    * Get risk progression data
    */
-  async getRiskProgression(params: TimeSeriesQueryParams): Promise<RiskProgression[]> {
+  async getRiskProgression(params: TimeSeriesQueryParams): Promise<SupabaseRiskProgression[]> {
     try {
       const { data, error } = await supabase
         .from('risk_progressions')
@@ -429,9 +432,9 @@ export class TimeSeriesService {
     ];
   }
 
-  private getMockRiskProgression(): RiskProgression[] {
+  private getMockRiskProgression(): SupabaseRiskProgression[] {
     const now = new Date();
-    const data: RiskProgression[] = [];
+    const data: SupabaseRiskProgression[] = [];
 
     for (let i = 89; i >= 0; i--) {
       const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);

@@ -51,8 +51,8 @@ export const HealthAssistant: React.FC<HealthAssistantProps> = ({ className }) =
       } else {
         setError(response.error || 'Failed to get response');
       }
-    } catch (err: Error | unknown) {
-      setError(err.message || 'An error occurred');
+    } catch (err: any) {
+      setError(err?.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
