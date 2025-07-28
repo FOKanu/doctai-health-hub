@@ -31,7 +31,7 @@ export function ScheduleAppointmentModal({ trigger, onScheduleAppointment }: Sch
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newAppointment = {
-      id: Date.now(),
+      id: Date.now().toString(),
       title: `${formData.type} with ${formData.doctor}`,
       ...formData,
       status: 'pending',

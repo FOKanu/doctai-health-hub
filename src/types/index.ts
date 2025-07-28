@@ -26,7 +26,7 @@ export interface Treatment {
 }
 
 export interface Appointment {
-  id: number;
+  id: string; // Changed to string to match service
   title: string;
   date: string;
   time: string;
