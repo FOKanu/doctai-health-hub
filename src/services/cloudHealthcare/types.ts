@@ -29,7 +29,7 @@ export interface CloudAnalysisResult {
     processingTime: number;
     imageQuality: number;
   };
-  rawResponse?: any;
+  rawResponse?: Record<string, unknown>;
 }
 
 export interface SymptomAssessmentResult {

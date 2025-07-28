@@ -35,7 +35,7 @@ export interface PushNotification {
   userId: string;
   title: string;
   body: string;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   priority?: 'low' | 'normal' | 'high';
 }
 
@@ -137,7 +137,7 @@ export class NotificationService extends BaseApiService {
         success: false,
         error: 'Failed to send SMS'
       };
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       return {
         data: null,
         status: 500,
@@ -216,7 +216,7 @@ export class NotificationService extends BaseApiService {
         success: false,
         error: 'Failed to send email'
       };
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       return {
         data: null,
         status: 500,
@@ -247,7 +247,7 @@ export class NotificationService extends BaseApiService {
         headers: {},
         success: true
       };
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       return {
         data: null,
         status: 500,

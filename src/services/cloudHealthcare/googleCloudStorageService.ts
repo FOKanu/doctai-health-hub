@@ -88,7 +88,7 @@ export class GoogleCloudStorageService {
     imageType: ImageType,
     userId: string,
     analysisResult?: CloudAnalysisResult
-  ): Promise<{ url: string; path: string; metadata: any }> {
+  ): Promise<{ url: string; path: string; metadata: unknown }> {
     const timestamp = new Date().toISOString();
     const fileExt = file.name.split('.').pop() || 'jpg';
     const fileName = `${timestamp}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
@@ -198,7 +198,7 @@ export class GoogleCloudStorageService {
       }
 
       const result = await response.json();
-      return result.items?.map((item: any) => ({
+      return result.items?.map((item: unknown) => ({
         name: item.name,
         size: parseInt(item.size) || 0,
         updated: item.updated
@@ -212,7 +212,7 @@ export class GoogleCloudStorageService {
   /**
    * Get user's medical images
    */
-  async getUserMedicalImages(userId: string): Promise<Array<{ name: string; type: ImageType; url: string; metadata: any }>> {
+  async getUserMedicalImages(userId: string): Promise<Array<{ name: string; type: ImageType; url: string; metadata: unknown }>> {
     const prefix = `users/${userId}/`;
     const files = await this.listFiles(prefix);
 

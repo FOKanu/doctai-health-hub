@@ -72,7 +72,7 @@ export class HealthScoringService {
     };
   }
 
-  async getHealthTrends(userId: string, days: number = 30): Promise<any[]> {
+  async getHealthTrends(userId: string, days: number = 30): Promise<Record<string, unknown>[]> {
     // Mock trend data
     const trends = [];
     for (let i = days; i >= 0; i--) {

@@ -120,14 +120,14 @@ export class HybridPredictionService {
   /**
    * Check if input is single instance (single image)
    */
-  private isSingleInstance(data: any): data is File {
+  private isSingleInstance(data: unknown): data is File {
     return data instanceof File;
   }
 
   /**
    * Check if input is image sequence with time-series data
    */
-  private isImageSequence(data: any): data is TimeSeriesInput {
+  private isImageSequence(data: unknown): data is TimeSeriesInput {
     return (
       data &&
       Array.isArray(data.images) &&

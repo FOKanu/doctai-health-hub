@@ -9,7 +9,7 @@ export class AzureHealthBotService {
     this.apiKey = config.apiKey;
   }
 
-  async assessSymptoms(symptoms: string[], patientContext?: any): Promise<SymptomAssessmentResult> {
+  async assessSymptoms(symptoms: string[], patientContext?: Record<string, unknown>): Promise<SymptomAssessmentResult> {
     try {
       const response = await this.callAzureHealthBotAPI({
         type: 'symptom_assessment',
@@ -66,7 +66,7 @@ export class AzureHealthBotService {
     }
   }
 
-  async getMedicalAdvice(query: string, patientContext?: any): Promise<string[]> {
+  async getMedicalAdvice(query: string, patientContext?: Record<string, unknown>): Promise<string[]> {
     try {
       const response = await this.callAzureHealthBotAPI({
         type: 'medical_advice',
@@ -105,8 +105,8 @@ export class AzureHealthBotService {
 
   private async callAzureHealthBotAPI(params: {
     type: string;
-    [key: string]: any;
-  }): Promise<any> {
+    [key: string]: unknown;
+  }): Promise<Record<string, unknown>> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.apiKey}`,

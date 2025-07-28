@@ -48,7 +48,7 @@ export class CloudHealthcareService {
    * Main method for analyzing medical images
    * Compatible with existing prediction service interface
    */
-  async analyzeImage(image: File, imageType: ImageType, patientContext?: any): Promise<CloudAnalysisResult> {
+  async analyzeImage(image: File, imageType: ImageType, patientContext?: Record<string, unknown>): Promise<CloudAnalysisResult> {
     const request: CloudHealthcareRequest = {
       image,
       imageType,
@@ -84,7 +84,7 @@ export class CloudHealthcareService {
   /**
    * Get consensus analysis from multiple providers
    */
-  async getConsensusAnalysis(image: File, imageType: ImageType, patientContext?: any): Promise<{
+  async getConsensusAnalysis(image: File, imageType: ImageType, patientContext?: Record<string, unknown>): Promise<{
     consensus: CloudAnalysisResult;
     individualResults: CloudAnalysisResult[];
     agreement: number;
@@ -136,7 +136,7 @@ export class CloudHealthcareService {
   /**
    * Symptom assessment using Azure Health Bot or Watson
    */
-  async assessSymptoms(symptoms: string[], patientContext?: any): Promise<SymptomAssessmentResult> {
+  async assessSymptoms(symptoms: string[], patientContext?: Record<string, unknown>): Promise<SymptomAssessmentResult> {
     // Try Azure Health Bot first (specialized in symptom assessment)
     if (this.azureHealthBot) {
       try {
@@ -161,7 +161,7 @@ export class CloudHealthcareService {
   /**
    * Get clinical insights from Watson Health
    */
-  async getClinicalInsights(patientData: any): Promise<ClinicalInsightResult> {
+  async getClinicalInsights(patientData: Record<string, unknown>): Promise<ClinicalInsightResult> {
     if (!this.watsonHealth) {
       throw new Error('Watson Health not configured for clinical insights');
     }
@@ -187,7 +187,7 @@ export class CloudHealthcareService {
   /**
    * Get medical advice from Azure Health Bot
    */
-  async getMedicalAdvice(query: string, patientContext?: any): Promise<string[]> {
+  async getMedicalAdvice(query: string, patientContext?: Record<string, unknown>): Promise<string[]> {
     if (!this.azureHealthBot) {
       throw new Error('Azure Health Bot not configured for medical advice');
     }
@@ -198,7 +198,7 @@ export class CloudHealthcareService {
   /**
    * Get treatment recommendations from Watson Health
    */
-  async getTreatmentRecommendations(diagnosis: string, patientContext?: any) {
+  async getTreatmentRecommendations(diagnosis: string, patientContext?: Record<string, unknown>) {
     if (!this.watsonHealth) {
       throw new Error('Watson Health not configured for treatment recommendations');
     }

@@ -236,7 +236,7 @@ export class TimeSeriesService {
   async saveHealthMetric(
     userId: string,
     metricType: string,
-    value: any,
+    value: React.SyntheticEvent,
     timestamp: string,
     deviceSource?: string
   ): Promise<void> {

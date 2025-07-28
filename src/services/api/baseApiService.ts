@@ -8,11 +8,11 @@ export interface ApiConfig {
   retryDelay?: number;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T;
   status: number;
   statusText: string;
-  headers: any;
+  headers: Record<string, unknown>;
   success: boolean;
   error?: string;
 }
@@ -81,7 +81,7 @@ export class BaseApiService {
         headers: response.headers,
         success: true
       };
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       if (retryCount < this.config.retries! && this.shouldRetry(error)) {
         await this.delay(this.config.retryDelay!);
         return this.request(config, retryCount + 1);
@@ -98,7 +98,7 @@ export class BaseApiService {
     }
   }
 
-  protected shouldRetry(error: any): boolean {
+  protected shouldRetry(error: Error | unknown): boolean {
     const status = error.response?.status;
     return status >= 500 || status === 429 || !status; // Server errors, rate limit, network errors
   }
@@ -123,11 +123,11 @@ export class BaseApiService {
     return this.request<T>({ ...config, method: 'GET', url });
   }
 
-  protected async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  protected async post<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request<T>({ ...config, method: 'POST', url, data });
   }
 
-  protected async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  protected async put<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request<T>({ ...config, method: 'PUT', url, data });
   }
 
@@ -135,7 +135,7 @@ export class BaseApiService {
     return this.request<T>({ ...config, method: 'DELETE', url });
   }
 
-  protected async patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  protected async patch<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request<T>({ ...config, method: 'PATCH', url, data });
   }
 }

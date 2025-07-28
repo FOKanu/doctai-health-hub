@@ -79,8 +79,8 @@ export class GoogleHealthcareService {
     image: string;
     imageType: ImageType;
     modelEndpoint: string;
-    patientContext?: any;
-  }): Promise<any> {
+    patientContext?: Record<string, unknown>;
+  }): Promise<Record<string, unknown>> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };

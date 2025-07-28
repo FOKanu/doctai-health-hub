@@ -66,7 +66,7 @@ export const adaptToModernFormat = (
 /**
  * Validates that a prediction result has the expected legacy format
  */
-export const isLegacyPredictionResult = (result: any): result is LegacyPredictionResult => {
+export const isLegacyPredictionResult = (result: unknown): result is LegacyPredictionResult => {
   return (
     result &&
     typeof result === 'object' &&
@@ -83,7 +83,7 @@ export const isLegacyPredictionResult = (result: any): result is LegacyPredictio
 /**
  * Validates that a prediction result has the expected modern format
  */
-export const isModernPredictionResult = (result: any): result is ModernPredictionResult => {
+export const isModernPredictionResult = (result: unknown): result is ModernPredictionResult => {
   return (
     result &&
     typeof result === 'object' &&

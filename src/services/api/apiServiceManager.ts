@@ -5,7 +5,7 @@ import { CloudHealthcareService } from '../cloudHealthcare';
 export interface ApiServicesConfig {
   openai?: OpenAIConfig;
   notifications?: NotificationConfig;
-  cloudHealthcare?: any; // Already configured in your existing service
+  cloudHealthcare?: Record<string, unknown>; // Already configured in your existing service
 }
 
 export class ApiServiceManager {
@@ -45,7 +45,7 @@ export class ApiServiceManager {
     return this.openaiService;
   }
 
-  async generateHealthInsights(symptoms: string[], patientContext?: any) {
+  async generateHealthInsights(symptoms: string[], patientContext?: Record<string, unknown>) {
     if (!this.openaiService) {
       throw new Error('OpenAI service not initialized');
     }
@@ -86,8 +86,8 @@ export class ApiServiceManager {
 
   async sendAppointmentReminder(
     userId: string,
-    appointment: any,
-    contactInfo: any
+    appointment: Appointment,
+    contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {
       throw new Error('Notification service not initialized');
@@ -101,8 +101,8 @@ export class ApiServiceManager {
 
   async sendMedicationReminder(
     userId: string,
-    medication: any,
-    contactInfo: any
+    medication: string,
+    contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {
       throw new Error('Notification service not initialized');
@@ -116,8 +116,8 @@ export class ApiServiceManager {
 
   async sendEmergencyAlert(
     userId: string,
-    alert: any,
-    contactInfo: any
+    alert: Record<string, unknown>,
+    contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {
       throw new Error('Notification service not initialized');
@@ -155,7 +155,7 @@ export class ApiServiceManager {
           maxTokens: 10
         });
         status.openai = true;
-      } catch (error: any) {
+      } catch (error: Error | unknown) {
         status.errors.push(`OpenAI: ${error.message}`);
       }
     }
@@ -165,7 +165,7 @@ export class ApiServiceManager {
       try {
         // Test with a simple SMS (won't actually send)
         status.notifications = true;
-      } catch (error: any) {
+      } catch (error: Error | unknown) {
         status.errors.push(`Notifications: ${error.message}`);
       }
     }

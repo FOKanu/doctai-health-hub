@@ -51,7 +51,7 @@ export class WatsonHealthService {
     gender?: string;
     medicalHistory?: string[];
     currentSymptoms?: string[];
-    testResults?: any;
+    testResults?: Record<string, unknown>;
   }): Promise<ClinicalInsightResult> {
     try {
       const response = await this.callWatsonAPI({
@@ -73,7 +73,7 @@ export class WatsonHealthService {
     }
   }
 
-  async assessSymptoms(symptoms: string[], patientContext?: any): Promise<SymptomAssessmentResult> {
+  async assessSymptoms(symptoms: string[], patientContext?: Record<string, unknown>): Promise<SymptomAssessmentResult> {
     try {
       const response = await this.callWatsonAPI({
         type: 'symptom_assessment',
@@ -95,7 +95,7 @@ export class WatsonHealthService {
     }
   }
 
-  async getTreatmentRecommendations(diagnosis: string, patientContext?: any): Promise<{
+  async getTreatmentRecommendations(diagnosis: string, patientContext?: Record<string, unknown>): Promise<{
     treatments: string[];
     medications: string[];
     lifestyle: string[];
@@ -150,8 +150,8 @@ export class WatsonHealthService {
 
   private async callWatsonAPI(params: {
     type: string;
-    [key: string]: any;
-  }): Promise<any> {
+    [key: string]: unknown;
+  }): Promise<Record<string, unknown>> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.apiKey}`,

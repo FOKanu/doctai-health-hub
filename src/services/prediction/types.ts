@@ -21,8 +21,8 @@ export interface PredictionResult {
     recommendations?: string[];
     riskLevel?: 'low' | 'medium' | 'high';
     processingTime?: number;
-    bodyPart?: any; // Allow for backward compatibility
-    [key: string]: any; // Allow additional properties
+    bodyPart?: unknown; // Allow for backward compatibility
+    [key: string]: unknown; // Allow additional properties
   };
 }
 
@@ -44,4 +44,3 @@ export interface ModernPredictionResult {
 
 // Supported image types (includes 'general' for compatibility)
 export type ImageType = 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg' | 'general';
-

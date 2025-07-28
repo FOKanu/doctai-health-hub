@@ -15,7 +15,7 @@ export interface PatientTimeline {
   severity_score?: number;
   confidence_score?: number;
   notes?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -24,11 +24,11 @@ export interface HealthMetricTimeseries {
   id: string;
   user_id: string;
   metric_type: 'heart_rate' | 'blood_pressure' | 'weight' | 'temperature' | 'sleep_hours' | 'steps' | 'calories' | 'water_intake' | 'blood_glucose' | 'oxygen_saturation';
-  value: any;
+  value: unknown;
   recorded_at: string;
   device_source?: string;
   accuracy_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -41,9 +41,9 @@ export interface ScanSequence {
   baseline_image_id?: string;
   progression_score?: number;
   confidence_score?: number;
-  findings?: any;
+  findings?: Record<string, unknown>;
   recommendations?: string[];
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -56,10 +56,10 @@ export interface TreatmentResponse {
   start_date: string;
   end_date?: string;
   effectiveness_score?: number;
-  side_effects?: any;
+  side_effects?: string[];
   adherence_percentage?: number;
   notes?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -70,11 +70,11 @@ export interface RiskProgression {
   condition_type: 'skin_lesion' | 'cardiovascular' | 'respiratory' | 'neurological' | 'metabolic' | 'musculoskeletal' | 'gastrointestinal' | 'endocrine';
   risk_level: 'low' | 'medium' | 'high';
   probability: number;
-  factors?: any;
+  factors?: Record<string, unknown>;
   recorded_at: string;
   predicted_date?: string;
   confidence_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -132,7 +132,7 @@ export interface OxygenSaturationValue {
 // Time-series analytics types
 export interface HealthMetricsTrend {
   recorded_at: string;
-  value: any;
+  value: unknown;
   trend_direction: 'increasing' | 'decreasing' | 'stable';
 }
 
@@ -173,7 +173,7 @@ export interface CardiovascularMetrics {
   recorded_at: string;
   device_source?: string;
   accuracy_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -189,7 +189,7 @@ export interface RespiratoryMetrics {
   recorded_at: string;
   device_source?: string;
   accuracy_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -212,7 +212,7 @@ export interface MetabolicMetrics {
   recorded_at: string;
   device_source?: string;
   accuracy_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -233,7 +233,7 @@ export interface SleepMetrics {
   noise_level?: number;
   light_level?: number;
   quality_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -256,7 +256,7 @@ export interface FitnessMetrics {
   strength_core?: number;
   flexibility_score?: number;
   balance_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -274,7 +274,7 @@ export interface MentalHealthMetrics {
   reaction_time?: number;
   processing_speed?: number;
   recorded_at: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -297,7 +297,7 @@ export interface HormonalMetrics {
   recorded_at: string;
   device_source?: string;
   accuracy_score?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
 }
 
@@ -338,7 +338,7 @@ export interface HealthcareProvider {
   credentials?: string[];
   experience_years?: number;
   languages?: string[];
-  availability_schedule?: any;
+  availability_schedule?: Record<string, unknown>;
   consultation_fee?: number;
   rating?: number;
   total_consultations: number;
@@ -346,7 +346,7 @@ export interface HealthcareProvider {
   is_available: boolean;
   profile_image_url?: string;
   bio?: string;
-  contact_info?: any;
+  contact_info?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -365,15 +365,15 @@ export interface TelemedicineConsultation {
   meeting_id?: string;
   consultation_notes?: string;
   diagnosis?: string;
-  prescriptions?: any[];
+  prescriptions?: Record<string, unknown>[];
   recommendations?: string[];
   follow_up_date?: string;
   follow_up_required: boolean;
   emergency_contact?: string;
   symptoms?: string[];
-  vital_signs?: any;
-  attachments?: any[];
-  metadata?: any;
+  vital_signs?: Record<string, unknown>;
+  attachments?: Record<string, unknown>[];
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -389,13 +389,13 @@ export interface RemoteMonitoring {
   start_date: string;
   end_date?: string;
   monitoring_frequency?: string;
-  alert_thresholds?: any;
+  alert_thresholds?: Record<string, unknown>;
   last_reading_at?: string;
-  last_reading_value?: any;
+  last_reading_value?: unknown;
   alert_level?: 'low' | 'medium' | 'high' | 'critical';
   is_alert_active: boolean;
   alert_message?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -409,8 +409,8 @@ export interface HealthAlert {
   title: string;
   message: string;
   metric_name?: string;
-  metric_value?: any;
-  threshold_value?: any;
+  metric_value?: unknown;
+  threshold_value?: unknown;
   is_read: boolean;
   is_acknowledged: boolean;
   acknowledged_at?: string;
@@ -435,7 +435,7 @@ export interface Appointment {
   reminder_sent: boolean;
   reminder_sent_at?: string;
   notes?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
