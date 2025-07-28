@@ -27,7 +27,7 @@ const RiskAssessmentsScreen = () => {
           getScansByRiskLevel('medium'),
           getRiskIndicators()
         ]);
-        
+
         const combinedScans = [...highRiskScans, ...mediumRiskScans];
         setRiskScans(combinedScans);
         setRiskIndicators(indicators.filter(i => i.severity === 'high' || i.severity === 'medium'));
@@ -48,9 +48,10 @@ const RiskAssessmentsScreen = () => {
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         case 'confidence':
           return b.confidence - a.confidence;
-        case 'risk':
+        case 'risk': {
           const riskOrder = { high: 3, medium: 2, low: 1 };
           return riskOrder[b.riskLevel] - riskOrder[a.riskLevel];
+        }
         default:
           return 0;
       }
@@ -65,8 +66,8 @@ const RiskAssessmentsScreen = () => {
   };
 
   const getRiskIcon = (risk: string) => {
-    return risk === 'high' ? 
-      <AlertTriangle className="w-4 h-4 text-red-600" /> : 
+    return risk === 'high' ?
+      <AlertTriangle className="w-4 h-4 text-red-600" /> :
       <TrendingUp className="w-4 h-4 text-yellow-600" />;
   };
 
@@ -149,7 +150,7 @@ const RiskAssessmentsScreen = () => {
           <Card>
             <CardContent className="p-4">
               <div className="flex gap-4">
-                <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+                <Select value={sortBy} onValueChange={(value: React.SyntheticEvent) => setSortBy(value)}>
                   <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
@@ -159,7 +160,7 @@ const RiskAssessmentsScreen = () => {
                     <SelectItem value="confidence">Sort by Confidence</SelectItem>
                   </SelectContent>
                 </Select>
-                <Select value={riskFilter} onValueChange={(value: any) => setRiskFilter(value)}>
+                <Select value={riskFilter} onValueChange={(value: React.SyntheticEvent) => setRiskFilter(value)}>
                   <SelectTrigger className="w-40">
                     <Filter className="w-4 h-4 mr-2" />
                     <SelectValue />
@@ -195,9 +196,9 @@ const RiskAssessmentsScreen = () => {
                       {/* Image Thumbnail */}
                       <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
                         {scan.imageUrl ? (
-                          <img 
-                            src={scan.imageUrl} 
-                            alt="Scan" 
+                          <img
+                            src={scan.imageUrl}
+                            alt="Scan"
                             className="w-full h-full object-cover"
                           />
                         ) : (

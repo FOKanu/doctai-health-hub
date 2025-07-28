@@ -93,7 +93,7 @@ const AppointmentsScreen = () => {
     });
   };
 
-  const scheduleAppointment = (newAppointment: any) => {
+  const scheduleAppointment = (newAppointment: Appointment) => {
     setUpcomingAppointments([...upcomingAppointments, newAppointment]);
   };
 
@@ -159,8 +159,8 @@ const AppointmentsScreen = () => {
             <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
             <TabsTrigger value="past">Past</TabsTrigger>
           </TabsList>
-          
-          <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+
+          <Select value={sortBy} onValueChange={(value: React.SyntheticEvent) => setSortBy(value)}>
             <SelectTrigger className="w-40">
               <Filter className="w-4 h-4 mr-2" />
               <SelectValue />
@@ -179,7 +179,7 @@ const AppointmentsScreen = () => {
               <CardContent className="p-8 text-center">
                 <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <div className="text-gray-500 mb-4">No upcoming appointments</div>
-                <ScheduleAppointmentModal 
+                <ScheduleAppointmentModal
                   onScheduleAppointment={scheduleAppointment}
                   trigger={
                     <Button className="bg-blue-600 hover:bg-blue-700">

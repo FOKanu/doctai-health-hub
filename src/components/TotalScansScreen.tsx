@@ -35,12 +35,12 @@ const TotalScansScreen = () => {
   }, []);
 
   useEffect(() => {
-    let filtered = scans.filter(scan => {
+    const filtered = scans.filter(scan => {
       const matchesSearch = scan.bodyPart.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            scan.prediction.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesRisk = filterBy === 'all' || scan.riskLevel === filterBy;
       const matchesBodyPart = bodyPartFilter === 'all' || scan.bodyPart === bodyPartFilter;
-      
+
       return matchesSearch && matchesRisk && matchesBodyPart;
     });
 
@@ -51,9 +51,10 @@ const TotalScansScreen = () => {
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         case 'confidence':
           return b.confidence - a.confidence;
-        case 'riskLevel':
+        case 'riskLevel': {
           const riskOrder = { high: 3, medium: 2, low: 1 };
           return riskOrder[b.riskLevel] - riskOrder[a.riskLevel];
+        }
         default:
           return 0;
       }
@@ -144,7 +145,7 @@ const TotalScansScreen = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+              <Select value={sortBy} onValueChange={(value: React.SyntheticEvent) => setSortBy(value)}>
                 <SelectTrigger className="w-40">
                   <ArrowUpDown className="w-4 h-4 mr-2" />
                   <SelectValue />
@@ -155,7 +156,7 @@ const TotalScansScreen = () => {
                   <SelectItem value="riskLevel">Sort by Risk</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={filterBy} onValueChange={(value: any) => setFilterBy(value)}>
+              <Select value={filterBy} onValueChange={(value: React.SyntheticEvent) => setFilterBy(value)}>
                 <SelectTrigger className="w-32">
                   <Filter className="w-4 h-4 mr-2" />
                   <SelectValue />
@@ -199,9 +200,9 @@ const TotalScansScreen = () => {
                   {/* Image Thumbnail */}
                   <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
                     {scan.imageUrl ? (
-                      <img 
-                        src={scan.imageUrl} 
-                        alt="Scan" 
+                      <img
+                        src={scan.imageUrl}
+                        alt="Scan"
                         className="w-full h-full object-cover"
                       />
                     ) : (

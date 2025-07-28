@@ -43,8 +43,8 @@ const MedicationsScreen = () => {
   ]);
 
   const toggleReminder = (id: number) => {
-    setMedications(meds => 
-      meds.map(med => 
+    setMedications(meds =>
+      meds.map(med =>
         med.id === id ? { ...med, reminderEnabled: !med.reminderEnabled } : med
       )
     );
@@ -56,7 +56,7 @@ const MedicationsScreen = () => {
     }
   };
 
-  const addMedication = (newMedication: any) => {
+  const addMedication = (newMedication: Medication) => {
     setMedications([...medications, newMedication]);
   };
 
@@ -94,7 +94,7 @@ const MedicationsScreen = () => {
       {/* Medications List */}
       <div className="space-y-4">
         <h2 className="text-lg font-semibold text-gray-800">Your Medications</h2>
-        
+
         {medications.map((medication) => (
           <div key={medication.id} className="bg-white rounded-lg shadow-sm p-6 border">
             <div className="flex items-start justify-between mb-4">
@@ -108,13 +108,13 @@ const MedicationsScreen = () => {
                   <p className="text-sm text-blue-600 mt-1">{medication.treatmentPlan}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => toggleReminder(medication.id)}
                   className={`p-2 rounded-full transition-colors ${
-                    medication.reminderEnabled 
-                      ? 'bg-blue-100 text-blue-600 hover:bg-blue-200' 
+                    medication.reminderEnabled
+                      ? 'bg-blue-100 text-blue-600 hover:bg-blue-200'
                       : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                   }`}
                 >
@@ -123,7 +123,7 @@ const MedicationsScreen = () => {
                 <button className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
                   <Edit className="w-5 h-5" />
                 </button>
-                <button 
+                <button
                   onClick={() => deleteMedication(medication.id)}
                   className="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
                 >
@@ -179,7 +179,7 @@ const MedicationsScreen = () => {
         <p className="text-sm text-gray-600 mb-4">
           Link your medications to specific treatment plans for better organization and tracking.
         </p>
-        <button 
+        <button
           onClick={() => navigate('/treatments')}
           className="text-blue-600 text-sm hover:underline font-medium"
         >

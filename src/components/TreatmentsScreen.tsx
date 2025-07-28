@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Treatment } from '@/types/common';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Bell, BellOff, Plus } from 'lucide-react';
@@ -20,7 +21,7 @@ const TreatmentsScreen = () => {
     setNotifications(!notifications);
   };
 
-  const addTreatment = (newTreatment: any) => {
+  const addTreatment = (newTreatment: Treatment) => {
     console.log('New treatment added:', newTreatment);
     // In a real app, this would update the treatment data
   };
@@ -28,7 +29,7 @@ const TreatmentsScreen = () => {
   const updateMedicationStatus = (medicationId: string, taken: boolean) => {
     setData(prev => ({
       ...prev,
-      medications: prev.medications.map(med => 
+      medications: prev.medications.map(med =>
         med.id === medicationId ? { ...med, takenToday: taken } : med
       )
     }));
@@ -63,7 +64,7 @@ const TreatmentsScreen = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column */}
         <div className="space-y-6">
-          <MedicationsList 
+          <MedicationsList
             medications={data.medications}
             onUpdateStatus={updateMedicationStatus}
           />
