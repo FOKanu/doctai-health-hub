@@ -35,6 +35,9 @@ export interface Appointment {
   status: string;
   location?: string;
   notes?: string;
+  duration?: string;
+  address?: string;
+  insurance?: string;
 }
 
 export interface Notification {

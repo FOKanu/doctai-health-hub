@@ -1,3 +1,4 @@
+import { Treatment } from '@/types';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,7 @@ import { Plus, FileText } from 'lucide-react';
 
 interface AddTreatmentModalProps {
   trigger?: React.ReactNode;
-  onAddTreatment?: (treatment: string) => void;
+  onAddTreatment?: (treatment: Treatment) => void;
 }
 
 export function AddTreatmentModal({ trigger, onAddTreatment }: AddTreatmentModalProps) {

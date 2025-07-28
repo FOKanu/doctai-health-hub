@@ -13,20 +13,28 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === 'development' && componentTagger(),
   ].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
   esbuild: {
     target: 'esnext',
-    format: 'esm'
+    format: 'esm',
+    logLevel: 'silent'
   },
   define: {
     global: 'globalThis',
   },
   build: {
     target: 'esnext',
-    minify: 'esbuild'
-  }
+    minify: 'esbuild',
+    rollupOptions: {
+      onwarn: () => {},
+      external: []
+    }
+  },
+  optimizeDeps: {
+    exclude: ['typescript']
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
 }));

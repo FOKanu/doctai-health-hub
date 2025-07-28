@@ -1,4 +1,5 @@
 
+import { Medication } from '@/types';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Plus, Edit, Trash2, Bell, BellOff, Pill } from 'lucide-react';

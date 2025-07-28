@@ -145,7 +145,7 @@ const TotalScansScreen = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <Select value={sortBy} onValueChange={(value: React.SyntheticEvent) => setSortBy(value)}>
+              <Select value={sortBy} onValueChange={(value) => setSortBy(value as "date" | "confidence" | "riskLevel")}>
                 <SelectTrigger className="w-40">
                   <ArrowUpDown className="w-4 h-4 mr-2" />
                   <SelectValue />
@@ -156,7 +156,7 @@ const TotalScansScreen = () => {
                   <SelectItem value="riskLevel">Sort by Risk</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={filterBy} onValueChange={(value: React.SyntheticEvent) => setFilterBy(value)}>
+              <Select value={filterBy} onValueChange={(value) => setFilterBy(value as "all" | "high" | "medium" | "low")}>
                 <SelectTrigger className="w-32">
                   <Filter className="w-4 h-4 mr-2" />
                   <SelectValue />
