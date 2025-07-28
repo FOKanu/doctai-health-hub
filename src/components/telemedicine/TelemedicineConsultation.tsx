@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,6 +26,13 @@ import {
 } from 'lucide-react';
 import { telemedicineService, type HealthcareProvider, type Appointment, type TelemedicineConsultation } from '@/services/telemedicineService';
 
+interface TimeSlot {
+  id: string;
+  time: string;
+  is_available: boolean;
+  duration: number;
+}
+
 interface TelemedicineConsultationProps {
   userId: string;
   className?: string;
@@ -36,7 +43,7 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
   const [selectedProvider, setSelectedProvider] = useState<HealthcareProvider | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string>('');
-  const [availableSlots, setAvailableSlots] = useState<any[]>([]);
+  const [availableSlots, setAvailableSlots] = useState<TimeSlot[]>([]);
   const [consultationType, setConsultationType] = useState<'video' | 'audio' | 'chat'>('video');
   const [reason, setReason] = useState('');
   const [symptoms, setSymptoms] = useState<string[]>([]);
@@ -49,24 +56,24 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
   useEffect(() => {
     loadProviders();
     loadUserData();
-  }, [userId]);
+  }, [userId, loadProviders, loadUserData]);
 
   useEffect(() => {
     if (selectedProvider && selectedDate) {
       loadAvailableSlots();
     }
-  }, [selectedProvider, selectedDate]);
+  }, [selectedProvider, selectedDate, loadAvailableSlots]);
 
-  const loadProviders = async () => {
+  const loadProviders = useCallback(async () => {
     try {
       const data = await telemedicineService.getHealthcareProviders();
       setProviders(data);
     } catch (error) {
       console.error('Error loading providers:', error);
     }
-  };
+  }, []);
 
-  const loadUserData = async () => {
+  const loadUserData = useCallback(async () => {
     try {
       const [appointmentsData, consultationsData] = await Promise.all([
         telemedicineService.getAppointments({ userId }),
@@ -77,9 +84,9 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
     } catch (error) {
       console.error('Error loading user data:', error);
     }
-  };
+  }, [userId]);
 
-  const loadAvailableSlots = async () => {
+  const loadAvailableSlots = useCallback(async () => {
     if (!selectedProvider || !selectedDate) return;
 
     try {
@@ -91,7 +98,7 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
     } catch (error) {
       console.error('Error loading available slots:', error);
     }
-  };
+  }, [selectedProvider, selectedDate]);
 
   const handleBookAppointment = async () => {
     if (!selectedProvider || !selectedDate || !selectedTime || !reason) {
@@ -284,7 +291,7 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
                             ? 'border-blue-500 bg-blue-50'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
-                        onClick={() => setConsultationType(type.value as any)}
+                        onClick={() => setConsultationType(type.value as 'video' | 'audio' | 'chat')}
                       >
                         <div className="flex flex-col items-center gap-2">
                           <type.icon className="h-6 w-6" />

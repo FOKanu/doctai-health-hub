@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, List, Map, Filter, X } from 'lucide-react';
 import SearchBar from './findcare/SearchBar';
@@ -29,7 +29,7 @@ const SpecialistScreen = () => {
   });
 
   // Mock data - replace with actual API calls
-  const mockProviders: HealthcareProvider[] = [
+  const mockProviders = useMemo((): HealthcareProvider[] => [
     {
       id: '1',
       name: 'Dr. Sarah Weber',
@@ -142,7 +142,7 @@ const SpecialistScreen = () => {
       },
       services: ['General Dentistry', 'Teeth Whitening', 'Orthodontics']
     }
-  ];
+  ], []);
 
   useEffect(() => {
     // Get user's location
@@ -167,7 +167,7 @@ const SpecialistScreen = () => {
       setFilteredProviders(mockProviders);
       setLoading(false);
     }, 1000);
-  }, []);
+  }, [mockProviders, setLoading, setProviders, setFilteredProviders]);
 
   useEffect(() => {
     // Apply filters
@@ -178,13 +178,13 @@ const SpecialistScreen = () => {
     }
 
     if (filters.specialties.length > 0 && filters.specialties.some(s => s !== '')) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         p.specialty && filters.specialties.includes(p.specialty)
       );
     }
 
     if (filters.maxDistance > 0) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         !p.location.distance || p.location.distance <= filters.maxDistance
       );
     }
@@ -194,7 +194,7 @@ const SpecialistScreen = () => {
     }
 
     if (filters.languages.length > 0) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         filters.languages.some(lang => p.languages.includes(lang))
       );
     }
@@ -204,7 +204,7 @@ const SpecialistScreen = () => {
     }
 
     if (filters.priceRange.length > 0) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         p.priceRange && filters.priceRange.includes(p.priceRange)
       );
     }
@@ -219,7 +219,7 @@ const SpecialistScreen = () => {
       const searchResults = mockProviders.filter(provider =>
         provider.name.toLowerCase().includes(query.toLowerCase()) ||
         provider.specialty?.toLowerCase().includes(query.toLowerCase()) ||
-        provider.services.some(service => 
+        provider.services.some(service =>
           service.toLowerCase().includes(query.toLowerCase())
         )
       );
@@ -267,8 +267,8 @@ const SpecialistScreen = () => {
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'list' 
-                    ? 'bg-white text-blue-600 shadow-sm' 
+                  viewMode === 'list'
+                    ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -277,8 +277,8 @@ const SpecialistScreen = () => {
               <button
                 onClick={() => setViewMode('map')}
                 className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'map' 
-                    ? 'bg-white text-blue-600 shadow-sm' 
+                  viewMode === 'map'
+                    ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -320,14 +320,14 @@ const SpecialistScreen = () => {
                 {loading ? 'Searching...' : `${filteredProviders.length} providers found`}
               </p>
             </div>
-            
+
             {/* Mobile View Toggle */}
             <div className="md:hidden flex bg-gray-100 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'list' 
-                    ? 'bg-white text-blue-600 shadow-sm' 
+                  viewMode === 'list'
+                    ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600'
                 }`}
               >
@@ -336,8 +336,8 @@ const SpecialistScreen = () => {
               <button
                 onClick={() => setViewMode('map')}
                 className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'map' 
-                    ? 'bg-white text-blue-600 shadow-sm' 
+                  viewMode === 'map'
+                    ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600'
                 }`}
               >

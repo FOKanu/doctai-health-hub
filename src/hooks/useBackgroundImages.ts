@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface BackgroundImage {
   id: string;
@@ -12,7 +12,7 @@ export const useBackgroundImages = () => {
   const [currentBackground, setCurrentBackground] = useState<string>('');
 
   // Placeholder images from your system that can be used as backgrounds
-  const placeholderImages: BackgroundImage[] = [
+  const placeholderImages = useMemo((): BackgroundImage[] => [
     {
       id: 'medical-gradient',
       name: 'Medical Gradient',
@@ -31,12 +31,12 @@ export const useBackgroundImages = () => {
       url: 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=1920&q=80',
       description: 'Clean minimal background'
     }
-  ];
+  ], []);
 
   useEffect(() => {
     // Initialize with placeholder images
     setBackgroundImages(placeholderImages);
-    
+
     // Set default background
     const savedBackground = localStorage.getItem('selected-background');
     if (savedBackground) {
@@ -44,7 +44,7 @@ export const useBackgroundImages = () => {
     } else {
       setCurrentBackground(placeholderImages[0].url);
     }
-  }, []);
+  }, [placeholderImages]);
 
   const setBackground = (imageUrl: string) => {
     setCurrentBackground(imageUrl);
@@ -62,7 +62,7 @@ export const useBackgroundImages = () => {
           url,
           description: 'Custom uploaded background'
         };
-        
+
         setBackgroundImages(prev => [...prev, newImage]);
         resolve(newImage);
       };

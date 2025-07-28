@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Camera, ArrowLeft, Flashlight, RefreshCw, Upload, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { analyzePrediction, savePredictionToSupabase, PredictionResult } from '../services/predictionService';
@@ -12,7 +12,7 @@ const ScanScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const scanMetaData = location.state?.scanMetaData as ScanMetaData | undefined;
-  
+
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [flashlightOn, setFlashlightOn] = useState(false);
@@ -41,9 +41,9 @@ const ScanScreen = () => {
     return () => {
       stopCamera();
     };
-  }, [facingMode]);
+  }, [facingMode, startCamera, stopCamera]);
 
-  const startCamera = async () => {
+  const startCamera = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
@@ -61,14 +61,14 @@ const ScanScreen = () => {
       console.error('Error accessing camera:', error);
       setCameraError('Unable to access camera. Please ensure camera permissions are granted.');
     }
-  };
+  }, [facingMode]);
 
-  const stopCamera = () => {
+  const stopCamera = useCallback(() => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
     }
-  };
+  }, []);
 
   const handleSwitchCamera = () => {
     setFacingMode(prev => prev === 'environment' ? 'user' : 'environment');
@@ -170,7 +170,7 @@ const ScanScreen = () => {
     setIsAnalyzing(true);
     try {
       const predictionResult = await analyzePrediction(imageUri);
-      
+
       // Include body part metadata in the result
       const enhancedResult = {
         ...predictionResult,
@@ -178,10 +178,10 @@ const ScanScreen = () => {
           bodyPart: scanMetaData?.bodyPart
         }
       };
-      
+
       await savePredictionToSupabase(enhancedResult, imageUri);
       setResult(enhancedResult);
-      
+
       console.log('Scan completed for body part:', scanMetaData?.bodyPart);
     } catch (error) {
       console.error('Error analyzing image:', error);

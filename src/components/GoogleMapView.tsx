@@ -49,7 +49,7 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
   const [loading, setLoading] = useState(false);
   const [locationLoading, setLocationLoading] = useState(true);
   const [apiKeyMissing, setApiKeyMissing] = useState(false);
-  
+
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -79,14 +79,14 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
 
   const onLoad = useCallback((map: google.maps.Map) => {
     setMap(map);
-    
+
     // Initialize autocomplete
     if (inputRef.current && window.google) {
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['establishment'],
         fields: ['place_id', 'name', 'geometry', 'types', 'vicinity', 'rating']
       });
-      
+
       autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         if (place.geometry?.location) {
@@ -99,45 +99,44 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
           searchNearbyPlaces(location);
         }
       });
-      
+
       autocompleteRef.current = autocomplete;
     }
   }, []);
 
-  const searchNearbyPlaces = useCallback((location: google.maps.LatLngLiteral) => {
-    if (!map || !window.google) return;
-    
-    setLoading(true);
-    const service = new window.google.maps.places.PlacesService(map);
-    
-    const request = {
-      location: new window.google.maps.LatLng(location.lat, location.lng),
-      radius: 5000, // 5km radius
-      type: 'health',
-      keyword: 'doctor hospital clinic pharmacy dentist medical'
-    };
 
-    service.nearbySearch(request, (results, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
-        const healthcareResults = results.filter(place => 
-          place.types?.some(type => 
-            ['hospital', 'doctor', 'dentist', 'pharmacy', 'physiotherapist', 'health'].includes(type)
-          )
-        ) as PlaceResult[];
-        
-        setNearbyPlaces(healthcareResults.slice(0, 20)); // Limit to 20 results
-      }
-      setLoading(false);
-    });
-  }, [map]);
 
-  const handleCurrentLocation = () => {
+  const handleCurrentLocation = useCallback(() => {
     if (userLocation && map) {
       map.panTo(userLocation);
       map.setZoom(15);
-      searchNearbyPlaces(userLocation);
+      // Call searchNearbyPlaces directly to avoid circular dependency
+      if (!map || !window.google) return;
+
+      setLoading(true);
+      const service = new window.google.maps.places.PlacesService(map);
+
+      const request = {
+        location: new window.google.maps.LatLng(userLocation.lat, userLocation.lng),
+        radius: 5000, // 5km radius
+        type: 'health',
+        keyword: 'doctor hospital clinic pharmacy dentist medical'
+      };
+
+      service.nearbySearch(request, (results, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
+          const healthcareResults = results.filter(place =>
+            place.types?.some(type =>
+              ['hospital', 'doctor', 'dentist', 'pharmacy', 'physiotherapist', 'health'].includes(type)
+            )
+          ) as PlaceResult[];
+
+          setNearbyPlaces(healthcareResults.slice(0, 20)); // Limit to 20 results
+        }
+        setLoading(false);
+      });
     }
-  };
+  }, [userLocation, map, setLoading, setNearbyPlaces]);
 
   const handleMarkerClick = (place: PlaceResult) => {
     setSelectedPlace(place);
@@ -153,7 +152,7 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
 
   // Check if Google Maps API key is available
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-  
+
   if (!googleMapsApiKey) {
     return (
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-96 flex items-center justify-center p-8">
@@ -185,9 +184,9 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
             <h3 className="font-medium">Healthcare Providers Near You</h3>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              size="sm" 
-              variant="outline" 
+            <Button
+              size="sm"
+              variant="outline"
               className="text-xs"
               onClick={handleCurrentLocation}
               disabled={locationLoading}
@@ -201,7 +200,7 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
             </Button>
           </div>
         </div>
-        
+
         {/* Search Input */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />

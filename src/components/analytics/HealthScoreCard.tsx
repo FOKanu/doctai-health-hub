@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -36,9 +36,9 @@ export function HealthScoreCard({ userId, className }: HealthScoreCardProps) {
 
   useEffect(() => {
     loadHealthData();
-  }, [userId]);
+  }, [userId, loadHealthData]);
 
-  const loadHealthData = async () => {
+  const loadHealthData = useCallback(async () => {
     try {
       setLoading(true);
       const [score, breakdownData, recommendationsData] = await Promise.all([
@@ -55,7 +55,7 @@ export function HealthScoreCard({ userId, className }: HealthScoreCardProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600';

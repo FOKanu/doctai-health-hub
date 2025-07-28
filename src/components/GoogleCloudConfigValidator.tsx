@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -37,7 +37,7 @@ export function GoogleCloudConfigValidator() {
   const [isValidating, setIsValidating] = useState(false);
   const [lastValidated, setLastValidated] = useState<Date | null>(null);
 
-  const validateConfiguration = async (): Promise<ConfigValidationResult> => {
+  const validateConfiguration = useCallback(async (): Promise<ConfigValidationResult> => {
     const errors: string[] = [];
     const warnings: string[] = [];
     const details = {
@@ -102,9 +102,9 @@ export function GoogleCloudConfigValidator() {
       warnings,
       details
     };
-  };
+  }, []);
 
-  const handleValidate = async () => {
+  const handleValidate = useCallback(async () => {
     setIsValidating(true);
     try {
       const result = await validateConfiguration();
@@ -128,12 +128,12 @@ export function GoogleCloudConfigValidator() {
     } finally {
       setIsValidating(false);
     }
-  };
+  }, [validateConfiguration]);
 
   useEffect(() => {
     // Auto-validate on component mount
     handleValidate();
-  }, []);
+  }, [handleValidate]);
 
   const getStatusIcon = (isValid: boolean) => {
     if (isValidating) return <Loader2 className="h-4 w-4 animate-spin" />;
