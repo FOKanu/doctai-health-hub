@@ -4,7 +4,7 @@ import React from 'react';
 interface SelectFilterSectionProps {
   title: string;
   value: string | number;
-  onChange: (value: any) => void;
+  onChange: (value: React.SyntheticEvent) => void;
   options: { value: string | number; label: string }[];
 }
 
