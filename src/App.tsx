@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { apiServiceManager } from "./services/api/apiServiceManager";
+import ComplianceDashboard from '@/components/compliance/ComplianceDashboard';
+import { Shield } from 'lucide-react';
 
 const queryClient = new QueryClient();
 
@@ -42,6 +44,16 @@ const App = () => {
     console.log('🔍 App component mounted');
   }, []);
 
+  const routes = [
+    {
+      path: '/compliance',
+      element: <ComplianceDashboard />,
+      label: 'Compliance',
+      icon: Shield,
+      description: 'HIPAA compliance monitoring and reporting'
+    },
+  ];
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -51,6 +63,13 @@ const App = () => {
           <Routes>
             <Route path="/*" element={<Index />} />
             <Route path="*" element={<NotFound />} />
+            {routes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              />
+            ))}
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
