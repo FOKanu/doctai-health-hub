@@ -215,7 +215,7 @@ export const analyzeImageSequence = async (
   imageTypes: ImageType[],
   timestamps: string[],
   userId: string,
-  vitalSigns?: any[]
+  vitalSigns?: Record<string, unknown>[]
 ): Promise<HybridAnalysisResult> => {
   if (!ENABLE_HYBRID_ANALYSIS) {
     throw new Error('Time-series analysis requires hybrid analysis to be enabled');
@@ -236,9 +236,9 @@ export const analyzeImageSequence = async (
  * Analyze vital signs data independently
  */
 export const analyzeVitalSigns = async (
-  vitalSigns: any[],
+  vitalSigns: Record<string, unknown>[],
   userId: string
-): Promise<any> => {
+): Promise<Record<string, unknown>> => {
   if (!ENABLE_HYBRID_ANALYSIS) {
     throw new Error('Vital signs analysis requires hybrid analysis to be enabled');
   }
@@ -262,7 +262,7 @@ export const analyzeVitalSigns = async (
 export const getPatientProgression = async (
   userId: string,
   conditionType?: string
-): Promise<any> => {
+): Promise<Record<string, unknown>> => {
   // This would integrate with the new database tables
   // For now, return mock data
   return {
@@ -282,7 +282,7 @@ export const getPatientProgression = async (
 export const saveHealthMetrics = async (
   userId: string,
   metricType: string,
-  value: any,
+  value: React.SyntheticEvent,
   timestamp: string,
   deviceSource?: string
 ): Promise<void> => {
@@ -340,10 +340,10 @@ export const getComprehensiveHealthAnalysis = async (
   userId: string,
   dateRange: { start: string; end: string }
 ): Promise<{
-  imageAnalysis: any[];
-  vitalSigns: any[];
-  progression: any;
-  riskAssessment: any;
+  imageAnalysis: Record<string, unknown>[];
+  vitalSigns: Record<string, unknown>[];
+  progression: Record<string, unknown>;
+  riskAssessment: Record<string, unknown>;
   recommendations: string[];
 }> => {
   // This would aggregate data from all time-series tables

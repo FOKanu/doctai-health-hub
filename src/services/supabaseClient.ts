@@ -5,7 +5,7 @@
 export const supabase = {
   storage: {
     from: (bucket: string) => ({
-      upload: async (path: string, file: File | Blob, options?: any) => {
+      upload: async (path: string, file: File | Blob, options?: Record<string, unknown>) => {
         // Mock upload implementation
         console.log(`Mock upload to ${bucket}/${path}`);
         return { data: { path }, error: null };
@@ -20,7 +20,7 @@ export const supabase = {
     })
   },
   from: (table: string) => ({
-    insert: (data: any) => ({
+    insert: (data: unknown) => ({
       select: () => ({
         single: async () => {
           console.log(`Mock insert into ${table}:`, data);
@@ -29,21 +29,21 @@ export const supabase = {
       })
     }),
     select: (columns = '*') => ({
-      eq: (column: string, value: any) => ({
+      eq: (column: string, value: React.SyntheticEvent) => ({
         single: async () => {
           console.log(`Mock select from ${table} where ${column} = ${value}`);
           return { data: null, error: null };
         },
-        order: (column: string, options?: any) => ({
-          then: async (callback: any) => {
+        order: (column: string, options?: Record<string, unknown>) => ({
+          then: async (callback: () => void) => {
             console.log(`Mock select from ${table} ordered by ${column}`);
             return callback({ data: [], error: null });
           }
         })
       })
     }),
-    update: (data: any) => ({
-      eq: (column: string, value: any) => ({
+    update: (data: unknown) => ({
+      eq: (column: string, value: React.SyntheticEvent) => ({
         select: () => ({
           single: async () => {
             console.log(`Mock update ${table} where ${column} = ${value}:`, data);
@@ -53,8 +53,8 @@ export const supabase = {
       })
     }),
     delete: () => ({
-      eq: (column: string, value: any) => ({
-        then: async (callback: any) => {
+      eq: (column: string, value: React.SyntheticEvent) => ({
+        then: async (callback: () => void) => {
           console.log(`Mock delete from ${table} where ${column} = ${value}`);
           return callback({ data: null, error: null });
         }

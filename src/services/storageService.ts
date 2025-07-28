@@ -11,7 +11,7 @@ export interface ImageMetadata {
   created_at: string;
   user_id: string;
   type: 'skin_lesion' | 'ct_scan' | 'mri' | 'xray' | 'eeg';
-  analysis_result?: any;
+  analysis_result?: Record<string, unknown>;
   metadata?: {
     size: number;
     width?: number;

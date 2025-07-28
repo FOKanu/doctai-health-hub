@@ -50,7 +50,7 @@ export interface Appointment {
 }
 
 export class TelemedicineService {
-  async getHealthcareProviders(params?: any): Promise<HealthcareProvider[]> {
+  async getHealthcareProviders(params?: Record<string, unknown>): Promise<HealthcareProvider[]> {
     return [
       {
         id: '1',
@@ -83,7 +83,7 @@ export class TelemedicineService {
     ];
   }
 
-  async getConsultations(params?: any): Promise<TelemedicineConsultation[]> {
+  async getConsultations(params?: Record<string, unknown>): Promise<TelemedicineConsultation[]> {
     return [
       {
         id: '1',
@@ -102,7 +102,7 @@ export class TelemedicineService {
     ];
   }
 
-  async getAppointments(params?: any): Promise<Appointment[]> {
+  async getAppointments(params?: Record<string, unknown>): Promise<Appointment[]> {
     return [
       {
         id: '1',
@@ -119,25 +119,25 @@ export class TelemedicineService {
     ];
   }
 
-  async getProviderAvailability(providerId: string, date: string): Promise<any[]> {
-    return [{ 
-      providerId: '1', 
-      availableSlots: ['10:00', '14:00', '16:00'] 
+  async getProviderAvailability(providerId: string, date: string): Promise<Record<string, unknown>[]> {
+    return [{
+      providerId: '1',
+      availableSlots: ['10:00', '14:00', '16:00']
     }];
   }
 
-  async bookAppointment(appointmentData: any): Promise<any> {
-    return { 
-      id: 'new-appointment', 
-      status: 'booked', 
-      ...appointmentData 
+  async bookAppointment(appointmentData: Record<string, unknown>): Promise<Record<string, unknown>> {
+    return {
+      id: 'new-appointment',
+      status: 'booked',
+      ...appointmentData
     };
   }
 
-  async joinConsultation(consultationId: string, userId: string): Promise<any> {
-    return { 
-      id: consultationId, 
-      meetingUrl: 'https://meet.example.com/' + consultationId 
+  async joinConsultation(consultationId: string, userId: string): Promise<Record<string, unknown>> {
+    return {
+      id: consultationId,
+      meetingUrl: 'https://meet.example.com/' + consultationId
     };
   }
 }

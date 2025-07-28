@@ -305,7 +305,7 @@ export class OpenAIService extends BaseApiService {
       const text = response.data.text;
       const lines = text.split('\n');
       let summary = '';
-      let keyPoints: string[] = [];
+      const keyPoints: string[] = [];
 
       let currentSection = '';
       for (const line of lines) {
