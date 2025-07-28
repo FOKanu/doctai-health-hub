@@ -39,6 +39,7 @@ const initializeApiServices = () => {
 const App = () => {
   useEffect(() => {
     initializeApiServices();
+    console.log('🔍 App component mounted');
   }, []);
 
   return (

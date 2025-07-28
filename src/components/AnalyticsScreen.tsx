@@ -133,7 +133,7 @@ const AnalyticsScreen = () => {
               <TabsTrigger value="telemedicine" className="whitespace-nowrap">Telemedicine</TabsTrigger>
               <TabsTrigger value="appointments" className="whitespace-nowrap">Care</TabsTrigger>
               <TabsTrigger value="compliance" className="whitespace-nowrap">Compliance</TabsTrigger>
-            </TabsList>
+        </TabsList>
           </div>
         </div>
 

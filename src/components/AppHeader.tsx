@@ -6,7 +6,7 @@ import ResponsiveSearchBar from './ResponsiveSearchBar';
 import { UserProfileDropdown } from './UserProfileDropdown';
 
 export function AppHeader() {
-  const handleSearchSelect = (result: any) => {
+  const handleSearchSelect = (result: unknown) => {
     console.log('Selected:', result);
     // Handle navigation or other actions based on the selected result
   };
