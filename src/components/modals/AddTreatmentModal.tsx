@@ -9,7 +9,7 @@ import { Plus, FileText } from 'lucide-react';
 
 interface AddTreatmentModalProps {
   trigger?: React.ReactNode;
-  onAddTreatment?: (treatment: any) => void;
+  onAddTreatment?: (treatment: string) => void;
 }
 
 export function AddTreatmentModal({ trigger, onAddTreatment }: AddTreatmentModalProps) {

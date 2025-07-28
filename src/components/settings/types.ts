@@ -10,7 +10,7 @@ export interface SettingItem {
 
 export interface SettingSection {
   title: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   items: SettingItem[];
 }
 

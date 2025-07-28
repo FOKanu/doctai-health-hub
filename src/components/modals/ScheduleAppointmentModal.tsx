@@ -9,7 +9,7 @@ import { Plus, Calendar } from 'lucide-react';
 
 interface ScheduleAppointmentModalProps {
   trigger?: React.ReactNode;
-  onScheduleAppointment?: (appointment: any) => void;
+  onScheduleAppointment?: (appointment: Appointment) => void;
 }
 
 export function ScheduleAppointmentModal({ trigger, onScheduleAppointment }: ScheduleAppointmentModalProps) {

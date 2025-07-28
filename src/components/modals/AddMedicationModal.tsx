@@ -9,7 +9,7 @@ import { Plus, Pill } from 'lucide-react';
 
 interface AddMedicationModalProps {
   trigger?: React.ReactNode;
-  onAddMedication?: (medication: any) => void;
+  onAddMedication?: (medication: string) => void;
 }
 
 export function AddMedicationModal({ trigger, onAddMedication }: AddMedicationModalProps) {

@@ -16,7 +16,7 @@ interface NotificationManagerProps {
 export const NotificationManager: React.FC<NotificationManagerProps> = ({ className }) => {
   const [notificationType, setNotificationType] = useState<'appointment' | 'medication' | 'emergency'>('appointment');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<unknown>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Form data
@@ -88,8 +88,8 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
           response = await apiServiceManager.sendEmergencyAlert(
             formData.userId,
             {
-              type: formData.emergencyType as any,
-              severity: formData.severity as any,
+              type: formData.emergencyType as string,
+              severity: formData.severity as string,
               message: formData.emergencyMessage
             },
             contactInfo
@@ -102,7 +102,7 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
       } else {
         setError(response.error || 'Failed to send notification');
       }
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
@@ -265,7 +265,7 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {result.map((notification: any, index: number) => (
+            {result.map((notification: Notification, index: number) => (
               <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                 <div className="flex items-center gap-3">
                   {notification.provider === 'twilio' && <Smartphone className="h-4 w-4 text-blue-500" />}
