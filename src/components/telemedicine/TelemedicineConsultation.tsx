@@ -42,7 +42,7 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
   const [providers, setProviders] = useState<HealthcareProvider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<HealthcareProvider | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [selectedTime, setSelectedTime] = useState<string>('');
+  const [selectedTime, setSelectedTime] = useState('');
   const [availableSlots, setAvailableSlots] = useState<TimeSlot[]>([]);
   const [consultationType, setConsultationType] = useState<'video' | 'audio' | 'chat'>('video');
   const [reason, setReason] = useState('');
@@ -52,17 +52,6 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
   const [activeTab, setActiveTab] = useState('book');
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [consultations, setConsultations] = useState<TelemedicineConsultation[]>([]);
-
-  useEffect(() => {
-    loadProviders();
-    loadUserData();
-  }, [userId, loadProviders, loadUserData]);
-
-  useEffect(() => {
-    if (selectedProvider && selectedDate) {
-      loadAvailableSlots();
-    }
-  }, [selectedProvider, selectedDate, loadAvailableSlots]);
 
   const loadProviders = useCallback(async () => {
     try {
@@ -99,6 +88,17 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
       console.error('Error loading available slots:', error);
     }
   }, [selectedProvider, selectedDate]);
+
+  useEffect(() => {
+    loadProviders();
+    loadUserData();
+  }, [loadProviders, loadUserData]);
+
+  useEffect(() => {
+    if (selectedProvider && selectedDate) {
+      loadAvailableSlots();
+    }
+  }, [selectedProvider, selectedDate, loadAvailableSlots]);
 
   const handleBookAppointment = async () => {
     if (!selectedProvider || !selectedDate || !selectedTime || !reason) {

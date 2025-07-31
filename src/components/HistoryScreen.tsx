@@ -75,7 +75,7 @@ const HistoryScreen = () => {
 
   const filteredItems = historyItems.filter(item => {
     const matchesFilter = filter === 'all' || item.type === filter;
-    const matchesSearch = searchTerm === '' || 
+    const matchesSearch = searchTerm === '' ||
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.notes.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -88,7 +88,7 @@ const HistoryScreen = () => {
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/patient/')}
               className="p-2 -ml-2 rounded-full hover:bg-gray-100"
             >
               <ArrowLeft className="w-6 h-6" />
@@ -146,7 +146,7 @@ const HistoryScreen = () => {
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <item.icon className="w-5 h-5 text-blue-600" />
                   </div>
-                  
+
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-semibold text-gray-800">{item.title}</h3>
@@ -154,14 +154,14 @@ const HistoryScreen = () => {
                         {item.result}
                       </span>
                     </div>
-                    
+
                     <div className="flex items-center text-sm text-gray-500 mb-2">
                       <Calendar className="w-4 h-4 mr-1" />
                       <span>{item.date} at {item.time}</span>
                     </div>
-                    
+
                     <p className="text-sm text-gray-600">{item.notes}</p>
-                    
+
                     <div className="flex space-x-2 mt-3">
                       <button className="text-sm text-blue-600 hover:underline">
                         View Details

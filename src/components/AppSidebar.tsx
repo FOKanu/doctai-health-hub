@@ -33,47 +33,47 @@ export function AppSidebar() {
   const mainNavigation = [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/patient/",
       icon: Home
     },
     {
       title: "Analytics",
-      url: "/analytics",
+      url: "/patient/analytics",
       icon: BarChart3
     },
     {
       title: "Postbox",
-      url: "/postbox",
+      url: "/patient/postbox",
       icon: Mail
     },
     {
       title: "Medical Records",
-      url: "/medical-records",
+      url: "/patient/medical-records",
       icon: FolderOpen
     },
     {
       title: "Find Care",
-      url: "/specialists",
+      url: "/patient/specialists",
       icon: User
     },
     {
       title: "Schedule",
-      url: "/appointments",
+      url: "/patient/appointments",
       icon: Calendar
     },
     {
       title: "Medications",
-      url: "/medications",
+      url: "/patient/medications",
       icon: Pill
     },
     {
       title: "History",
-      url: "/history",
+      url: "/patient/history",
       icon: History
     },
     {
       title: "Treatment Plans",
-      url: "/treatments",
+      url: "/patient/treatments",
       icon: FileText
     }
   ];
@@ -81,7 +81,7 @@ export function AppSidebar() {
   const secondaryItems = [
     {
       title: "Settings",
-      url: "/settings",
+      url: "/patient/settings",
       icon: Settings
     }
   ];

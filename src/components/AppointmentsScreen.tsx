@@ -114,7 +114,7 @@ const AppointmentsScreen = () => {
           <p className="text-gray-600">Manage your medical appointments and consultations</p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={() => navigate('/')} variant="outline">
+                      <Button onClick={() => navigate('/patient/')} variant="outline">
             Back to Dashboard
           </Button>
           <ScheduleAppointmentModal onScheduleAppointment={scheduleAppointment} />

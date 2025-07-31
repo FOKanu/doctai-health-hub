@@ -1,0 +1,3 @@
+id,user_id,url,type,analysis_result,metadata,created_at,updated_at
+550e8400-e29b-41d4-a716-446655440017,550e8400-e29b-41d4-a716-446655440004,https://example.com/skin_lesion_1.jpg,skin_lesion,"{""diagnosis"": ""benign_mole"", ""confidence"": 0.92, ""recommendations"": [""monitor_for_changes"", ""sun_protection""]}","{""location"": ""left_arm"", ""size"": ""5mm""}",2025-01-27T15:00:00Z,2025-01-27T15:00:00Z
+550e8400-e29b-41d4-a716-446655440018,550e8400-e29b-41d4-a716-446655440004,https://example.com/xray_chest_1.jpg,xray,"{""diagnosis"": ""normal_chest_xray"", ""confidence"": 0.95, ""findings"": [""clear_lung_fields"", ""normal_cardiac_silhouette""]}","{""view"": ""PA"", ""technique"": ""standard""}",2025-01-27T15:00:00Z,2025-01-27T15:00:00Z

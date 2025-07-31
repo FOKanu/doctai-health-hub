@@ -1,0 +1,5 @@
+id,user_id,condition_type,risk_level,probability,factors,recorded_at,predicted_date,confidence_score,metadata,created_at
+550e8400-e29b-41d4-a716-446655440011,550e8400-e29b-41d4-a716-446655440004,cardiovascular,low,0.15,"{""age"": 35, ""family_history"": false, ""lifestyle"": ""active""}",2025-01-27T15:00:00Z,,0.85,{},2025-01-27T15:00:00Z
+550e8400-e29b-41d4-a716-446655440012,550e8400-e29b-41d4-a716-446655440004,cardiovascular,low,0.12,"{""age"": 35, ""family_history"": false, ""lifestyle"": ""active""}",2025-01-26T15:00:00Z,,0.88,{},2025-01-26T15:00:00Z
+550e8400-e29b-41d4-a716-446655440013,550e8400-e29b-41d4-a716-446655440004,metabolic,medium,0.45,"{""bmi"": 26.5, ""blood_glucose"": 95, ""family_history"": true}",2025-01-27T15:00:00Z,,0.75,{},2025-01-27T15:00:00Z
+550e8400-e29b-41d4-a716-446655440014,550e8400-e29b-41d4-a716-446655440004,respiratory,low,0.08,"{""age"": 35, ""no_smoking_history"": true, ""environment"": ""clean""}",2025-01-27T15:00:00Z,,0.92,{},2025-01-27T15:00:00Z

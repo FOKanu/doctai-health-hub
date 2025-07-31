@@ -106,7 +106,7 @@ const PostboxScreen = () => {
       <div className="bg-white shadow-sm">
         <div className="flex items-center p-4">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/patient/')}
             className="p-2 -ml-2 rounded-full hover:bg-gray-100"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -171,7 +171,7 @@ const PostboxScreen = () => {
                   </p>
                   <p className="text-gray-500 text-sm mt-1">{message.preview}</p>
                 </div>
-                
+
                 <div className="flex flex-col items-end space-y-2 ml-4">
                   <div className="flex items-center space-x-1 text-xs text-gray-500">
                     <Calendar className="w-3 h-3" />
@@ -198,7 +198,7 @@ const PostboxScreen = () => {
                     <Download className="w-4 h-4" />
                   </button>
                 </div>
-                
+
                 <div className="flex space-x-2">
                   <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full">
                     <Archive className="w-4 h-4" />

@@ -18,9 +18,9 @@ export const QuickActionsSection: React.FC = () => {
   const [selectedBodyPart, setSelectedBodyPart] = useState<BodyPart | null>(null);
 
   const quickActions: QuickAction[] = [
-    { icon: Camera, title: 'Skin Scan', subtitle: 'AI-powered lesion detection', color: 'bg-primary hover:bg-primary/90', path: '/scan' },
-    { icon: Upload, title: 'Upload Medical Image', subtitle: 'CT, MRI, EEG analysis', color: 'bg-secondary hover:bg-secondary/90', path: '/upload' },
-    { icon: TrendingUp, title: 'Track Progression', subtitle: 'Time-series health analysis', color: 'bg-accent hover:bg-accent/90', path: '/analytics?tab=progression' },
+    { icon: Camera, title: 'Skin Scan', subtitle: 'AI-powered lesion detection', color: 'bg-primary hover:bg-primary/90', path: '/patient/scan' },
+    { icon: Upload, title: 'Upload Medical Image', subtitle: 'CT, MRI, EEG analysis', color: 'bg-secondary hover:bg-secondary/90', path: '/patient/upload' },
+    { icon: TrendingUp, title: 'Track Progression', subtitle: 'Time-series health analysis', color: 'bg-accent hover:bg-accent/90', path: '/patient/analytics?tab=progression' },
   ];
 
   const handleActionClick = (action: QuickAction) => {
@@ -36,7 +36,7 @@ export const QuickActionsSection: React.FC = () => {
     setShowBodyPartDialog(false);
 
     // Navigate to scan screen with body part data
-    navigate('/scan', {
+    navigate('/patient/scan', {
       state: {
         scanMetaData: { bodyPart }
       }

@@ -2,11 +2,11 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  Camera, 
-  RefreshCw, 
-  Target, 
-  Brain, 
+import {
+  Camera,
+  RefreshCw,
+  Target,
+  Brain,
   BarChart3,
   Plus,
   Calendar,
@@ -23,7 +23,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
       title: 'Rescan',
       description: 'Take a new skin health scan',
       icon: Camera,
-      action: () => onNavigate('/scan'),
+      action: () => onNavigate('/patient/scan'),
       variant: 'default' as const,
       className: 'bg-blue-600 hover:bg-blue-700'
     },
@@ -31,35 +31,35 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
       title: 'Update Activity',
       description: 'Log your latest workout',
       icon: Plus,
-      action: () => onNavigate('/fitness'),
+      action: () => onNavigate('/patient/fitness'),
       variant: 'outline' as const
     },
     {
       title: 'Adjust Goals',
       description: 'Modify your health targets',
       icon: Target,
-      action: () => onNavigate('/settings'),
+      action: () => onNavigate('/patient/settings'),
       variant: 'outline' as const
     },
     {
       title: 'View Analytics',
       description: 'Detailed health insights',
       icon: BarChart3,
-      action: () => onNavigate('/analytics'),
+      action: () => onNavigate('/patient/analytics'),
       variant: 'outline' as const
     },
     {
       title: 'AI Recommendations',
       description: 'Get personalized advice',
       icon: Brain,
-      action: () => onNavigate('/analytics'),
+      action: () => onNavigate('/patient/analytics'),
       variant: 'outline' as const
     },
     {
       title: 'Book Appointment',
       description: 'Schedule with specialist',
       icon: Calendar,
-      action: () => onNavigate('/appointments'),
+      action: () => onNavigate('/patient/appointments'),
       variant: 'outline' as const
     }
   ];

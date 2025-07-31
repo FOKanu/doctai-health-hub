@@ -82,7 +82,7 @@ const LoginScreen = () => {
         if (user) {
           switch (user.role) {
             case 'patient':
-              navigate('/');
+              navigate('/patient/');
               break;
             case 'provider':
               navigate('/provider/dashboard');
@@ -94,10 +94,10 @@ const LoginScreen = () => {
               navigate('/admin/dashboard');
               break;
             default:
-              navigate('/');
+              navigate('/patient/');
           }
         } else {
-          navigate('/');
+          navigate('/patient/');
         }
       } else {
         setError('Invalid credentials. Please try again.');

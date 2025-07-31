@@ -10,21 +10,20 @@ export const BackgroundWrapper = ({ children, className = '' }: BackgroundWrappe
   const { currentBackground } = useBackgroundImages();
 
   const isGradient = currentBackground.startsWith('linear-gradient');
-  
+
   return (
-    <div 
+    <div
       className={`relative min-h-screen ${className}`}
       style={{
-        background: isGradient ? currentBackground : undefined,
-        backgroundImage: !isGradient ? `url(${currentBackground})` : undefined,
+        backgroundImage: isGradient ? currentBackground : `url(${currentBackground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
       }}
     >
       {/* Overlay for better content readability */}
-      <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px]" />
-      
+      <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px] pointer-events-none" />
+
       {/* Content */}
       <div className="relative z-10">
         {children}

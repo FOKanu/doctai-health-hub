@@ -1,0 +1,3 @@
+id,user_id,condition_type,baseline_date,status,severity_score,confidence_score,notes,metadata,created_at,updated_at
+550e8400-e29b-41d4-a716-446655440015,550e8400-e29b-41d4-a716-446655440004,cardiovascular,2024-12-28T15:00:00Z,stable,0.15,0.85,Regular monitoring of cardiovascular health,{},2025-01-27T15:00:00Z,2025-01-27T15:00:00Z
+550e8400-e29b-41d4-a716-446655440016,550e8400-e29b-41d4-a716-446655440004,metabolic,2024-12-13T15:00:00Z,monitoring,0.45,0.75,Monitoring blood glucose levels and lifestyle changes,{},2025-01-27T15:00:00Z,2025-01-27T15:00:00Z

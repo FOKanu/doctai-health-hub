@@ -25,70 +25,59 @@ import DietPlanScreen from '../components/DietPlanScreen';
 import TotalScansScreen from '../components/TotalScansScreen';
 import RiskAssessmentsScreen from '../components/RiskAssessmentsScreen';
 import TreatmentsScreen from '../components/TreatmentsScreen';
-import LoginScreen from '../components/LoginScreen';
-import WelcomeScreen from '../components/WelcomeScreen';
 
 const Index = () => {
   return (
-    <Routes>
-      {/* Authentication Routes */}
-      <Route path="/login" element={<LoginScreen />} />
-      <Route path="/welcome" element={<WelcomeScreen />} />
-      
-      {/* Main App Routes */}
-      <Route path="/*" element={
-        <BackgroundWrapper>
-          <SidebarProvider>
-            <div className="min-h-screen flex w-full bg-white/80 backdrop-blur-sm">
-              <AppSidebar />
-              <div className="flex-1 flex flex-col">
-                <AppHeader />
-                <main className="flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-6">
-                  <div className="max-w-7xl mx-auto">
-                    <ErrorBoundary>
-                      <Routes>
-                        <Route path="/" element={<HomeScreen />} />
-                        <Route path="/results" element={<ResultsScreen />} />
-                        <Route path="/analytics" element={<AnalyticsScreen />} />
-                        <Route path="/postbox" element={<PostboxScreen />} />
-                        <Route path="/medical-records" element={<MedicalRecordsScreen />} />
-                        <Route path="/total-scans" element={<TotalScansScreen />} />
-                        <Route path="/risk-assessments" element={<RiskAssessmentsScreen />} />
-                        <Route path="/treatments" element={<TreatmentsScreen />} />
-                        <Route
-                          path="/scan"
-                          element={
-                            <ErrorBoundary
-                              onError={(error, errorInfo) => {
-                                console.error('ScanScreen Error:', error, errorInfo);
-                              }}
-                            >
-                              <ScanScreen />
-                            </ErrorBoundary>
-                          }
-                        />
-                        <Route path="/upload" element={<UploadScreen />} />
-                        <Route path="/specialists" element={<SpecialistScreen />} />
-                        <Route path="/history" element={<HistoryScreen />} />
-                        <Route path="/medications" element={<MedicationsScreen />} />
-                        <Route path="/appointments" element={<AppointmentsScreen />} />
-                        <Route path="/fitness" element={<FitnessScreen />} />
-                        <Route path="/diet" element={<DietPlanScreen />} />
-                        <Route path="/profile" element={<ProfileScreen />} />
-                        <Route path="/settings" element={<SettingsScreen />} />
-                        {/* Fallback route for unmatched paths */}
-                        <Route path="*" element={<HomeScreen />} />
-                      </Routes>
-                    </ErrorBoundary>
-                  </div>
-                </main>
+    <BackgroundWrapper>
+      <SidebarProvider>
+        <div className="min-h-screen flex w-full bg-white/80 backdrop-blur-sm">
+          <AppSidebar />
+          <div className="flex-1 flex flex-col">
+            <AppHeader />
+            <main className="flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-6">
+              <div className="max-w-7xl mx-auto">
+                <ErrorBoundary>
+                  <Routes>
+                    <Route path="/" element={<HomeScreen />} />
+                    <Route path="/results" element={<ResultsScreen />} />
+                    <Route path="/analytics" element={<AnalyticsScreen />} />
+                    <Route path="/postbox" element={<PostboxScreen />} />
+                    <Route path="/medical-records" element={<MedicalRecordsScreen />} />
+                    <Route path="/total-scans" element={<TotalScansScreen />} />
+                    <Route path="/risk-assessments" element={<RiskAssessmentsScreen />} />
+                    <Route path="/treatments" element={<TreatmentsScreen />} />
+                    <Route
+                      path="/scan"
+                      element={
+                        <ErrorBoundary
+                          onError={(error, errorInfo) => {
+                            console.error('ScanScreen Error:', error, errorInfo);
+                          }}
+                        >
+                          <ScanScreen />
+                        </ErrorBoundary>
+                      }
+                    />
+                    <Route path="/upload" element={<UploadScreen />} />
+                    <Route path="/specialists" element={<SpecialistScreen />} />
+                    <Route path="/history" element={<HistoryScreen />} />
+                    <Route path="/medications" element={<MedicationsScreen />} />
+                    <Route path="/appointments" element={<AppointmentsScreen />} />
+                    <Route path="/fitness" element={<FitnessScreen />} />
+                    <Route path="/diet" element={<DietPlanScreen />} />
+                    <Route path="/profile" element={<ProfileScreen />} />
+                    <Route path="/settings" element={<SettingsScreen />} />
+                    {/* Fallback route for unmatched paths */}
+                    <Route path="*" element={<HomeScreen />} />
+                  </Routes>
+                </ErrorBoundary>
               </div>
-              <MobileNavigation />
-            </div>
-          </SidebarProvider>
-        </BackgroundWrapper>
-      } />
-    </Routes>
+            </main>
+          </div>
+          <MobileNavigation />
+        </div>
+      </SidebarProvider>
+    </BackgroundWrapper>
   );
 };
 

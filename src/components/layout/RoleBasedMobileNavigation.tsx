@@ -54,12 +54,12 @@ export function RoleBasedMobileNavigation({ role }: RoleBasedMobileNavigationPro
       case 'patient':
       default:
         return [
-          { icon: Home, label: 'Home', path: '/' },
-          { icon: Calendar, label: 'Appointments', path: '/appointments' },
-          { icon: Pill, label: 'Medications', path: '/medications' },
-          { icon: FileText, label: 'Records', path: '/medical-records' },
-          { icon: Activity, label: 'Analytics', path: '/analytics' },
-          { icon: Settings, label: 'Settings', path: '/settings' }
+          { icon: Home, label: 'Home', path: '/patient/' },
+          { icon: Calendar, label: 'Appointments', path: '/patient/appointments' },
+          { icon: Pill, label: 'Medications', path: '/patient/medications' },
+          { icon: FileText, label: 'Records', path: '/patient/medical-records' },
+          { icon: Activity, label: 'Analytics', path: '/patient/analytics' },
+          { icon: Settings, label: 'Settings', path: '/patient/settings' }
         ];
     }
   };

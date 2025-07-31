@@ -118,7 +118,7 @@ const DietPlanScreen = () => {
             <Target className="w-3 h-3 mr-1" />
             75% Daily Goal
           </Badge>
-          <Button variant="outline" size="sm" onClick={() => navigate('/analytics')}>
+          <Button variant="outline" size="sm" onClick={() => navigate('/patient/analytics')}>
             <BarChart3 className="w-4 h-4 mr-2" />
             View Analytics
           </Button>

@@ -4,12 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { 
-  Activity, 
-  Camera, 
-  Target, 
-  TrendingUp, 
-  Calendar, 
+import {
+  Activity,
+  Camera,
+  Target,
+  TrendingUp,
+  Calendar,
   Award,
   Scan,
   RefreshCw,
@@ -84,7 +84,7 @@ const ResultsScreen = () => {
             <TrendingUp className="w-3 h-3 mr-1" />
             Overall Improving
           </Badge>
-          <Button variant="outline" size="sm" onClick={() => navigate('/settings')}>
+                      <Button variant="outline" size="sm" onClick={() => navigate('/patient/settings')}>
             <Settings className="w-4 h-4 mr-2" />
             Adjust Goals
           </Button>
@@ -163,7 +163,7 @@ const ResultsScreen = () => {
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg">
             <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5" />
             <div>
@@ -185,7 +185,7 @@ const ResultsScreen = () => {
           </div>
 
           <div className="flex justify-center pt-4">
-            <Button onClick={() => navigate('/analytics')} className="bg-purple-600 hover:bg-purple-700">
+            <Button onClick={() => navigate('/patient/analytics')} className="bg-purple-600 hover:bg-purple-700">
               <Brain className="w-4 h-4 mr-2" />
               View Detailed AI Analysis
             </Button>

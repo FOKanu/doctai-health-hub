@@ -22,7 +22,7 @@ export const StatsSection: React.FC = () => {
       change: '+3 this week',
       icon: Camera,
       color: 'text-primary',
-      path: '/total-scans'
+      path: '/patient/total-scans'
     },
     {
       label: 'Risk Assessments',
@@ -30,7 +30,7 @@ export const StatsSection: React.FC = () => {
       change: '2 high priority',
       icon: Activity,
       color: 'text-secondary-foreground',
-      path: '/risk-assessments'
+      path: '/patient/risk-assessments'
     },
     {
       label: 'Appointments',
@@ -38,7 +38,7 @@ export const StatsSection: React.FC = () => {
       change: 'Next: Tomorrow',
       icon: Calendar,
       color: 'text-accent-foreground',
-      path: '/appointments'
+      path: '/patient/appointments'
     },
   ];
 

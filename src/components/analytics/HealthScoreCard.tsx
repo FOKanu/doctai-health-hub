@@ -34,10 +34,6 @@ export function HealthScoreCard({ userId, className }: HealthScoreCardProps) {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
 
-  useEffect(() => {
-    loadHealthData();
-  }, [userId, loadHealthData]);
-
   const loadHealthData = useCallback(async () => {
     try {
       setLoading(true);
@@ -56,6 +52,10 @@ export function HealthScoreCard({ userId, className }: HealthScoreCardProps) {
       setLoading(false);
     }
   }, [userId]);
+
+  useEffect(() => {
+    loadHealthData();
+  }, [loadHealthData]);
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600';

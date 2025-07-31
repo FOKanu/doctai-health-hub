@@ -180,7 +180,7 @@ const MedicationsScreen = () => {
           Link your medications to specific treatment plans for better organization and tracking.
         </p>
         <button
-          onClick={() => navigate('/treatments')}
+                          onClick={() => navigate('/patient/treatments')}
           className="text-blue-600 text-sm hover:underline font-medium"
         >
           View All Treatment Plans →

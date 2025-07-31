@@ -121,7 +121,7 @@ const MedicalRecordsScreen = () => {
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/patient/')}
               className="p-2 -ml-2 rounded-full hover:bg-gray-100"
             >
               <ArrowLeft className="w-6 h-6" />
@@ -187,7 +187,7 @@ const MedicalRecordsScreen = () => {
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-1">{record.title}</h3>
                   <p className="text-gray-600 text-sm mb-2">{record.description}</p>
-                  
+
                   <div className="flex items-center space-x-4 text-xs text-gray-500">
                     <div className="flex items-center space-x-1">
                       <Calendar className="w-3 h-3" />
@@ -199,7 +199,7 @@ const MedicalRecordsScreen = () => {
                     <span>{record.facility}</span>
                   </div>
                 </div>
-                
+
                 <div className="text-right ml-4">
                   <p className="text-xs text-gray-500 mb-1">{record.fileType}</p>
                   <p className="text-xs text-gray-500">{record.fileSize}</p>
@@ -227,7 +227,7 @@ const MedicalRecordsScreen = () => {
                     <span>Download</span>
                   </button>
                 </div>
-                
+
                 <button className="p-1 text-gray-400 hover:text-gray-600 rounded">
                   <Filter className="w-4 h-4" />
                 </button>

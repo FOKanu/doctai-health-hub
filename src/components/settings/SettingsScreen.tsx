@@ -36,7 +36,7 @@ const SettingsScreen = () => {
       <div className="bg-white shadow-sm">
         <div className="flex items-center p-4">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/patient/')}
             className="p-2 -ml-2 rounded-full hover:bg-gray-100"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -67,90 +67,90 @@ const SettingsScreen = () => {
       </div>
 
       {/* Modals */}
-      <ChangePasswordModal 
-        open={activeModal === 'changePassword'} 
-        onOpenChange={(open) => !open && closeModal()} 
+      <ChangePasswordModal
+        open={activeModal === 'changePassword'}
+        onOpenChange={(open) => !open && closeModal()}
       />
-      
-      <TwoFactorModal 
-        open={activeModal === 'twoFactor'} 
-        onOpenChange={(open) => !open && closeModal()} 
+
+      <TwoFactorModal
+        open={activeModal === 'twoFactor'}
+        onOpenChange={(open) => !open && closeModal()}
       />
-      
-      <PreferencesModal 
-        open={activeModal === 'language'} 
+
+      <PreferencesModal
+        open={activeModal === 'language'}
         onOpenChange={(open) => !open && closeModal()}
         type="language"
       />
-      
-      <PreferencesModal 
-        open={activeModal === 'dateFormat'} 
+
+      <PreferencesModal
+        open={activeModal === 'dateFormat'}
         onOpenChange={(open) => !open && closeModal()}
         type="dateFormat"
       />
-      
-      <PreferencesModal 
-        open={activeModal === 'timeZone'} 
+
+      <PreferencesModal
+        open={activeModal === 'timeZone'}
         onOpenChange={(open) => !open && closeModal()}
         type="timeZone"
       />
-      
-      <PreferencesModal 
-        open={activeModal === 'units'} 
+
+      <PreferencesModal
+        open={activeModal === 'units'}
         onOpenChange={(open) => !open && closeModal()}
         type="units"
       />
-      
-      <DataStorageModal 
-        open={activeModal === 'syncSettings'} 
+
+      <DataStorageModal
+        open={activeModal === 'syncSettings'}
         onOpenChange={(open) => !open && closeModal()}
         type="sync"
       />
-      
-      <DataStorageModal 
-        open={activeModal === 'exportData'} 
+
+      <DataStorageModal
+        open={activeModal === 'exportData'}
         onOpenChange={(open) => !open && closeModal()}
         type="export"
       />
-      
-      <DataStorageModal 
-        open={activeModal === 'storageUsage'} 
+
+      <DataStorageModal
+        open={activeModal === 'storageUsage'}
         onOpenChange={(open) => !open && closeModal()}
         type="storage"
       />
-      
-      <DataStorageModal 
-        open={activeModal === 'clearCache'} 
+
+      <DataStorageModal
+        open={activeModal === 'clearCache'}
         onOpenChange={(open) => !open && closeModal()}
         type="cache"
       />
-      
-      <SupportModal 
-        open={activeModal === 'helpCenter'} 
+
+      <SupportModal
+        open={activeModal === 'helpCenter'}
         onOpenChange={(open) => !open && closeModal()}
         type="help"
       />
-      
-      <SupportModal 
-        open={activeModal === 'contactSupport'} 
+
+      <SupportModal
+        open={activeModal === 'contactSupport'}
         onOpenChange={(open) => !open && closeModal()}
         type="contact"
       />
-      
-      <SupportModal 
-        open={activeModal === 'reportBug'} 
+
+      <SupportModal
+        open={activeModal === 'reportBug'}
         onOpenChange={(open) => !open && closeModal()}
         type="bug"
       />
-      
-      <SupportModal 
-        open={activeModal === 'privacyPolicy'} 
+
+      <SupportModal
+        open={activeModal === 'privacyPolicy'}
         onOpenChange={(open) => !open && closeModal()}
         type="privacy"
       />
-      
-      <SupportModal 
-        open={activeModal === 'termsOfService'} 
+
+      <SupportModal
+        open={activeModal === 'termsOfService'}
         onOpenChange={(open) => !open && closeModal()}
         type="terms"
       />

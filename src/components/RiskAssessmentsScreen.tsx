@@ -96,7 +96,7 @@ const RiskAssessmentsScreen = () => {
           <h1 className="text-3xl font-bold text-gray-900">Risk Assessments</h1>
           <p className="text-gray-600">Monitor and manage your health risk indicators</p>
         </div>
-        <Button onClick={() => navigate('/')} variant="outline">
+                    <Button onClick={() => navigate('/patient/')} variant="outline">
           Back to Dashboard
         </Button>
       </div>

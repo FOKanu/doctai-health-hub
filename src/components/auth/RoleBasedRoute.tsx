@@ -38,7 +38,7 @@ export function RoleBasedRoute({
   if (!user || !allowedRoles.includes(user.role)) {
     // Redirect to appropriate dashboard based on user role
     const roleRedirects: Record<UserRole, string> = {
-      patient: '/',
+      patient: '/patient/',
       provider: '/provider/dashboard',
       engineer: '/engineer/dashboard',
       admin: '/admin/dashboard'

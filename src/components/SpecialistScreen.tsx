@@ -253,7 +253,7 @@ const SpecialistScreen = () => {
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/patient/')}
               className="p-2 -ml-2 rounded-full hover:bg-gray-100 md:hidden"
             >
               <ArrowLeft className="w-6 h-6" />

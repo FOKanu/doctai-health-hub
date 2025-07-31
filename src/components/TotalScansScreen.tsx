@@ -90,7 +90,7 @@ const TotalScansScreen = () => {
           <h1 className="text-3xl font-bold text-gray-900">Total Scans</h1>
           <p className="text-gray-600">Comprehensive overview of all your medical scans</p>
         </div>
-        <Button onClick={() => navigate('/')} variant="outline">
+                    <Button onClick={() => navigate('/patient/')} variant="outline">
           Back to Dashboard
         </Button>
       </div>

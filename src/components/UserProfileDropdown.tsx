@@ -28,15 +28,15 @@ export function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps
   const { logout: authLogout, user: authUser } = useAuth();
 
   const handleViewProfile = () => {
-    navigate('/profile');
+    navigate('/patient/profile');
   };
 
   const handleAccountSettings = () => {
-    navigate('/settings');
+    navigate('/patient/settings');
   };
 
   const handleNotificationPreferences = () => {
-    navigate('/settings');
+    navigate('/patient/settings');
   };
 
   const handleLogout = () => {

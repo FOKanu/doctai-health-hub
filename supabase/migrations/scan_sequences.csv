@@ -1,0 +1,2 @@
+id,user_id,sequence_name,image_ids,analysis_type,baseline_image_id,progression_score,confidence_score,findings,recommendations,metadata,created_at,updated_at
+550e8400-e29b-41d4-a716-446655440019,550e8400-e29b-41d4-a716-446655440004,Chest X-Ray Series,"{550e8400-e29b-41d4-a716-446655440018}",baseline,550e8400-e29b-41d4-a716-446655440018,0.10,0.95,"{""lung_fields"": ""clear"", ""cardiac_silhouette"": ""normal"", ""bony_structures"": ""intact""}","{""Continue annual screening"", ""Maintain healthy lifestyle""}",{},2025-01-27T15:00:00Z,2025-01-27T15:00:00Z

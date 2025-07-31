@@ -2,20 +2,21 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { apiServiceManager } from "./services/api/apiServiceManager";
 import ComplianceDashboard from '@/components/compliance/ComplianceDashboard';
 import { Shield } from 'lucide-react';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProviderLayout } from './components/layout/ProviderLayout';
 import { EngineerLayout } from './components/layout/EngineerLayout';
-import { ClientLayout } from './components/layout/ClientLayout';
 import { ProviderRoute, EngineerRoute, PatientRoute } from './components/auth/RoleBasedRoute';
 import { ProviderDashboard } from './components/provider/ProviderDashboard';
 import { EngineerDashboard } from './components/engineer/EngineerDashboard';
+import LoginScreen from './components/LoginScreen';
+import WelcomeScreen from './components/WelcomeScreen';
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,47 @@ const initializeApiServices = () => {
   console.log('🚀 API Services initialized');
 };
 
+// Root route component that handles authentication redirects
+const RootRoute = () => {
+  const { user, isAuthenticated, isLoading } = useAuth();
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If not authenticated, redirect to login
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // If authenticated, redirect to appropriate dashboard based on role
+  if (user) {
+    switch (user.role) {
+      case 'patient':
+        return <Navigate to="/patient/" replace />;
+      case 'provider':
+        return <Navigate to="/provider/dashboard" replace />;
+      case 'engineer':
+        return <Navigate to="/engineer/dashboard" replace />;
+      case 'admin':
+        return <Navigate to="/admin/dashboard" replace />;
+      default:
+        return <Navigate to="/patient/" replace />;
+    }
+  }
+
+  // Fallback to login
+  return <Navigate to="/login" replace />;
+};
+
 const App = () => {
   useEffect(() => {
     initializeApiServices();
@@ -59,20 +101,21 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <Routes>
-              {/* Public Routes */}
-              <Route path="/login" element={<Index />} />
-              <Route path="/welcome" element={<Index />} />
+              {/* Public Routes - No authentication required */}
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/welcome" element={<WelcomeScreen />} />
 
-              {/* Patient/Client Routes */}
-              <Route path="/*" element={
+              {/* Root route - handles authentication redirects */}
+              <Route path="/" element={<RootRoute />} />
+
+              {/* Patient/Client Routes - Protected */}
+              <Route path="/patient/*" element={
                 <PatientRoute>
-                  <ClientLayout>
-                    <Index />
-                  </ClientLayout>
+                  <Index />
                 </PatientRoute>
               } />
 
-              {/* Provider Routes */}
+              {/* Provider Routes - Protected */}
               <Route path="/provider/*" element={
                 <ProviderRoute>
                   <ProviderLayout>
@@ -94,7 +137,7 @@ const App = () => {
                 </ProviderRoute>
               } />
 
-              {/* Engineer Routes */}
+              {/* Engineer Routes - Protected */}
               <Route path="/engineer/*" element={
                 <EngineerRoute>
                   <EngineerLayout>
@@ -115,7 +158,7 @@ const App = () => {
                 </EngineerRoute>
               } />
 
-              {/* Admin Routes */}
+              {/* Admin Routes - Protected */}
               <Route path="/admin/*" element={
                 <ProviderRoute>
                   <div>Admin Dashboard</div>

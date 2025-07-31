@@ -8,12 +8,12 @@ export function MobileNavigation() {
   const location = useLocation();
 
   const navItems = [
-    { icon: Home, label: 'Home', path: '/' },
-    { icon: History, label: 'History', path: '/history' },
-    { icon: Pill, label: 'Medications', path: '/medications' },
-    { icon: FileText, label: 'Treatments', path: '/treatments' },
-    { icon: Calendar, label: 'Appointments', path: '/appointments' },
-    { icon: User, label: 'Profile', path: '/profile' },
+    { icon: Home, label: 'Home', path: '/patient/' },
+    { icon: History, label: 'History', path: '/patient/history' },
+    { icon: Pill, label: 'Medications', path: '/patient/medications' },
+    { icon: FileText, label: 'Treatments', path: '/patient/treatments' },
+    { icon: Calendar, label: 'Appointments', path: '/patient/appointments' },
+    { icon: User, label: 'Profile', path: '/patient/profile' },
   ];
 
   return (

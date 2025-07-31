@@ -32,7 +32,7 @@ const ScanScreen = () => {
   // Redirect if no body part is selected
   useEffect(() => {
     if (!scanMetaData?.bodyPart) {
-      navigate('/');
+      navigate('/patient/');
     }
   }, [scanMetaData, navigate]);
 
@@ -193,7 +193,7 @@ const ScanScreen = () => {
 
   const handleAddToMonitoring = () => {
     alert('Added to weekly monitoring reminders!');
-    navigate('/');
+    navigate('/patient/');
   };
 
   const handleRetake = () => {
@@ -212,7 +212,7 @@ const ScanScreen = () => {
       {/* Header */}
       <div className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-4">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/patient/')}
           className="p-2 bg-black bg-opacity-50 rounded-full text-white"
         >
           <ArrowLeft className="w-6 h-6" />
@@ -379,7 +379,7 @@ const ScanScreen = () => {
 
             <div className="flex space-x-3">
               <button
-                onClick={() => navigate('/specialists')}
+                onClick={() => navigate('/patient/specialists')}
                 className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
                 Get Specialist

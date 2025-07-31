@@ -44,7 +44,7 @@ const UploadScreen = () => {
       <div className="bg-white shadow-sm">
         <div className="flex items-center p-4">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/patient/')}
             className="p-2 -ml-2 rounded-full hover:bg-gray-100"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -57,7 +57,7 @@ const UploadScreen = () => {
         {/* File Upload */}
         <div className="bg-white rounded-lg p-6 shadow-sm">
           <h2 className="text-lg font-semibold mb-4">Select Medical Image</h2>
-          
+
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors">
             <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 mb-2">Upload CT, MRI, EEG, PDF, JPG, or PNG</p>
@@ -89,7 +89,7 @@ const UploadScreen = () => {
         {/* Metadata Form */}
         <div className="bg-white rounded-lg p-6 shadow-sm">
           <h2 className="text-lg font-semibold mb-4">Image Details</h2>
-          
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -148,7 +148,7 @@ const UploadScreen = () => {
         {result && (
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <h2 className="text-lg font-semibold mb-4 text-green-600">Analysis Complete</h2>
-            
+
             <div className="space-y-4">
               <div>
                 <h3 className="font-medium text-gray-700 mb-2">Summary:</h3>
@@ -167,13 +167,13 @@ const UploadScreen = () => {
 
               <div className="flex space-x-3">
                 <button
-                  onClick={() => navigate('/specialists')}
+                  onClick={() => navigate('/patient/specialists')}
                   className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                 >
                   Get Specialist
                 </button>
                 <button
-                  onClick={() => navigate('/history')}
+                  onClick={() => navigate('/patient/history')}
                   className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors"
                 >
                   Save to History
