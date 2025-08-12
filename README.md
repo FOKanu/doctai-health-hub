@@ -24,6 +24,7 @@
 
 - [🏥 Overview](#-overview)
 - [🚀 Quick Start](#-quick-start)
+- [🔑 API Keys & Security](#-api-keys--security)
 - [🛠️ Technology Stack](#️-technology-stack)
 - [📁 Project Structure](#-project-structure)
 - [🔧 Installation & Setup](#-installation--setup)
@@ -100,6 +101,111 @@ docker-compose up -d
 # Or using Docker directly
 docker build -t doctai-health-hub .
 docker run -p 8080:8080 doctai-health-hub
+```
+
+---
+
+## 🔑 API Keys & Security
+
+### ⚠️ **IMPORTANT: API Key Requirements**
+
+This application requires several API keys to function properly. **Never commit API keys to version control.**
+
+### Required API Keys
+
+| Service | Environment Variable | Required | Purpose |
+|---------|---------------------|----------|---------|
+| **Supabase** | `VITE_SUPABASE_URL` | ✅ **Required** | Database & Authentication |
+| **Supabase** | `VITE_SUPABASE_ANON_KEY` | ✅ **Required** | Database & Authentication |
+| **OpenAI** | `VITE_OPENAI_API_KEY` | ✅ **Required** | AI Features & Chat |
+| **Google Cloud** | `VITE_GOOGLE_HEALTHCARE_PROJECT_ID` | 🔶 **Optional** | Medical Image Analysis |
+| **Google Cloud** | `VITE_GOOGLE_HEALTHCARE_API_KEY` | 🔶 **Optional** | Google Healthcare API |
+| **Azure Health Bot** | `VITE_AZURE_HEALTH_BOT_API_KEY` | 🔶 **Optional** | Conversational AI |
+| **IBM Watson** | `VITE_WATSON_HEALTH_API_KEY` | 🔶 **Optional** | Medical AI Services |
+
+### 🔐 Security Best Practices
+
+#### 1. **Environment Variables**
+```bash
+# Create .env file (never commit this)
+cp .env.example .env
+
+# Add your API keys to .env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_OPENAI_API_KEY=your_openai_key
+```
+
+#### 2. **Google Cloud Service Account**
+```bash
+# Run the setup script to create service account
+./scripts/setup-google-cloud.sh
+
+# Service account key will be stored in ~/.config/doctai/
+# Set environment variable:
+export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/doctai/doctai-healthcare-service-key.json"
+```
+
+#### 3. **Production Deployment**
+- Use environment variables in your deployment platform
+- Never expose API keys in client-side code
+- Use Application Default Credentials (ADC) for Google Cloud
+- Implement proper CORS policies
+- Enable HTTPS in production
+
+### 🚨 **Security Warnings**
+
+- ❌ **Never commit API keys to Git**
+- ❌ **Don't share API keys publicly**
+- ❌ **Don't use API keys in client-side code**
+- ✅ **Use environment variables**
+- ✅ **Rotate keys regularly**
+- ✅ **Monitor API usage**
+
+### 📋 **Setup Checklist**
+
+- [ ] Create `.env` file from `.env.example`
+- [ ] Add Supabase URL and anon key
+- [ ] Add OpenAI API key
+- [ ] Configure Google Cloud (optional)
+- [ ] Set up Azure Health Bot (optional)
+- [ ] Configure IBM Watson (optional)
+- [ ] Test all integrations
+- [ ] Verify security settings
+
+### 🔧 **Troubleshooting**
+
+#### Missing API Keys
+```bash
+# Check if environment variables are loaded
+npm run dev
+
+# Look for errors like:
+# "Missing required API key: VITE_SUPABASE_URL"
+```
+
+#### Google Cloud Setup
+```bash
+# Install Google Cloud CLI
+curl https://sdk.cloud.google.com | bash
+
+# Authenticate
+gcloud auth login
+
+# Run setup script
+./scripts/setup-google-cloud.sh
+```
+
+#### Environment Variable Issues
+```bash
+# Verify .env file exists
+ls -la .env
+
+# Check if variables are loaded
+echo $VITE_SUPABASE_URL
+
+# Restart development server
+npm run dev
 ```
 
 ---
