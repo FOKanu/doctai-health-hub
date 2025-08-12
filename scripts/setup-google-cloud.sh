@@ -138,13 +138,15 @@ create_service_account() {
 
     # Create and download key
     print_status "Creating service account key"
-    local key_file="doctai-healthcare-service-key.json"
+    local key_dir="$HOME/.config/doctai"
+    mkdir -p "$key_dir"
+    local key_file="$key_dir/doctai-healthcare-service-key.json"
 
     if gcloud iam service-accounts keys create "$key_file" \
         --iam-account="$service_account_email" \
         --quiet; then
         print_success "Service account key created: $key_file"
-        print_warning "Keep this file secure and never commit it to version control!"
+        print_warning "Key stored in $key_dir (outside repo). Keep this file secure and never commit it."
     else
         print_error "Failed to create service account key"
         return 1
@@ -255,7 +257,8 @@ update_env_file() {
     update_env_var "VITE_GOOGLE_HEALTHCARE_LOCATION" "$location"
     update_env_var "VITE_GOOGLE_HEALTHCARE_DATASET_ID" "$dataset_id"
     update_env_var "VITE_GOOGLE_CLOUD_STORAGE_BUCKET" "$bucket_name"
-    update_env_var "GOOGLE_APPLICATION_CREDENTIALS" "./doctai-healthcare-service-key.json"
+    # Point to key stored outside the repository
+    update_env_var "GOOGLE_APPLICATION_CREDENTIALS" "$HOME/.config/doctai/doctai-healthcare-service-key.json"
     update_env_var "VITE_CLOUD_HEALTHCARE_TIMEOUT" "30000"
     update_env_var "VITE_CLOUD_HEALTHCARE_MAX_RETRIES" "3"
     update_env_var "VITE_CLOUD_HEALTHCARE_DEBUG" "true"
