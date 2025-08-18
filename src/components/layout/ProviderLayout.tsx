@@ -39,6 +39,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
+import { UserProfileDropdown } from '@/components/UserProfileDropdown';
 import { RoleBasedMobileNavigation } from './RoleBasedMobileNavigation';
 
 export function ProviderLayout({ children }: { children: React.ReactNode }) {
@@ -305,6 +306,9 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                     3
                   </Badge>
                 </Button>
+
+                {/* User Profile Dropdown */}
+                <UserProfileDropdown />
               </div>
             </div>
           </header>
