@@ -7,9 +7,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, FileText } from 'lucide-react';
 
+import { Treatment } from '@/types/medical';
+
 interface AddTreatmentModalProps {
   trigger?: React.ReactNode;
-  onAddTreatment?: (treatment: string) => void;
+  onAddTreatment?: (treatment: Treatment) => void;
 }
 
 export function AddTreatmentModal({ trigger, onAddTreatment }: AddTreatmentModalProps) {

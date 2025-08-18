@@ -7,9 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Plus, Pill } from 'lucide-react';
 
+import { Medication } from '@/types/medical';
+
 interface AddMedicationModalProps {
   trigger?: React.ReactNode;
-  onAddMedication?: (medication: string) => void;
+  onAddMedication?: (medication: Medication) => void;
 }
 
 export function AddMedicationModal({ trigger, onAddMedication }: AddMedicationModalProps) {

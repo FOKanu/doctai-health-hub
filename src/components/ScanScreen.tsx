@@ -29,20 +29,7 @@ const ScanScreen = () => {
   const zoomTimeoutRef = useRef<NodeJS.Timeout>();
   const captureTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // Redirect if no body part is selected
-  useEffect(() => {
-    if (!scanMetaData?.bodyPart) {
-      navigate('/patient/');
-    }
-  }, [scanMetaData, navigate]);
-
-  useEffect(() => {
-    startCamera();
-    return () => {
-      stopCamera();
-    };
-  }, [facingMode, startCamera, stopCamera]);
-
+  // Define camera functions first before useEffect uses them
   const startCamera = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -69,6 +56,20 @@ const ScanScreen = () => {
       streamRef.current = null;
     }
   }, []);
+
+  // Redirect if no body part is selected
+  useEffect(() => {
+    if (!scanMetaData?.bodyPart) {
+      navigate('/patient/');
+    }
+  }, [scanMetaData, navigate]);
+
+  useEffect(() => {
+    startCamera();
+    return () => {
+      stopCamera();
+    };
+  }, [facingMode, startCamera, stopCamera]);
 
   const handleSwitchCamera = () => {
     setFacingMode(prev => prev === 'environment' ? 'user' : 'environment');
