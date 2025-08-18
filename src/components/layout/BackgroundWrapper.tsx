@@ -1,5 +1,6 @@
 import React from 'react';
-import { useBackgroundImages } from '@/hooks/useBackgroundImages';
+import { useRouteBackgrounds } from '@/hooks/useRouteBackgrounds';
+import { useTheme } from 'next-themes';
 
 interface BackgroundWrapperProps {
   children: React.ReactNode;
@@ -7,22 +8,43 @@ interface BackgroundWrapperProps {
 }
 
 export const BackgroundWrapper = ({ children, className = '' }: BackgroundWrapperProps) => {
-  const { currentBackground } = useBackgroundImages();
+  const { getCurrentBackground } = useRouteBackgrounds();
+  const { theme } = useTheme();
+  const background = getCurrentBackground();
 
-  const isGradient = currentBackground.startsWith('linear-gradient');
+  if (!background) {
+    return (
+      <div className={`relative min-h-screen ${className}`}>
+        {children}
+      </div>
+    );
+  }
+
+  const isGradient = background.url.startsWith('linear-gradient');
+  const isDarkMode = theme === 'dark';
 
   return (
     <div
       className={`relative min-h-screen ${className}`}
       style={{
-        backgroundImage: isGradient ? currentBackground : `url(${currentBackground})`,
+        backgroundImage: isGradient ? background.url : `url(${background.url})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
       }}
     >
-      {/* Overlay for better content readability */}
-      <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px] pointer-events-none" />
+      {/* Smart overlay for better content readability */}
+      <div 
+        className="absolute inset-0 pointer-events-none" 
+        style={{
+          background: isDarkMode ? background.darkOverlay || background.overlay : background.overlay
+        }}
+      />
+
+      {/* Additional blur overlay for image backgrounds */}
+      {!isGradient && (
+        <div className="absolute inset-0 backdrop-blur-[0.5px] pointer-events-none" />
+      )}
 
       {/* Content */}
       <div className="relative z-10">
