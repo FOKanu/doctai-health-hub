@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Loader2 } from 'lucide-react';
-import { timeSeriesService, type RiskProgression } from '@/services/timeseriesService';
+import { timeSeriesService } from '@/services/timeseriesService';
+import { RiskProgression } from '@/integrations/supabase/types';
 
 interface RiskProgressionData {
   date: string;

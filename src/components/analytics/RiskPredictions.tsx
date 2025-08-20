@@ -56,7 +56,7 @@ export const RiskPredictions: React.FC<RiskPredictionsProps> = ({ dateRange }) =
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <RiskDistributionChart data={riskDistribution} />
-        <RiskProgressionChart data={riskProgression} />
+        <RiskProgressionChart />
       </div>
       <RiskAlerts alerts={alerts} />
     </div>

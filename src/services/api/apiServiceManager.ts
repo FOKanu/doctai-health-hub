@@ -116,7 +116,7 @@ export class ApiServiceManager {
 
   async sendEmergencyAlert(
     userId: string,
-    alert: Record<string, unknown>,
+    alert: string,
     contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {

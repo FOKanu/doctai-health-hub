@@ -1,58 +1,63 @@
 import React, { useState } from 'react';
-import { ApiResponse } from '@/types/common';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Brain, MessageCircle, Lightbulb, BookOpen } from 'lucide-react';
 import { apiServiceManager } from '@/services/api/apiServiceManager';
+import { HealthAnalysisResponse } from '@/types/medical';
 
 interface HealthAssistantProps {
   className?: string;
 }
 
+type AssistantMode = 'symptoms' | 'terms' | 'tips';
+
+const analyzeHealthData = async (input: string, mode: AssistantMode) => {
+  switch (mode) {
+    case 'symptoms': {
+      const symptoms = input.split(',').map(s => s.trim());
+      return await apiServiceManager.generateHealthInsights(symptoms);
+    }
+    case 'terms': {
+      return await apiServiceManager.explainMedicalTerm(input);
+    }
+    case 'tips': {
+      return await apiServiceManager.generateHealthTips(input);
+    }
+    default:
+      throw new Error('Invalid mode');
+  }
+};
+
 export const HealthAssistant: React.FC<HealthAssistantProps> = ({ className }) => {
   const [mode, setMode] = useState<'symptoms' | 'terms' | 'tips'>('symptoms');
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<ApiResponse<unknown> | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<HealthAnalysisResponse | null>(null);
+  const [error, setError] = useState<string>('');
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!input.trim()) return;
 
     setLoading(true);
-    setError(null);
+    setError('');
     setResult(null);
 
     try {
-      let response;
-
-      switch (mode) {
-        case 'symptoms': {
-          const symptoms = input.split(',').map(s => s.trim());
-          response = await apiServiceManager.generateHealthInsights(symptoms);
-          break;
-        }
-        case 'terms': {
-          response = await apiServiceManager.explainMedicalTerm(input);
-          break;
-        }
-        case 'tips': {
-          response = await apiServiceManager.generateHealthTips(input);
-          break;
-        }
-      }
+      const response = await analyzeHealthData(input, mode);
 
       if (response.success) {
-        setResult(response.data);
+        setResult(response.data as HealthAnalysisResponse);
       } else {
         setError(response.error || 'Failed to get response');
       }
-    } catch (err: Error | unknown) {
-      setError(err.message || 'An error occurred');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -226,11 +231,10 @@ export const HealthAssistant: React.FC<HealthAssistantProps> = ({ className }) =
               {mode === 'tips' && 'Enter health category (e.g., nutrition, exercise, sleep):'}
             </label>
             {mode === 'symptoms' ? (
-              <Textarea
+              <Input
                 placeholder="e.g., fever, cough, fatigue"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                rows={3}
               />
             ) : (
               <Input

@@ -24,6 +24,9 @@ export interface Treatment {
   priority: string;
   status: string;
   createdAt: string;
+  patientId?: string; // Make optional to match common.ts
+  prescribedBy?: string; // Add to match common.ts
+  updatedAt?: string; // Add to match common.ts
 }
 
 export interface Appointment {
@@ -57,6 +60,14 @@ export interface Notification {
   message: string;
   status: string;
   provider: string;
+  userId?: string; // Add to match common.ts
+  type?: string; // Add to match common.ts
+  title?: string; // Add to match common.ts
+  priority?: string; // Add to match common.ts
+  isRead?: boolean; // Add to match common.ts
+  actionRequired?: boolean; // Add to match common.ts
+  actionUrl?: string; // Add to match common.ts
+  scheduledFor?: Date; // Add to match common.ts
 }
 
 export interface DietPlanFormData {

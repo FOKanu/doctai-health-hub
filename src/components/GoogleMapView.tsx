@@ -79,12 +79,12 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
 
   const onLoad = useCallback((map: google.maps.Map) => {
     setMap(map);
-
-    // Initialize autocomplete
+    
+    // Initialize autocomplete for search input
     if (inputRef.current && window.google) {
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['establishment'],
-        fields: ['place_id', 'name', 'geometry', 'types', 'vicinity', 'rating']
+        componentRestrictions: { country: 'us' }
       });
 
       autocomplete.addListener('place_changed', () => {
@@ -96,7 +96,8 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
           };
           map.panTo(location);
           map.setZoom(15);
-          searchNearbyPlaces(location);
+          // Call the search function directly instead of undefined searchNearbyPlaces
+          handleSearchNearbyPlaces(location);
         }
       });
 
@@ -104,39 +105,42 @@ export function GoogleMapView({ providers = [], onProviderSelect }: GoogleMapVie
     }
   }, []);
 
+  // Add the missing searchNearbyPlaces function
+  const handleSearchNearbyPlaces = useCallback((location: google.maps.LatLngLiteral) => {
+    if (!map || !window.google) return;
 
+    setLoading(true);
+    const service = new window.google.maps.places.PlacesService(map);
+
+    const request = {
+      location: new window.google.maps.LatLng(location.lat, location.lng),
+      radius: 5000, // 5km radius
+      type: 'health',
+      keyword: 'doctor hospital clinic pharmacy dentist medical'
+    };
+
+    service.nearbySearch(request, (results, status) => {
+      if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
+        const healthcareResults = results.filter(place =>
+          place.types?.some(type =>
+            ['hospital', 'doctor', 'dentist', 'pharmacy', 'physiotherapist', 'health'].includes(type)
+          )
+        ) as PlaceResult[];
+
+        setNearbyPlaces(healthcareResults.slice(0, 20)); // Limit to 20 results
+      }
+      setLoading(false);
+    });
+  }, [map]);
 
   const handleCurrentLocation = useCallback(() => {
     if (userLocation && map) {
       map.panTo(userLocation);
       map.setZoom(15);
-      // Call searchNearbyPlaces directly to avoid circular dependency
-      if (!map || !window.google) return;
-
-      setLoading(true);
-      const service = new window.google.maps.places.PlacesService(map);
-
-      const request = {
-        location: new window.google.maps.LatLng(userLocation.lat, userLocation.lng),
-        radius: 5000, // 5km radius
-        type: 'health',
-        keyword: 'doctor hospital clinic pharmacy dentist medical'
-      };
-
-      service.nearbySearch(request, (results, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
-          const healthcareResults = results.filter(place =>
-            place.types?.some(type =>
-              ['hospital', 'doctor', 'dentist', 'pharmacy', 'physiotherapist', 'health'].includes(type)
-            )
-          ) as PlaceResult[];
-
-          setNearbyPlaces(healthcareResults.slice(0, 20)); // Limit to 20 results
-        }
-        setLoading(false);
-      });
+      // Call the search function directly
+      handleSearchNearbyPlaces(userLocation);
     }
-  }, [userLocation, map, setLoading, setNearbyPlaces]);
+  }, [userLocation, map, handleSearchNearbyPlaces]);
 
   const handleMarkerClick = (place: PlaceResult) => {
     setSelectedPlace(place);

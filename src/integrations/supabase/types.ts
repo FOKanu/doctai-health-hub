@@ -1,4 +1,10 @@
-import { Database as DatabaseGenerated } from './types.generated';
+// Fallback for missing generated types
+interface DatabaseGenerated {
+  public: {
+    Tables: Record<string, any>;
+    Enums: Record<string, any>;
+  };
+}
 
 export type Database = DatabaseGenerated;
 

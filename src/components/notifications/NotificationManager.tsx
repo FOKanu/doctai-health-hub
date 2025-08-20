@@ -74,12 +74,7 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
         case 'medication':
           response = await apiServiceManager.sendMedicationReminder(
             formData.userId,
-            {
-              name: formData.medicationName,
-              dosage: formData.dosage,
-              frequency: formData.frequency,
-              time: formData.medicationTime
-            },
+            formData.medicationName,
             contactInfo
           );
           break;
@@ -87,11 +82,7 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
         case 'emergency':
           response = await apiServiceManager.sendEmergencyAlert(
             formData.userId,
-            {
-              type: formData.emergencyType as string,
-              severity: formData.severity as string,
-              message: formData.emergencyMessage
-            },
+            formData.emergencyMessage,
             contactInfo
           );
           break;
@@ -102,8 +93,9 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
       } else {
         setError(response.error || 'Failed to send notification');
       }
-    } catch (err: Error | unknown) {
-      setError(err.message || 'An error occurred');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -268,20 +260,18 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
             {result.map((notification: Notification, index: number) => (
               <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                 <div className="flex items-center gap-3">
-                  {notification.provider === 'twilio' && <Smartphone className="h-4 w-4 text-blue-500" />}
-                  {notification.provider === 'sendgrid' && <Mail className="h-4 w-4 text-green-500" />}
-                  {notification.provider === 'push' && <Bell className="h-4 w-4 text-purple-500" />}
+                  <Bell className="h-4 w-4 text-blue-500" />
 
                   <div>
-                    <p className="font-medium capitalize">{notification.provider}</p>
-                    <p className="text-sm text-muted-foreground">{notification.id}</p>
+                    <p className="font-medium">{notification.type || 'notification'}</p>
+                    <p className="text-sm text-muted-foreground">{notification.message}</p>
                   </div>
                 </div>
 
                 <Badge
                   variant={notification.status === 'sent' ? 'default' : 'destructive'}
                 >
-                  {notification.status}
+                  {notification.status || 'pending'}
                 </Badge>
               </div>
             ))}

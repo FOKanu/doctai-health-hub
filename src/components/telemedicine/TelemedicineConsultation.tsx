@@ -83,7 +83,7 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
         selectedProvider.id,
         selectedDate.toISOString().split('T')[0]
       );
-      setAvailableSlots(slots.filter(slot => slot.is_available));
+      setAvailableSlots(slots.filter(slot => slot.is_available) as TimeSlot[]);
     } catch (error) {
       console.error('Error loading available slots:', error);
     }
@@ -144,7 +144,9 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
   const handleJoinConsultation = async (consultationId: string) => {
     try {
       const { meetingUrl } = await telemedicineService.joinConsultation(consultationId, userId);
-      window.open(meetingUrl, '_blank');
+      if (typeof meetingUrl === 'string') {
+        window.open(meetingUrl, '_blank');
+      }
     } catch (error) {
       console.error('Error joining consultation:', error);
       alert('Failed to join consultation. Please try again.');
@@ -325,7 +327,7 @@ export function TelemedicineConsultation({ userId, className }: TelemedicineCons
                         </SelectTrigger>
                         <SelectContent>
                           {availableSlots.map((slot, index) => (
-                            <SelectItem key={index} value={slot.start_time}>
+                            <SelectItem key={index} value={slot.time}>
                               {slot.start_time} - {slot.end_time}
                             </SelectItem>
                           ))}

@@ -81,26 +81,26 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             title="Provider Type"
             options={providerTypes}
             selectedValues={filters.providerType}
-            onToggle={(value) => toggleArrayFilter('providerType', value)}
+            onToggle={(value: string) => toggleArrayFilter('providerType', value)}
           />
 
           <CheckboxFilterSection
             title="Specialties"
             options={specialties}
             selectedValues={filters.specialties}
-            onToggle={(value) => toggleArrayFilter('specialties', value)}
+            onToggle={(value: string) => toggleArrayFilter('specialties', value)}
             maxHeight="48"
           />
 
           <DistanceFilterSection
             maxDistance={filters.maxDistance}
-            onDistanceChange={(distance) => updateFilter('maxDistance', distance)}
+            onDistanceChange={(distance: number) => updateFilter('maxDistance', distance)}
           />
 
           <SelectFilterSection
             title="Minimum Rating"
             value={filters.minRating}
-            onChange={(value) => updateFilter('minRating', parseFloat(value))}
+            onChange={(value: string) => updateFilter('minRating', parseFloat(value))}
             options={ratingOptions}
           />
 
@@ -108,13 +108,13 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             title="Languages Spoken"
             options={languages}
             selectedValues={filters.languages}
-            onToggle={(value) => toggleArrayFilter('languages', value)}
+            onToggle={(value: string) => toggleArrayFilter('languages', value)}
           />
 
           <SelectFilterSection
             title="Availability"
             value={filters.availability}
-            onChange={(value) => updateFilter('availability', value)}
+            onChange={(value: string) => updateFilter('availability', value)}
             options={availabilityOptions}
           />
 
@@ -122,7 +122,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             title="Insurance Accepted"
             options={insuranceOptions}
             selectedValues={filters.insuranceAccepted}
-            onToggle={(value) => toggleArrayFilter('insuranceAccepted', value)}
+            onToggle={(value: string) => toggleArrayFilter('insuranceAccepted', value)}
           />
 
           <CheckboxFilterSection

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Treatment } from '@/types/common';
+import { Treatment } from '@/types/medical';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Bell, BellOff, Plus } from 'lucide-react';
