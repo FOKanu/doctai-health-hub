@@ -48,6 +48,7 @@
 - **📅 Smart Appointment Scheduling**: AI-driven appointment booking with intelligent recommendations
 - **👥 Comprehensive Patient Management**: Complete EHR system with treatment tracking
 - **📊 Real-time Analytics**: Advanced healthcare analytics and performance metrics
+- **⌚ Smart Watch Integration**: Google Fit and Fitbit health metrics synchronization
 - **🔐 HIPAA-Compliant Security**: Enterprise-grade security with full compliance
 - **📱 Responsive Design**: Optimized for all devices and screen sizes
 - **☁️ Cloud Integration**: Multi-cloud healthcare API integration
@@ -120,6 +121,10 @@ This application requires several API keys to function properly. **Never commit 
 | **OpenAI** | `VITE_OPENAI_API_KEY` | ✅ **Required** | AI Features & Chat |
 | **Google Cloud** | `VITE_GOOGLE_HEALTHCARE_PROJECT_ID` | 🔶 **Optional** | Medical Image Analysis |
 | **Google Cloud** | `VITE_GOOGLE_HEALTHCARE_API_KEY` | 🔶 **Optional** | Google Healthcare API |
+| **Google Fit** | `VITE_GOOGLE_FIT_CLIENT_ID` | 🔶 **Optional** | Fitness Data Integration |
+| **Google Fit** | `VITE_GOOGLE_FIT_CLIENT_SECRET` | 🔶 **Optional** | Fitness Data Integration |
+| **Fitbit** | `VITE_FITBIT_CLIENT_ID` | 🔶 **Optional** | Wearable Device Data |
+| **Fitbit** | `VITE_FITBIT_CLIENT_SECRET` | 🔶 **Optional** | Wearable Device Data |
 | **Azure Health Bot** | `VITE_AZURE_HEALTH_BOT_API_KEY` | 🔶 **Optional** | Conversational AI |
 | **IBM Watson** | `VITE_WATSON_HEALTH_API_KEY` | 🔶 **Optional** | Medical AI Services |
 
@@ -146,7 +151,26 @@ VITE_OPENAI_API_KEY=your_openai_key
 export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/doctai/doctai-healthcare-service-key.json"
 ```
 
-#### 3. **Production Deployment**
+#### 3. **Fitness Integration Setup**
+```bash
+# Google Fit Setup
+# 1. Go to Google Cloud Console
+# 2. Enable Google Fit API
+# 3. Create OAuth 2.0 credentials
+# 4. Add to .env:
+VITE_GOOGLE_FIT_CLIENT_ID=your_google_fit_client_id
+VITE_GOOGLE_FIT_CLIENT_SECRET=your_google_fit_client_secret
+
+# Fitbit Setup
+# 1. Go to Fitbit Developer Portal
+# 2. Create a new app
+# 3. Get OAuth 2.0 credentials
+# 4. Add to .env:
+VITE_FITBIT_CLIENT_ID=your_fitbit_client_id
+VITE_FITBIT_CLIENT_SECRET=your_fitbit_client_secret
+```
+
+#### 4. **Production Deployment**
 - Use environment variables in your deployment platform
 - Never expose API keys in client-side code
 - Use Application Default Credentials (ADC) for Google Cloud
@@ -168,6 +192,8 @@ export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/doctai/doctai-healthcare-se
 - [ ] Add Supabase URL and anon key
 - [ ] Add OpenAI API key
 - [ ] Configure Google Cloud (optional)
+- [ ] Set up Google Fit integration (optional)
+- [ ] Set up Fitbit integration (optional)
 - [ ] Set up Azure Health Bot (optional)
 - [ ] Configure IBM Watson (optional)
 - [ ] Test all integrations
@@ -228,6 +254,8 @@ npm run dev
 |------------|---------|---------|
 | **Supabase** | 2.50.0 | Database & Auth |
 | **Google Cloud Healthcare** | Latest | Medical APIs |
+| **Google Fit API** | Latest | Fitness Data Integration |
+| **Fitbit API** | Latest | Wearable Device Data |
 | **Azure Health Bot** | Latest | Conversational AI |
 | **IBM Watson Health** | Latest | Medical AI |
 | **OpenAI API** | Latest | AI Features |
