@@ -464,7 +464,8 @@
 <a name='L399'></a><a href='#L399'>399</a>
 <a name='L400'></a><a href='#L400'>400</a>
 <a name='L401'></a><a href='#L401'>401</a>
-<a name='L402'></a><a href='#L402'>402</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -502,19 +503,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -524,6 +512,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -896,20 +898,7 @@ const ScanScreen = <span class="cstat-no" title="statement not covered" ><span c
   const zoomTimeoutRef = <span class="cstat-no" title="statement not covered" >useRef&lt;NodeJS.Timeout&gt;();</span>
   const captureTimeoutRef = <span class="cstat-no" title="statement not covered" >useRef&lt;NodeJS.Timeout&gt;();</span>
 &nbsp;
-  // Redirect if no body part is selected
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!scanMetaData?.bodyPart) {</span>
-<span class="cstat-no" title="statement not covered" >      navigate('/');</span>
-    }
-  }, [scanMetaData, navigate]);
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    startCamera();</span>
-<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      stopCamera();</span>
-    };
-  }, [facingMode, startCamera, stopCamera]);
-&nbsp;
+  // Define camera functions first before useEffect uses them
   const startCamera = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >async </span>() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const stream = <span class="cstat-no" title="statement not covered" >await navigator.mediaDevices.getUserMedia({</span>
@@ -936,6 +925,20 @@ const ScanScreen = <span class="cstat-no" title="statement not covered" ><span c
 <span class="cstat-no" title="statement not covered" >      streamRef.current = null;</span>
     }
   }, []);
+&nbsp;
+  // Redirect if no body part is selected
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!scanMetaData?.bodyPart) {</span>
+<span class="cstat-no" title="statement not covered" >      navigate('/patient/');</span>
+    }
+  }, [scanMetaData, navigate]);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    startCamera();</span>
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      stopCamera();</span>
+    };
+  }, [facingMode, startCamera, stopCamera]);
 &nbsp;
   const handleSwitchCamera = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setFacingMode(<span class="fstat-no" title="function not covered" >prev </span>=&gt; <span class="cstat-no" title="statement not covered" >prev === 'environment' ? 'user' : 'environment')</span>;</span>
@@ -1060,7 +1063,7 @@ const ScanScreen = <span class="cstat-no" title="statement not covered" ><span c
 &nbsp;
   const handleAddToMonitoring = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    alert('Added to weekly monitoring reminders!');</span>
-<span class="cstat-no" title="statement not covered" >    navigate('/');</span>
+<span class="cstat-no" title="statement not covered" >    navigate('/patient/');</span>
   };
 &nbsp;
   const handleRetake = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
@@ -1079,7 +1082,7 @@ const ScanScreen = <span class="cstat-no" title="statement not covered" ><span c
       {/* Header */}
       &lt;div className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-4"&gt;
         &lt;button
-          onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >navigate('/')}</span>
+          onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >navigate('/patient/')}</span>
           className="p-2 bg-black bg-opacity-50 rounded-full text-white"
         &gt;
           &lt;ArrowLeft className="w-6 h-6" /&gt;
@@ -1246,7 +1249,7 @@ const ScanScreen = <span class="cstat-no" title="statement not covered" ><span c
 &nbsp;
             &lt;div className="flex space-x-3"&gt;
               &lt;button
-                onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >navigate('/specialists')}</span>
+                onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >navigate('/patient/specialists')}</span>
                 className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               &gt;
                 Get Specialist
@@ -1273,7 +1276,7 @@ const ScanScreen = <span class="cstat-no" title="statement not covered" ><span c
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

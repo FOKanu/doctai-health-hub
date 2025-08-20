@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/32</span>
+                <span class='fraction'>0/30</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/32</span>
+                <span class='fraction'>0/30</span>
             </div>
         
             
@@ -147,20 +147,7 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -213,16 +200,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -280,70 +258,59 @@
 <span class="cstat-no" title="statement not covered" >import TotalScansScreen from '../components/TotalScansScreen';</span>
 <span class="cstat-no" title="statement not covered" >import RiskAssessmentsScreen from '../components/RiskAssessmentsScreen';</span>
 <span class="cstat-no" title="statement not covered" >import TreatmentsScreen from '../components/TreatmentsScreen';</span>
-<span class="cstat-no" title="statement not covered" >import LoginScreen from '../components/LoginScreen';</span>
-<span class="cstat-no" title="statement not covered" >import WelcomeScreen from '../components/WelcomeScreen';</span>
 &nbsp;
 const Index = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;Routes&gt;
-      {/* Authentication Routes */}
-      &lt;Route path="/login" element={&lt;LoginScreen /&gt;} /&gt;
-      &lt;Route path="/welcome" element={&lt;WelcomeScreen /&gt;} /&gt;
-      
-      {/* Main App Routes */}
-      &lt;Route path="/*" element={
-        &lt;BackgroundWrapper&gt;
-          &lt;SidebarProvider&gt;
-            &lt;div className="min-h-screen flex w-full bg-white/80 backdrop-blur-sm"&gt;
-              &lt;AppSidebar /&gt;
-              &lt;div className="flex-1 flex flex-col"&gt;
-                &lt;AppHeader /&gt;
-                &lt;main className="flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-6"&gt;
-                  &lt;div className="max-w-7xl mx-auto"&gt;
-                    &lt;ErrorBoundary&gt;
-                      &lt;Routes&gt;
-                        &lt;Route path="/" element={&lt;HomeScreen /&gt;} /&gt;
-                        &lt;Route path="/results" element={&lt;ResultsScreen /&gt;} /&gt;
-                        &lt;Route path="/analytics" element={&lt;AnalyticsScreen /&gt;} /&gt;
-                        &lt;Route path="/postbox" element={&lt;PostboxScreen /&gt;} /&gt;
-                        &lt;Route path="/medical-records" element={&lt;MedicalRecordsScreen /&gt;} /&gt;
-                        &lt;Route path="/total-scans" element={&lt;TotalScansScreen /&gt;} /&gt;
-                        &lt;Route path="/risk-assessments" element={&lt;RiskAssessmentsScreen /&gt;} /&gt;
-                        &lt;Route path="/treatments" element={&lt;TreatmentsScreen /&gt;} /&gt;
-                        &lt;Route
-                          path="/scan"
-                          element={
-                            &lt;ErrorBoundary
-                              onError={<span class="fstat-no" title="function not covered" >(e</span>rror, errorInfo) =&gt; {
-<span class="cstat-no" title="statement not covered" >                                console.error('ScanScreen Error:', error, errorInfo);</span>
-                              }}
-                            &gt;
-                              &lt;ScanScreen /&gt;
-                            &lt;/ErrorBoundary&gt;
-                          }
-                        /&gt;
-                        &lt;Route path="/upload" element={&lt;UploadScreen /&gt;} /&gt;
-                        &lt;Route path="/specialists" element={&lt;SpecialistScreen /&gt;} /&gt;
-                        &lt;Route path="/history" element={&lt;HistoryScreen /&gt;} /&gt;
-                        &lt;Route path="/medications" element={&lt;MedicationsScreen /&gt;} /&gt;
-                        &lt;Route path="/appointments" element={&lt;AppointmentsScreen /&gt;} /&gt;
-                        &lt;Route path="/fitness" element={&lt;FitnessScreen /&gt;} /&gt;
-                        &lt;Route path="/diet" element={&lt;DietPlanScreen /&gt;} /&gt;
-                        &lt;Route path="/profile" element={&lt;ProfileScreen /&gt;} /&gt;
-                        &lt;Route path="/settings" element={&lt;SettingsScreen /&gt;} /&gt;
-                        {/* Fallback route for unmatched paths */}
-                        &lt;Route path="*" element={&lt;HomeScreen /&gt;} /&gt;
-                      &lt;/Routes&gt;
-                    &lt;/ErrorBoundary&gt;
-                  &lt;/div&gt;
-                &lt;/main&gt;
+    &lt;BackgroundWrapper&gt;
+      &lt;SidebarProvider&gt;
+        &lt;div className="min-h-screen flex w-full bg-white/80 backdrop-blur-sm"&gt;
+          &lt;AppSidebar /&gt;
+          &lt;div className="flex-1 flex flex-col"&gt;
+            &lt;AppHeader /&gt;
+            &lt;main className="flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-6"&gt;
+              &lt;div className="max-w-7xl mx-auto"&gt;
+                &lt;ErrorBoundary&gt;
+                  &lt;Routes&gt;
+                    &lt;Route path="/" element={&lt;HomeScreen /&gt;} /&gt;
+                    &lt;Route path="/results" element={&lt;ResultsScreen /&gt;} /&gt;
+                    &lt;Route path="/analytics" element={&lt;AnalyticsScreen /&gt;} /&gt;
+                    &lt;Route path="/postbox" element={&lt;PostboxScreen /&gt;} /&gt;
+                    &lt;Route path="/medical-records" element={&lt;MedicalRecordsScreen /&gt;} /&gt;
+                    &lt;Route path="/total-scans" element={&lt;TotalScansScreen /&gt;} /&gt;
+                    &lt;Route path="/risk-assessments" element={&lt;RiskAssessmentsScreen /&gt;} /&gt;
+                    &lt;Route path="/treatments" element={&lt;TreatmentsScreen /&gt;} /&gt;
+                    &lt;Route
+                      path="/scan"
+                      element={
+                        &lt;ErrorBoundary
+                          onError={<span class="fstat-no" title="function not covered" >(e</span>rror, errorInfo) =&gt; {
+<span class="cstat-no" title="statement not covered" >                            console.error('ScanScreen Error:', error, errorInfo);</span>
+                          }}
+                        &gt;
+                          &lt;ScanScreen /&gt;
+                        &lt;/ErrorBoundary&gt;
+                      }
+                    /&gt;
+                    &lt;Route path="/upload" element={&lt;UploadScreen /&gt;} /&gt;
+                    &lt;Route path="/specialists" element={&lt;SpecialistScreen /&gt;} /&gt;
+                    &lt;Route path="/history" element={&lt;HistoryScreen /&gt;} /&gt;
+                    &lt;Route path="/medications" element={&lt;MedicationsScreen /&gt;} /&gt;
+                    &lt;Route path="/appointments" element={&lt;AppointmentsScreen /&gt;} /&gt;
+                    &lt;Route path="/fitness" element={&lt;FitnessScreen /&gt;} /&gt;
+                    &lt;Route path="/diet" element={&lt;DietPlanScreen /&gt;} /&gt;
+                    &lt;Route path="/profile" element={&lt;ProfileScreen /&gt;} /&gt;
+                    &lt;Route path="/settings" element={&lt;SettingsScreen /&gt;} /&gt;
+                    {/* Fallback route for unmatched paths */}
+                    &lt;Route path="*" element={&lt;HomeScreen /&gt;} /&gt;
+                  &lt;/Routes&gt;
+                &lt;/ErrorBoundary&gt;
               &lt;/div&gt;
-              &lt;MobileNavigation /&gt;
-            &lt;/div&gt;
-          &lt;/SidebarProvider&gt;
-        &lt;/BackgroundWrapper&gt;
-      } /&gt;
-    &lt;/Routes&gt;
+            &lt;/main&gt;
+          &lt;/div&gt;
+          &lt;MobileNavigation /&gt;
+        &lt;/div&gt;
+      &lt;/SidebarProvider&gt;
+    &lt;/BackgroundWrapper&gt;
   );
 };
 &nbsp;
@@ -355,7 +322,7 @@ const Index = <span class="cstat-no" title="statement not covered" ><span class=
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

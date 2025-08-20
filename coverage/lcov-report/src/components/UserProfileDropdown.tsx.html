@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -233,6 +233,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -245,19 +246,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -268,6 +256,19 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -281,13 +282,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -389,6 +389,7 @@
 <span class="cstat-no" title="statement not covered" >import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';</span>
 <span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button';</span>
 <span class="cstat-no" title="statement not covered" >import { User, Settings, Bell, LogOut } from 'lucide-react';</span>
+<span class="cstat-no" title="statement not covered" >import { useAuth } from '@/contexts/AuthContext';</span>
 &nbsp;
 interface UserProfileDropdownProps {
   user?: {
@@ -401,29 +402,29 @@ interface UserProfileDropdownProps {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >U</span>serProfileDropdown(</span>{ user, onLogout }: UserProfileDropdownProps) {
   const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
+  const { logout: authLogout, user: authUser } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 &nbsp;
   const handleViewProfile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    navigate('/profile');</span>
+<span class="cstat-no" title="statement not covered" >    navigate('/patient/profile');</span>
   };
 &nbsp;
   const handleAccountSettings = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    navigate('/settings');</span>
+<span class="cstat-no" title="statement not covered" >    navigate('/patient/settings');</span>
   };
 &nbsp;
   const handleNotificationPreferences = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    navigate('/settings');</span>
+<span class="cstat-no" title="statement not covered" >    navigate('/patient/settings');</span>
   };
 &nbsp;
   const handleLogout = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-    // Clear any stored auth tokens or user data
-<span class="cstat-no" title="statement not covered" >    localStorage.removeItem('user');</span>
-<span class="cstat-no" title="statement not covered" >    localStorage.removeItem('authToken');</span>
-    
-    // Call the provided logout handler
+    // Use the auth context logout method
+<span class="cstat-no" title="statement not covered" >    authLogout();</span>
+&nbsp;
+    // Call the provided logout handler if any
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (onLogout) {</span>
 <span class="cstat-no" title="statement not covered" >      onLogout();</span>
     }
-    
+&nbsp;
     // Navigate to login page
 <span class="cstat-no" title="statement not covered" >    navigate('/login');</span>
   };
@@ -437,19 +438,18 @@ interface UserProfileDropdownProps {
       .slice(0, 2);
   };
 &nbsp;
-  const defaultUser = <span class="cstat-no" title="statement not covered" >{</span>
-    name: 'Dr. Sarah Johnson',
-    email: 'sarah.johnson@doctai.com',
+  // Use auth context user if available, otherwise fall back to props
+  const currentUser = <span class="cstat-no" title="statement not covered" >authUser || user || {</span>
+    name: 'User',
+    email: 'user@doctai.com',
     avatar: undefined
   };
-&nbsp;
-  const currentUser = <span class="cstat-no" title="statement not covered" >user || defaultUser;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;DropdownMenu&gt;
       &lt;DropdownMenuTrigger asChild&gt;
-        &lt;Button 
-          variant="ghost" 
+        &lt;Button
+          variant="ghost"
           className="relative h-8 w-8 rounded-full hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         &gt;
           &lt;Avatar className="h-8 w-8"&gt;
@@ -460,8 +460,8 @@ interface UserProfileDropdownProps {
           &lt;/Avatar&gt;
         &lt;/Button&gt;
       &lt;/DropdownMenuTrigger&gt;
-      
-      &lt;DropdownMenuContent 
+&nbsp;
+      &lt;DropdownMenuContent
         className="w-64 bg-white shadow-lg border border-gray-200 rounded-lg p-0"
         align="end"
         sideOffset={8}
@@ -490,7 +490,7 @@ interface UserProfileDropdownProps {
 &nbsp;
         {/* Menu Items */}
         &lt;div className="py-1"&gt;
-          &lt;DropdownMenuItem 
+          &lt;DropdownMenuItem
             onClick={handleViewProfile}
             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer flex items-center space-x-2"
           &gt;
@@ -498,7 +498,7 @@ interface UserProfileDropdownProps {
             &lt;span&gt;View Profile&lt;/span&gt;
           &lt;/DropdownMenuItem&gt;
 &nbsp;
-          &lt;DropdownMenuItem 
+          &lt;DropdownMenuItem
             onClick={handleAccountSettings}
             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer flex items-center space-x-2"
           &gt;
@@ -506,7 +506,7 @@ interface UserProfileDropdownProps {
             &lt;span&gt;Account Settings&lt;/span&gt;
           &lt;/DropdownMenuItem&gt;
 &nbsp;
-          &lt;DropdownMenuItem 
+          &lt;DropdownMenuItem
             onClick={handleNotificationPreferences}
             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer flex items-center space-x-2"
           &gt;
@@ -519,7 +519,7 @@ interface UserProfileDropdownProps {
 &nbsp;
         {/* Logout Section */}
         &lt;div className="py-1"&gt;
-          &lt;DropdownMenuItem 
+          &lt;DropdownMenuItem
             onClick={handleLogout}
             className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer flex items-center space-x-2"
           &gt;
@@ -538,7 +538,7 @@ interface UserProfileDropdownProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

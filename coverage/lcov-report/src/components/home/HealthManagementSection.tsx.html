@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
@@ -107,7 +107,18 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -131,6 +142,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -138,6 +159,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -168,11 +190,21 @@ export const <span class="cstat-no" title="statement not covered" >HealthManagem
   const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
 &nbsp;
   const healthManagementActions: HealthAction[] = <span class="cstat-no" title="statement not covered" >[</span>
-    { icon: BarChart, title: 'Results', subtitle: 'View your test results', color: 'bg-primary hover:bg-primary/90', path: '/results' },
-    { icon: Activity, title: 'Fitness', subtitle: 'Track your workouts &amp; fitness', color: 'bg-secondary hover:bg-secondary/90', path: '/fitness' },
-    { icon: Apple, title: 'Diet Plan', subtitle: 'Personalized nutrition', color: 'bg-accent hover:bg-accent/90', path: '/diet' },
-    { icon: Brain, title: 'AI Recommendations', subtitle: 'Smart health insights', color: 'bg-primary hover:bg-primary/90', path: '/analytics' },
+    { icon: BarChart, title: 'Results', subtitle: 'View your test results', color: 'bg-primary hover:bg-primary/90', path: '/patient/results' },
+    { icon: Activity, title: 'Fitness', subtitle: 'Track your workouts &amp; fitness', color: 'bg-secondary hover:bg-secondary/90', path: '/patient/fitness' },
+    { icon: Apple, title: 'Diet Plan', subtitle: 'Personalized nutrition', color: 'bg-accent hover:bg-accent/90', path: '/patient/diet' },
+    { icon: Brain, title: 'AI Recommendations', subtitle: 'Smart health insights', color: 'bg-primary hover:bg-primary/90', path: '/patient/analytics' },
   ];
+&nbsp;
+  const handleButtonClick = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>ction: HealthAction) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    console.log('Health Management button clicked:', action.title, 'Path:', action.path);</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      navigate(action.path);</span>
+<span class="cstat-no" title="statement not covered" >      console.log('Navigation successful to:', action.path);</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      console.error('Navigation failed:', error);</span>
+    }
+  };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div className="space-y-4"&gt;
@@ -181,8 +213,9 @@ export const <span class="cstat-no" title="statement not covered" >HealthManagem
         {healthManagementActions.map(<span class="fstat-no" title="function not covered" >(a</span>ction, index) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;button</span>
             key={index}
-            onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >navigate(action.path)}</span>
-            className="bg-card p-6 rounded-lg shadow-sm border border-border hover:shadow-md hover:border-border/70 transition-all duration-200 text-left group"
+            onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >handleButtonClick(action)}</span>
+            className="bg-card p-6 rounded-lg shadow-sm border border-border hover:shadow-md hover:border-border/70 transition-all duration-200 text-left group cursor-pointer"
+            type="button"
           &gt;
             &lt;div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}&gt;
               &lt;action.icon className="w-6 h-6 text-primary-foreground" /&gt;
@@ -202,7 +235,7 @@ export const <span class="cstat-no" title="statement not covered" >HealthManagem
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

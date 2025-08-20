@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/122</span>
+                <span class='fraction'>0/123</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/63</span>
+                <span class='fraction'>0/64</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/119</span>
+                <span class='fraction'>0/120</span>
             </div>
         
             
@@ -597,7 +597,9 @@
 <a name='L532'></a><a href='#L532'>532</a>
 <a name='L533'></a><a href='#L533'>533</a>
 <a name='L534'></a><a href='#L534'>534</a>
-<a name='L535'></a><a href='#L535'>535</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -655,6 +657,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -665,36 +671,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -744,6 +746,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1175,7 +1179,7 @@ interface TelemedicineConsultationProps {
   const [providers, setProviders] = <span class="cstat-no" title="statement not covered" >useState&lt;HealthcareProvider[]&gt;([]);</span>
   const [selectedProvider, setSelectedProvider] = <span class="cstat-no" title="statement not covered" >useState&lt;HealthcareProvider | null&gt;(null);</span>
   const [selectedDate, setSelectedDate] = <span class="cstat-no" title="statement not covered" >useState&lt;Date | undefined&gt;(undefined);</span>
-  const [selectedTime, setSelectedTime] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
+  const [selectedTime, setSelectedTime] = <span class="cstat-no" title="statement not covered" >useState('');</span>
   const [availableSlots, setAvailableSlots] = <span class="cstat-no" title="statement not covered" >useState&lt;TimeSlot[]&gt;([]);</span>
   const [consultationType, setConsultationType] = <span class="cstat-no" title="statement not covered" >useState&lt;'video' | 'audio' | 'chat'&gt;('video');</span>
   const [reason, setReason] = <span class="cstat-no" title="statement not covered" >useState('');</span>
@@ -1185,17 +1189,6 @@ interface TelemedicineConsultationProps {
   const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('book');</span>
   const [appointments, setAppointments] = <span class="cstat-no" title="statement not covered" >useState&lt;Appointment[]&gt;([]);</span>
   const [consultations, setConsultations] = <span class="cstat-no" title="statement not covered" >useState&lt;TelemedicineConsultation[]&gt;([]);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    loadProviders();</span>
-<span class="cstat-no" title="statement not covered" >    loadUserData();</span>
-  }, [userId, loadProviders, loadUserData]);
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (selectedProvider &amp;&amp; selectedDate) {</span>
-<span class="cstat-no" title="statement not covered" >      loadAvailableSlots();</span>
-    }
-  }, [selectedProvider, selectedDate, loadAvailableSlots]);
 &nbsp;
   const loadProviders = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >async </span>() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -1227,11 +1220,22 @@ interface TelemedicineConsultationProps {
         selectedProvider.id,
         selectedDate.toISOString().split('T')[0]
       );
-<span class="cstat-no" title="statement not covered" >      setAvailableSlots(slots.filter(<span class="fstat-no" title="function not covered" >slot </span>=&gt; <span class="cstat-no" title="statement not covered" >slot.is_available)</span>);</span>
+<span class="cstat-no" title="statement not covered" >      setAvailableSlots(slots.filter(<span class="fstat-no" title="function not covered" >slot </span>=&gt; <span class="cstat-no" title="statement not covered" >slot.is_available)</span> as TimeSlot[]);</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error loading available slots:', error);</span>
     }
   }, [selectedProvider, selectedDate]);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    loadProviders();</span>
+<span class="cstat-no" title="statement not covered" >    loadUserData();</span>
+  }, [loadProviders, loadUserData]);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (selectedProvider &amp;&amp; selectedDate) {</span>
+<span class="cstat-no" title="statement not covered" >      loadAvailableSlots();</span>
+    }
+  }, [selectedProvider, selectedDate, loadAvailableSlots]);
 &nbsp;
   const handleBookAppointment = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async </span>() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!selectedProvider || !selectedDate || !selectedTime || !reason) {</span>
@@ -1277,7 +1281,9 @@ interface TelemedicineConsultationProps {
   const handleJoinConsultation = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async </span>(consultationId: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const { meetingUrl } = <span class="cstat-no" title="statement not covered" >await telemedicineService.joinConsultation(consultationId, userId);</span>
-<span class="cstat-no" title="statement not covered" >      window.open(meetingUrl, '_blank');</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof meetingUrl === 'string') {</span>
+<span class="cstat-no" title="statement not covered" >        window.open(meetingUrl, '_blank');</span>
+      }
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error joining consultation:', error);</span>
 <span class="cstat-no" title="statement not covered" >      alert('Failed to join consultation. Please try again.');</span>
@@ -1458,7 +1464,7 @@ interface TelemedicineConsultationProps {
                         &lt;/SelectTrigger&gt;
                         &lt;SelectContent&gt;
                           {availableSlots.map(<span class="fstat-no" title="function not covered" >(s</span>lot, index) =&gt; (
-<span class="cstat-no" title="statement not covered" >                            &lt;SelectItem key={index} v</span>alue={slot.start_time}&gt;
+<span class="cstat-no" title="statement not covered" >                            &lt;SelectItem key={index} v</span>alue={slot.time}&gt;
                               {slot.start_time} - {slot.end_time}
                             &lt;/SelectItem&gt;
                           ))}
@@ -1672,7 +1678,7 @@ interface TelemedicineConsultationProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

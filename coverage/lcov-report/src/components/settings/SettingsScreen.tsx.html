@@ -423,7 +423,7 @@ const SettingsScreen = <span class="cstat-no" title="statement not covered" ><sp
       &lt;div className="bg-white shadow-sm"&gt;
         &lt;div className="flex items-center p-4"&gt;
           &lt;button
-            onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >navigate('/')}</span>
+            onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >navigate('/patient/')}</span>
             className="p-2 -ml-2 rounded-full hover:bg-gray-100"
           &gt;
             &lt;ArrowLeft className="w-6 h-6" /&gt;
@@ -454,90 +454,90 @@ const SettingsScreen = <span class="cstat-no" title="statement not covered" ><sp
       &lt;/div&gt;
 &nbsp;
       {/* Modals */}
-      &lt;ChangePasswordModal 
-        open={activeModal === 'changePassword'} 
-        onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()} </span>
+      &lt;ChangePasswordModal
+        open={activeModal === 'changePassword'}
+        onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
       /&gt;
-      
-      &lt;TwoFactorModal 
-        open={activeModal === 'twoFactor'} 
-        onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()} </span>
+&nbsp;
+      &lt;TwoFactorModal
+        open={activeModal === 'twoFactor'}
+        onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
       /&gt;
-      
-      &lt;PreferencesModal 
-        open={activeModal === 'language'} 
+&nbsp;
+      &lt;PreferencesModal
+        open={activeModal === 'language'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="language"
       /&gt;
-      
-      &lt;PreferencesModal 
-        open={activeModal === 'dateFormat'} 
+&nbsp;
+      &lt;PreferencesModal
+        open={activeModal === 'dateFormat'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="dateFormat"
       /&gt;
-      
-      &lt;PreferencesModal 
-        open={activeModal === 'timeZone'} 
+&nbsp;
+      &lt;PreferencesModal
+        open={activeModal === 'timeZone'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="timeZone"
       /&gt;
-      
-      &lt;PreferencesModal 
-        open={activeModal === 'units'} 
+&nbsp;
+      &lt;PreferencesModal
+        open={activeModal === 'units'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="units"
       /&gt;
-      
-      &lt;DataStorageModal 
-        open={activeModal === 'syncSettings'} 
+&nbsp;
+      &lt;DataStorageModal
+        open={activeModal === 'syncSettings'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="sync"
       /&gt;
-      
-      &lt;DataStorageModal 
-        open={activeModal === 'exportData'} 
+&nbsp;
+      &lt;DataStorageModal
+        open={activeModal === 'exportData'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="export"
       /&gt;
-      
-      &lt;DataStorageModal 
-        open={activeModal === 'storageUsage'} 
+&nbsp;
+      &lt;DataStorageModal
+        open={activeModal === 'storageUsage'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="storage"
       /&gt;
-      
-      &lt;DataStorageModal 
-        open={activeModal === 'clearCache'} 
+&nbsp;
+      &lt;DataStorageModal
+        open={activeModal === 'clearCache'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="cache"
       /&gt;
-      
-      &lt;SupportModal 
-        open={activeModal === 'helpCenter'} 
+&nbsp;
+      &lt;SupportModal
+        open={activeModal === 'helpCenter'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="help"
       /&gt;
-      
-      &lt;SupportModal 
-        open={activeModal === 'contactSupport'} 
+&nbsp;
+      &lt;SupportModal
+        open={activeModal === 'contactSupport'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="contact"
       /&gt;
-      
-      &lt;SupportModal 
-        open={activeModal === 'reportBug'} 
+&nbsp;
+      &lt;SupportModal
+        open={activeModal === 'reportBug'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="bug"
       /&gt;
-      
-      &lt;SupportModal 
-        open={activeModal === 'privacyPolicy'} 
+&nbsp;
+      &lt;SupportModal
+        open={activeModal === 'privacyPolicy'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="privacy"
       /&gt;
-      
-      &lt;SupportModal 
-        open={activeModal === 'termsOfService'} 
+&nbsp;
+      &lt;SupportModal
+        open={activeModal === 'termsOfService'}
         onOpenChange={<span class="fstat-no" title="function not covered" >(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; closeModal()}</span>
         type="terms"
       /&gt;
@@ -553,7 +553,7 @@ const SettingsScreen = <span class="cstat-no" title="statement not covered" ><sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

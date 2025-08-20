@@ -93,7 +93,17 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -103,6 +113,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,21 +153,31 @@ interface WelcomeSectionProps {
 &nbsp;
 export const <span class="cstat-no" title="statement not covered" >WelcomeSection: React.FC&lt;WelcomeSectionProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>{</span> healthScore }) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;div className="bg-gradient-to-r from-primary to-primary-glow rounded-xl p-6 text-primary-foreground card-glass theme-dashboard"&gt;
-      &lt;div className="flex justify-between items-start"&gt;
-        &lt;div&gt;
-          &lt;h1 className="text-2xl md:text-3xl font-bold mb-2"&gt;Welcome back!&lt;/h1&gt;
-          &lt;p className="text-primary-foreground/80 mb-4"&gt;Your AI-powered health monitoring is active&lt;/p&gt;
-          &lt;div className="flex items-center space-x-2 text-sm text-primary-foreground/90"&gt;
-            &lt;TrendingUp className="w-4 h-4" /&gt;
-            &lt;span&gt;Health score improving by 12% this month&lt;/span&gt;
+    &lt;div className="relative overflow-hidden bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 rounded-xl p-6 text-white card-glass theme-dashboard"&gt;
+      {/* Enhanced gradient overlay for depth */}
+      &lt;div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10"&gt;&lt;/div&gt;
+      
+      {/* Animated background elements */}
+      &lt;div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-xl -translate-y-8 translate-x-8"&gt;&lt;/div&gt;
+      &lt;div className="absolute bottom-0 left-0 w-24 h-24 bg-cyan-300/20 rounded-full blur-lg translate-y-4 -translate-x-4"&gt;&lt;/div&gt;
+      
+      {/* Content wrapper with relative positioning */}
+      &lt;div className="relative z-10"&gt;
+        &lt;div className="flex justify-between items-start"&gt;
+          &lt;div&gt;
+            &lt;h1 className="text-2xl md:text-3xl font-bold mb-2 text-white drop-shadow-sm"&gt;Welcome back!&lt;/h1&gt;
+            &lt;p className="text-white/90 mb-4 drop-shadow-sm"&gt;Your AI-powered health monitoring is active&lt;/p&gt;
+            &lt;div className="flex items-center space-x-2 text-sm text-white/95 drop-shadow-sm"&gt;
+              &lt;TrendingUp className="w-4 h-4" /&gt;
+              &lt;span&gt;Health score improving by 12% this month&lt;/span&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div className="text-center"&gt;
-          &lt;div className="w-20 h-20 bg-primary-foreground/20 rounded-full flex items-center justify-center mb-2 health-score-glow"&gt;
-            &lt;span className="text-2xl font-bold"&gt;{healthScore}&lt;/span&gt;
+          &lt;div className="text-center"&gt;
+            &lt;div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-2 border border-white/30 shadow-lg"&gt;
+              &lt;span className="text-2xl font-bold text-white drop-shadow-sm"&gt;{healthScore}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;p className="text-xs text-white/90 font-medium drop-shadow-sm"&gt;Health Score&lt;/p&gt;
           &lt;/div&gt;
-          &lt;p className="text-sm text-primary-foreground/80"&gt;Health Score&lt;/p&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -160,7 +190,7 @@ export const <span class="cstat-no" title="statement not covered" >WelcomeSectio
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

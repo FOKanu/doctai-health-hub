@@ -143,7 +143,37 @@
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
 <a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,6 +188,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -236,25 +296,55 @@ export const <span class="cstat-no" title="statement not covered" >useBackground
   const [backgroundImages, setBackgroundImages] = <span class="cstat-no" title="statement not covered" >useState&lt;BackgroundImage[]&gt;([]);</span>
   const [currentBackground, setCurrentBackground] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
 &nbsp;
-  // Placeholder images from your system that can be used as backgrounds
+  // Vibrant health-related background images for enhanced user experience
   const placeholderImages = <span class="cstat-no" title="statement not covered" >useMemo(<span class="fstat-no" title="function not covered" >(): BackgroundImage[] =</span>&gt; <span class="cstat-no" title="statement not covered" >[</span></span>
     {
-      id: 'medical-gradient',
-      name: 'Medical Gradient',
-      url: 'linear-gradient(135deg, hsl(var(--medical-accent-light)), hsl(var(--medical-bg)))',
-      description: 'Clean medical gradient background'
+      id: 'dna-helix',
+      name: 'DNA Double Helix',
+      url: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
+      description: 'Vibrant DNA double helix structure'
     },
     {
-      id: 'tech-pattern',
-      name: 'Technology Pattern',
-      url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
-      description: 'Technology circuit board pattern'
+      id: 'molecular-structure',
+      name: 'Molecular Network',
+      url: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
+      description: 'Dynamic molecular structure network'
     },
     {
-      id: 'clean-minimal',
-      name: 'Clean Minimal',
-      url: 'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
-      description: 'Clean minimal background'
+      id: 'medical-research',
+      name: 'Medical Research',
+      url: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
+      description: 'Modern medical research laboratory'
+    },
+    {
+      id: 'neural-network',
+      name: 'Neural Pathways',
+      url: 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
+      description: 'Neural network and brain pathways'
+    },
+    {
+      id: 'cellular-biology',
+      name: 'Cellular Structure',
+      url: 'https://images.unsplash.com/photo-1628595351029-c2bf17511435?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
+      description: 'Microscopic cellular biology view'
+    },
+    {
+      id: 'medical-gradient-enhanced',
+      name: 'Health Gradient',
+      url: 'linear-gradient(135deg, #00d4aa 0%, #00a3cc 25%, #0066ff 50%, #6366f1 75%, #8b5cf6 100%)',
+      description: 'Dynamic health-themed gradient'
+    },
+    {
+      id: 'heartbeat-wave',
+      name: 'Vital Signs',
+      url: 'https://images.unsplash.com/photo-1559757146-8c3d6e7a3e2b?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
+      description: 'Heartbeat and vital signs visualization'
+    },
+    {
+      id: 'modern-healthcare',
+      name: 'Digital Health',
+      url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&amp;fit=crop&amp;w=1920&amp;q=80',
+      description: 'Modern digital healthcare technology'
     }
   ], []);
 &nbsp;
@@ -310,7 +400,7 @@ export const <span class="cstat-no" title="statement not covered" >useBackground
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-28T13:41:26.247Z
+                at 2025-08-20T10:52:16.530Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
