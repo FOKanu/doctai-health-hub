@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { AppointmentModal } from '../modals/AppointmentModal';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import '../../../styles/calendar-custom.css';
 
 const localizer = momentLocalizer(moment);
 
@@ -206,190 +207,251 @@ export function Schedule() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Schedule Management</h1>
-          <p className="text-muted-foreground mt-1">Manage appointments and availability</p>
-        </div>
-        
-        <div className="flex items-center space-x-3">
-          <Select value={view} onValueChange={(value) => setView(value as 'month' | 'week' | 'day')}>
-            <SelectTrigger className="w-32">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="month">Month</SelectItem>
-              <SelectItem value="week">Week</SelectItem>
-              <SelectItem value="day">Day</SelectItem>
-            </SelectContent>
-          </Select>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">Schedule Management</h1>
+            <p className="text-muted-foreground">Manage appointments and availability</p>
+          </div>
           
-          <Button onClick={() => {
-            setSelectedAppointment(null);
-            setIsModalOpen(true);
-          }}>
-            <Plus className="w-4 h-4 mr-2" />
-            New Appointment
-          </Button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Calendar Section */}
-        <div className="lg:col-span-3">
-          <Card>
-            <CardContent className="p-6">
-              <div className="h-[600px]">
-                <Calendar
-                  localizer={localizer}
-                  events={filteredAppointments}
-                  startAccessor="start"
-                  endAccessor="end"
-                  view={view}
-                  onView={(newView) => setView(newView)}
-                  date={selectedDate}
-                  onNavigate={(date) => setSelectedDate(date)}
-                  onSelectEvent={handleSelectEvent}
-                  onSelectSlot={handleSelectSlot}
-                  selectable
-                  eventPropGetter={eventStyleGetter}
-                  step={15}
-                  timeslots={4}
-                  min={new Date(0, 0, 0, 7, 0, 0)}
-                  max={new Date(0, 0, 0, 19, 0, 0)}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <Select value={view} onValueChange={(value) => setView(value as 'month' | 'week' | 'day')}>
+              <SelectTrigger className="w-full sm:w-32 transition-all duration-200">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="month">Month</SelectItem>
+                <SelectItem value="week">Week</SelectItem>
+                <SelectItem value="day">Day</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            <Button 
+              onClick={() => {
+                setSelectedAppointment(null);
+                setIsModalOpen(true);
+              }}
+              className="w-full sm:w-auto transition-all duration-200 hover:scale-105"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              New Appointment
+            </Button>
+          </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Today's Appointments */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Clock className="w-5 h-5" />
-                <span>Today's Schedule</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {todayAppointments.length > 0 ? (
-                todayAppointments.map((apt) => (
-                  <div 
-                    key={apt.id} 
-                    className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
-                    onClick={() => handleSelectEvent(apt)}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm">{apt.patientName}</span>
-                      <Badge variant={getStatusBadgeVariant(apt.status)} className="text-xs">
-                        {apt.status}
-                      </Badge>
+        {/* Main Content */}
+        <div className="flex flex-col xl:flex-row gap-6 transition-all duration-300 ease-in-out">
+          {/* Calendar Section */}
+          <div className="flex-1 min-w-0 transition-all duration-300 ease-in-out">
+            <Card className="h-full shadow-sm border-0 bg-card">
+              <CardContent className="p-3 sm:p-6">
+                {/* Calendar Navigation */}
+                <div className="flex items-center justify-between mb-4 p-2 bg-muted/30 rounded-lg">
+                  <div className="flex items-center space-x-2">
+                    <Button variant="outline" size="sm" onClick={() => setSelectedDate(new Date())}>
+                      Today
+                    </Button>
+                    <Button variant="ghost" size="sm">
+                      <span className="hidden sm:inline">← </span>Back
+                    </Button>
+                    <Button variant="ghost" size="sm">
+                      Next<span className="hidden sm:inline"> →</span>
+                    </Button>
+                  </div>
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {selectedDate.toLocaleDateString('en-US', { 
+                      month: 'long', 
+                      year: 'numeric',
+                      ...(view !== 'month' && { day: 'numeric' })
+                    })}
+                  </div>
+                </div>
+
+                {/* Calendar Container */}
+                <div className="w-full overflow-hidden rounded-lg border bg-background">
+                  <div className="h-[500px] sm:h-[600px] lg:h-[650px] transition-all duration-200">
+                    <Calendar
+                      localizer={localizer}
+                      events={filteredAppointments}
+                      startAccessor="start"
+                      endAccessor="end"
+                      view={view}
+                      onView={(newView) => setView(newView)}
+                      date={selectedDate}
+                      onNavigate={(date) => setSelectedDate(date)}
+                      onSelectEvent={handleSelectEvent}
+                      onSelectSlot={handleSelectSlot}
+                      selectable
+                      eventPropGetter={eventStyleGetter}
+                      step={15}
+                      timeslots={4}
+                      min={new Date(0, 0, 0, 7, 0, 0)}
+                      max={new Date(0, 0, 0, 19, 0, 0)}
+                      className="rbc-calendar-custom"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sidebar */}
+          <div className="w-full xl:w-80 flex-shrink-0 transition-all duration-300 ease-in-out">
+            <div className="space-y-4 xl:space-y-6 sticky top-6">
+              {/* Today's Appointments */}
+              <Card className="shadow-sm border-0 bg-card transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center space-x-2 text-base">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <Clock className="w-4 h-4 text-primary" />
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-muted-foreground">
-                      <Clock className="w-3 h-3" />
-                      <span>{moment(apt.start).format('HH:mm')}</span>
-                      {getTypeIcon(apt.type)}
-                      <span className="capitalize">{apt.type}</span>
+                    <span>Today's Schedule</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  {todayAppointments.length > 0 ? (
+                    <div className="space-y-3 max-h-60 overflow-y-auto">
+                      {todayAppointments.map((apt) => (
+                        <div 
+                          key={apt.id} 
+                          className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-sm"
+                          onClick={() => handleSelectEvent(apt)}
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-medium text-sm truncate">{apt.patientName}</span>
+                            <Badge variant={getStatusBadgeVariant(apt.status)} className="text-xs shrink-0">
+                              {apt.status}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center space-x-2 text-xs text-muted-foreground mb-1">
+                            <Clock className="w-3 h-3 shrink-0" />
+                            <span>{moment(apt.start).format('HH:mm')}</span>
+                            <div className="shrink-0">{getTypeIcon(apt.type)}</div>
+                            <span className="capitalize truncate">{apt.type}</span>
+                          </div>
+                          <div className="text-xs text-muted-foreground truncate">
+                            {apt.reason}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      {apt.reason}
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground text-sm">
+                      <Clock className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p>No appointments today</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Quick Stats */}
+              <Card className="shadow-sm border-0 bg-card transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center space-x-2 text-base">
+                    <div className="p-2 bg-blue-500/10 rounded-lg">
+                      <Users className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <span>Quick Stats</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-3 bg-muted/30 rounded-lg">
+                      <div className="text-2xl font-bold text-foreground">{todayAppointments.length}</div>
+                      <div className="text-xs text-muted-foreground">Today</div>
+                    </div>
+                    <div className="text-center p-3 bg-muted/30 rounded-lg">
+                      <div className="text-2xl font-bold text-foreground">{appointments.length}</div>
+                      <div className="text-xs text-muted-foreground">This Week</div>
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className="text-center py-4 text-muted-foreground text-sm">
-                  No appointments today
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center space-x-2">
+                        <Video className="w-3 h-3 text-green-600" />
+                        <span className="text-sm text-muted-foreground">Telemedicine</span>
+                      </div>
+                      <span className="font-medium">{appointments.filter(a => a.type === 'telemedicine').length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center space-x-2">
+                        <MapPin className="w-3 h-3 text-blue-600" />
+                        <span className="text-sm text-muted-foreground">In-Person</span>
+                      </div>
+                      <span className="font-medium">{appointments.filter(a => a.type === 'in-person').length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center space-x-2">
+                        <Phone className="w-3 h-3 text-orange-600" />
+                        <span className="text-sm text-muted-foreground">Phone</span>
+                      </div>
+                      <span className="font-medium">{appointments.filter(a => a.type === 'phone').length}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Quick Stats */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Users className="w-5 h-5" />
-                <span>Quick Stats</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">Today</span>
-                <span className="font-medium">{todayAppointments.length} appointments</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">This Week</span>
-                <span className="font-medium">{appointments.length} appointments</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">Telemedicine</span>
-                <span className="font-medium">{appointments.filter(a => a.type === 'telemedicine').length}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">In-Person</span>
-                <span className="font-medium">{appointments.filter(a => a.type === 'in-person').length}</span>
-              </div>
-            </CardContent>
-          </Card>
+              {/* Filters */}
+              <Card className="shadow-sm border-0 bg-card transition-all duration-200 hover:shadow-md">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center space-x-2 text-base">
+                    <div className="p-2 bg-purple-500/10 rounded-lg">
+                      <Filter className="w-4 h-4 text-purple-600" />
+                    </div>
+                    <span>Filters</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Search</label>
+                    <div className="relative">
+                      <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+                      <Input 
+                        placeholder="Patient or reason..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-9 transition-all duration-200 focus:scale-[1.02]"
+                      />
+                    </div>
+                  </div>
 
-          {/* Filters */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Filter className="w-5 h-5" />
-                <span>Filters</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Search</label>
-                <div className="relative mt-1">
-                  <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-                  <Input 
-                    placeholder="Patient or reason..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-9"
-                  />
-                </div>
-              </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Status</label>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger className="transition-all duration-200 focus:scale-[1.02]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="scheduled">Scheduled</SelectItem>
+                        <SelectItem value="confirmed">Confirmed</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-              <div>
-                <label className="text-sm font-medium">Status</label>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="scheduled">Scheduled</SelectItem>
-                    <SelectItem value="confirmed">Confirmed</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium">Type</label>
-                <Select value={typeFilter} onValueChange={setTypeFilter}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="in-person">In-Person</SelectItem>
-                    <SelectItem value="telemedicine">Telemedicine</SelectItem>
-                    <SelectItem value="phone">Phone</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Type</label>
+                    <Select value={typeFilter} onValueChange={setTypeFilter}>
+                      <SelectTrigger className="transition-all duration-200 focus:scale-[1.02]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="in-person">In-Person</SelectItem>
+                        <SelectItem value="telemedicine">Telemedicine</SelectItem>
+                        <SelectItem value="phone">Phone</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
 
