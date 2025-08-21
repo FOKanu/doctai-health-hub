@@ -1,6 +1,6 @@
 import { modernPredictionService } from './prediction/modernPredictionService';
 import { analyzePredictionLegacy } from './prediction/legacyPredictionService';
-import { hybridPredictionService, TimeSeriesInput, HybridAnalysisResult } from './prediction/hybridPredictionService';
+import { hybridPredictionService, TimeSeriesInput, HybridAnalysisResult, VitalSignsData } from './prediction/hybridPredictionService';
 import { USE_NEW_PREDICTION_API, DEBUG_PREDICTIONS, PredictionResult } from './prediction/types';
 import { CloudHealthcareService, CloudAnalysisResult, ImageType } from './cloudHealthcare';
 
@@ -207,6 +207,21 @@ async function analyzeSingleInstance(
    }
 }
 
+// Helper function to convert Record<string, unknown>[] to VitalSignsData[]
+const convertToVitalSignsData = (data: Record<string, unknown>[]): VitalSignsData[] => {
+  return data.map(item => ({
+    heartRate: typeof item.heartRate === 'number' ? item.heartRate : undefined,
+    bloodPressure: typeof item.bloodPressure === 'object' && item.bloodPressure !== null ? 
+      (item.bloodPressure as { systolic: number; diastolic: number }) : undefined,
+    temperature: typeof item.temperature === 'number' ? item.temperature : undefined,
+    oxygenSaturation: typeof item.oxygenSaturation === 'number' ? item.oxygenSaturation : undefined,
+    respiratoryRate: typeof item.respiratoryRate === 'number' ? item.respiratoryRate : undefined,
+    bloodGlucose: typeof item.bloodGlucose === 'number' ? item.bloodGlucose : undefined,
+    weight: typeof item.weight === 'number' ? item.weight : undefined,
+    timestamp: typeof item.timestamp === 'string' ? item.timestamp : new Date().toISOString()
+  }));
+};
+
 /**
  * Analyze image sequence for progression tracking
  */
@@ -225,7 +240,7 @@ export const analyzeImageSequence = async (
     images,
     imageTypes,
     timestamps,
-    vitalSigns,
+    vitalSigns: vitalSigns ? convertToVitalSignsData(vitalSigns) : undefined,
     userId
   };
 
@@ -248,12 +263,12 @@ export const analyzeVitalSigns = async (
     images: [],
     imageTypes: [],
     timestamps: [],
-    vitalSigns,
+    vitalSigns: convertToVitalSignsData(vitalSigns),
     userId
   };
 
   const result = await hybridPredictionService.routePrediction(timeSeriesInput);
-  return result.vitalSignsAnalysis;
+  return result.vitalSignsAnalysis as Record<string, unknown>;
 };
 
 /**

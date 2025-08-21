@@ -20,7 +20,7 @@ export const supabase = {
     })
   },
   from: (table: string) => ({
-    insert: (data: unknown) => ({
+    insert: (data: Record<string, unknown>) => ({
       select: () => ({
         single: async () => {
           console.log(`Mock insert into ${table}:`, data);
@@ -29,21 +29,21 @@ export const supabase = {
       })
     }),
     select: (columns = '*') => ({
-      eq: (column: string, value: React.SyntheticEvent) => ({
+      eq: (column: string, value: string | number) => ({
         single: async () => {
           console.log(`Mock select from ${table} where ${column} = ${value}`);
           return { data: null, error: null };
         },
         order: (column: string, options?: Record<string, unknown>) => ({
-          then: async (callback: () => void) => {
+          then: async (callback: (result: { data: unknown[]; error: null }) => void) => {
             console.log(`Mock select from ${table} ordered by ${column}`);
             return callback({ data: [], error: null });
           }
         })
       })
     }),
-    update: (data: unknown) => ({
-      eq: (column: string, value: React.SyntheticEvent) => ({
+    update: (data: Record<string, unknown>) => ({
+      eq: (column: string, value: string | number) => ({
         select: () => ({
           single: async () => {
             console.log(`Mock update ${table} where ${column} = ${value}:`, data);
@@ -53,8 +53,8 @@ export const supabase = {
       })
     }),
     delete: () => ({
-      eq: (column: string, value: React.SyntheticEvent) => ({
-        then: async (callback: () => void) => {
+      eq: (column: string, value: string | number) => ({
+        then: async (callback: (result: { data: null; error: null }) => void) => {
           console.log(`Mock delete from ${table} where ${column} = ${value}`);
           return callback({ data: null, error: null });
         }

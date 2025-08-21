@@ -1,5 +1,11 @@
 import { SymptomAssessmentResult, CloudAnalysisResult, CloudHealthcareRequest } from './types';
 
+// Type guards for API responses
+const isString = (value: unknown): value is string => typeof value === 'string';
+const isNumber = (value: unknown): value is number => typeof value === 'number';
+const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean';
+const isStringArray = (value: unknown): value is string[] => Array.isArray(value) && value.every(item => typeof item === 'string');
+
 export class AzureHealthBotService {
   private endpoint: string;
   private apiKey: string;
@@ -19,15 +25,15 @@ export class AzureHealthBotService {
 
       return {
         provider: 'azure',
-        assessment: response.assessment || 'Unable to assess symptoms',
-        severity: this.mapSeverity(response.severity),
-        recommendations: response.recommendations || [],
-        urgency: this.mapUrgency(response.urgency),
-        possibleConditions: response.possibleConditions || []
+        assessment: isString(response.assessment) ? response.assessment : 'Unable to assess symptoms',
+        severity: this.mapSeverity(isString(response.severity) ? response.severity : 'moderate'),
+        recommendations: isStringArray(response.recommendations) ? response.recommendations : [],
+        urgency: this.mapUrgency(isString(response.urgency) ? response.urgency : 'routine'),
+        possibleConditions: this.parsePossibleConditions(response.possibleConditions)
       };
     } catch (error) {
       console.error('Azure Health Bot API error:', error);
-      throw new Error(`Symptom assessment failed: ${error.message}`);
+      throw new Error(`Symptom assessment failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -48,21 +54,24 @@ export class AzureHealthBotService {
 
       return {
         provider: 'azure',
-        prediction: response.diagnosis || 'unknown',
-        confidence: response.confidence || 0.5,
-        findings: response.findings || [],
-        recommendations: response.recommendations || [],
-        riskLevel: this.calculateRiskLevel(response.confidence, response.diagnosis),
+        prediction: isString(response.diagnosis) ? response.diagnosis : 'unknown',
+        confidence: isNumber(response.confidence) ? response.confidence : 0.5,
+        findings: isStringArray(response.findings) ? response.findings : [],
+        recommendations: isStringArray(response.recommendations) ? response.recommendations : [],
+        riskLevel: this.calculateRiskLevel(
+          isNumber(response.confidence) ? response.confidence : 0.5,
+          isString(response.diagnosis) ? response.diagnosis : 'unknown'
+        ),
         metadata: {
-          modelVersion: response.modelVersion || '1.0',
+          modelVersion: isString(response.modelVersion) ? response.modelVersion : '1.0',
           processingTime,
-          imageQuality: response.imageQuality || 0.8
+          imageQuality: isNumber(response.imageQuality) ? response.imageQuality : 0.8
         },
         rawResponse: response
       };
     } catch (error) {
       console.error('Azure Health Bot image analysis error:', error);
-      throw new Error(`Azure Health Bot analysis failed: ${error.message}`);
+      throw new Error(`Azure Health Bot analysis failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -74,10 +83,10 @@ export class AzureHealthBotService {
         patientContext
       });
 
-      return response.advice || [];
+      return isStringArray(response.advice) ? response.advice : [];
     } catch (error) {
       console.error('Azure Health Bot advice error:', error);
-      throw new Error(`Medical advice failed: ${error.message}`);
+      throw new Error(`Medical advice failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -93,13 +102,13 @@ export class AzureHealthBotService {
       });
 
       return {
-        isEmergency: response.isEmergency || false,
-        urgency: this.mapUrgency(response.urgency),
-        recommendations: response.recommendations || []
+        isEmergency: isBoolean(response.isEmergency) ? response.isEmergency : false,
+        urgency: this.mapUrgency(isString(response.urgency) ? response.urgency : 'routine'),
+        recommendations: isStringArray(response.recommendations) ? response.recommendations : []
       };
     } catch (error) {
       console.error('Azure Health Bot triage error:', error);
-      throw new Error(`Emergency triage failed: ${error.message}`);
+      throw new Error(`Emergency triage failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -141,6 +150,26 @@ export class AzureHealthBotService {
       };
       reader.onerror = error => reject(error);
     });
+  }
+
+  private parsePossibleConditions(conditions: unknown): Array<{
+    condition: string;
+    probability: number;
+    description: string;
+  }> {
+    if (!Array.isArray(conditions)) {
+      return [];
+    }
+
+    return conditions
+      .filter((condition): condition is Record<string, unknown> => 
+        typeof condition === 'object' && condition !== null
+      )
+      .map(condition => ({
+        condition: isString(condition.condition) ? condition.condition : 'Unknown condition',
+        probability: isNumber(condition.probability) ? condition.probability : 0,
+        description: isString(condition.description) ? condition.description : ''
+      }));
   }
 
   private mapSeverity(azureSeverity: string): 'low' | 'medium' | 'high' | 'critical' {

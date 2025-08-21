@@ -130,9 +130,13 @@ export class HybridPredictionService {
   private isImageSequence(data: unknown): data is TimeSeriesInput {
     return (
       data &&
-      Array.isArray(data.images) &&
-      data.images.length > 1 &&
-      typeof data.userId === 'string'
+      typeof data === 'object' &&
+      data !== null &&
+      'images' in data &&
+      Array.isArray((data as any).images) &&
+      (data as any).images.length > 1 &&
+      'userId' in data &&
+      typeof (data as any).userId === 'string'
     );
   }
 

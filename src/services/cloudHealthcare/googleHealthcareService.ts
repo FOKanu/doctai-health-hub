@@ -40,15 +40,18 @@ export class GoogleHealthcareService {
 
       return {
         provider: 'google',
-        prediction: response.diagnosis || 'unknown',
-        confidence: response.confidence || 0.5,
-        findings: response.findings || [],
-        recommendations: response.recommendations || [],
-        riskLevel: this.calculateRiskLevel(response.confidence, response.diagnosis),
+        prediction: typeof response.diagnosis === 'string' ? response.diagnosis : 'unknown',
+        confidence: typeof response.confidence === 'number' ? response.confidence : 0.5,
+        findings: Array.isArray(response.findings) && response.findings.every(item => typeof item === 'string') ? response.findings : [],
+        recommendations: Array.isArray(response.recommendations) && response.recommendations.every(item => typeof item === 'string') ? response.recommendations : [],
+        riskLevel: this.calculateRiskLevel(
+          typeof response.confidence === 'number' ? response.confidence : 0.5,
+          typeof response.diagnosis === 'string' ? response.diagnosis : 'unknown'
+        ),
         metadata: {
-          modelVersion: response.modelVersion || '1.0',
+          modelVersion: typeof response.modelVersion === 'string' ? response.modelVersion : '1.0',
           processingTime,
-          imageQuality: response.imageQuality || 0.8
+          imageQuality: typeof response.imageQuality === 'number' ? response.imageQuality : 0.8
         },
         rawResponse: response
       };

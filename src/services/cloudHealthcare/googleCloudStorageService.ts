@@ -198,11 +198,17 @@ export class GoogleCloudStorageService {
       }
 
       const result = await response.json();
-      return result.items?.map((item: unknown) => ({
-        name: item.name,
-        size: parseInt(item.size) || 0,
-        updated: item.updated
-      })) || [];
+      return result.items?.map((item: unknown) => {
+        if (typeof item === 'object' && item !== null) {
+          const typedItem = item as Record<string, unknown>;
+          return {
+            name: typeof typedItem.name === 'string' ? typedItem.name : '',
+            size: typeof typedItem.size === 'string' ? parseInt(typedItem.size) || 0 : 0,
+            updated: typeof typedItem.updated === 'string' ? typedItem.updated : ''
+          };
+        }
+        return { name: '', size: 0, updated: '' };
+      }) || [];
     } catch (error) {
       console.error('Google Cloud Storage list error:', error);
       throw new Error(`List from Google Cloud Storage failed: ${error.message}`);

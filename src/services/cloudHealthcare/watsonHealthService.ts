@@ -28,15 +28,18 @@ export class WatsonHealthService {
 
       return {
         provider: 'watson',
-        prediction: response.diagnosis || 'unknown',
-        confidence: response.confidence || 0.5,
-        findings: response.findings || [],
-        recommendations: response.recommendations || [],
-        riskLevel: this.calculateRiskLevel(response.confidence, response.diagnosis),
+        prediction: typeof response.diagnosis === 'string' ? response.diagnosis : 'unknown',
+        confidence: typeof response.confidence === 'number' ? response.confidence : 0.5,
+        findings: Array.isArray(response.findings) && response.findings.every(item => typeof item === 'string') ? response.findings : [],
+        recommendations: Array.isArray(response.recommendations) && response.recommendations.every(item => typeof item === 'string') ? response.recommendations : [],
+        riskLevel: this.calculateRiskLevel(
+          typeof response.confidence === 'number' ? response.confidence : 0.5,
+          typeof response.diagnosis === 'string' ? response.diagnosis : 'unknown'
+        ),
         metadata: {
-          modelVersion: response.modelVersion || '1.0',
+          modelVersion: typeof response.modelVersion === 'string' ? response.modelVersion : '1.0',
           processingTime,
-          imageQuality: response.imageQuality || 0.8
+          imageQuality: typeof response.imageQuality === 'number' ? response.imageQuality : 0.8
         },
         rawResponse: response
       };
@@ -61,11 +64,11 @@ export class WatsonHealthService {
 
       return {
         provider: 'watson',
-        insights: response.insights || [],
-        riskFactors: response.riskFactors || [],
-        preventiveMeasures: response.preventiveMeasures || [],
-        followUpRecommendations: response.followUpRecommendations || [],
-        evidenceLevel: this.mapEvidenceLevel(response.evidenceLevel)
+        insights: Array.isArray(response.insights) && response.insights.every(item => typeof item === 'string') ? response.insights : [],
+        riskFactors: Array.isArray(response.riskFactors) && response.riskFactors.every(item => typeof item === 'string') ? response.riskFactors : [],
+        preventiveMeasures: Array.isArray(response.preventiveMeasures) && response.preventiveMeasures.every(item => typeof item === 'string') ? response.preventiveMeasures : [],
+        followUpRecommendations: Array.isArray(response.followUpRecommendations) && response.followUpRecommendations.every(item => typeof item === 'string') ? response.followUpRecommendations : [],
+        evidenceLevel: this.mapEvidenceLevel(typeof response.evidenceLevel === 'string' ? response.evidenceLevel : 'medium')
       };
     } catch (error) {
       console.error('Watson Health clinical insights error:', error);
@@ -83,11 +86,11 @@ export class WatsonHealthService {
 
       return {
         provider: 'watson',
-        assessment: response.assessment || 'Unable to assess symptoms',
-        severity: this.mapSeverity(response.severity),
-        recommendations: response.recommendations || [],
-        urgency: this.mapUrgency(response.urgency),
-        possibleConditions: response.possibleConditions || []
+        assessment: typeof response.assessment === 'string' ? response.assessment : 'Unable to assess symptoms',
+        severity: this.mapSeverity(typeof response.severity === 'string' ? response.severity : 'moderate'),
+        recommendations: Array.isArray(response.recommendations) && response.recommendations.every(item => typeof item === 'string') ? response.recommendations : [],
+        urgency: this.mapUrgency(typeof response.urgency === 'string' ? response.urgency : 'routine'),
+        possibleConditions: Array.isArray(response.possibleConditions) ? response.possibleConditions : []
       };
     } catch (error) {
       console.error('Watson Health symptom assessment error:', error);
@@ -109,10 +112,10 @@ export class WatsonHealthService {
       });
 
       return {
-        treatments: response.treatments || [],
-        medications: response.medications || [],
-        lifestyle: response.lifestyle || [],
-        followUp: response.followUp || []
+        treatments: Array.isArray(response.treatments) && response.treatments.every(item => typeof item === 'string') ? response.treatments : [],
+        medications: Array.isArray(response.medications) && response.medications.every(item => typeof item === 'string') ? response.medications : [],
+        lifestyle: Array.isArray(response.lifestyle) && response.lifestyle.every(item => typeof item === 'string') ? response.lifestyle : [],
+        followUp: Array.isArray(response.followUp) && response.followUp.every(item => typeof item === 'string') ? response.followUp : []
       };
     } catch (error) {
       console.error('Watson Health treatment recommendations error:', error);
@@ -138,9 +141,9 @@ export class WatsonHealthService {
       });
 
       return {
-        relevantStudies: response.relevantStudies || [],
-        keyFindings: response.keyFindings || [],
-        evidenceLevel: this.mapEvidenceLevel(response.evidenceLevel)
+        relevantStudies: Array.isArray(response.relevantStudies) ? response.relevantStudies : [],
+        keyFindings: Array.isArray(response.keyFindings) && response.keyFindings.every(item => typeof item === 'string') ? response.keyFindings : [],
+        evidenceLevel: this.mapEvidenceLevel(typeof response.evidenceLevel === 'string' ? response.evidenceLevel : 'medium')
       };
     } catch (error) {
       console.error('Watson Health literature analysis error:', error);
