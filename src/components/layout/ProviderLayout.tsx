@@ -172,7 +172,7 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
 
         {/* Sidebar */}
         <Sidebar className={`hidden md:flex border-r border-blue-200 bg-white/95 backdrop-blur-sm transition-all duration-300 ${
-          sidebarCollapsed ? 'w-20' : 'w-80'
+          sidebarCollapsed ? 'w-16' : 'w-80'
         }`}>
           <SidebarHeader className="p-8 border-b border-blue-200">
             <div className="flex items-center space-x-4">
