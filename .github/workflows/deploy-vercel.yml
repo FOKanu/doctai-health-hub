@@ -1,16 +1,17 @@
 name: Deploy to Vercel
 
+# Uncomment these lines AFTER you've set up Vercel secrets in GitHub
+on:
+  push:
+    branches: [ main ]
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]
+    types:
+      - completed
+
 # Temporarily disabled for MVP development
 # on:
-#   push:
-#     branches: [ main ]
-#   workflow_run:
-#     workflows: ["CI/CD Pipeline"]
-#     types:
-#       - completed
-
-on:
-  workflow_dispatch: # Only run manually for now
+#   workflow_dispatch: # Only run manually for now
 
 jobs:
   deploy:

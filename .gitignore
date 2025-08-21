@@ -17,6 +17,9 @@ dist-ssr
 .env.local
 .env.production
 .env.development
+.env.backup
+# Allow .env.example to be committed
+!.env.example
 
 # Security and credentials
 CI-CD-secrets/
