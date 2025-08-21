@@ -134,34 +134,34 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-blue-50 to-indigo-100">
-        <Sidebar className="hidden md:flex border-r border-blue-200 bg-white/95 backdrop-blur-sm">
-          <SidebarHeader className="p-6 border-b border-blue-200">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                <Stethoscope className="w-6 h-6 text-white" />
+        <Sidebar className="hidden md:flex border-r border-blue-200 bg-white/95 backdrop-blur-sm w-80">
+          <SidebarHeader className="p-8 border-b border-blue-200">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Stethoscope className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900">DoctAI</h2>
+                <h2 className="text-2xl font-bold text-gray-900">DoctAI</h2>
                 <p className="text-sm text-blue-600 font-medium">Provider Portal</p>
               </div>
             </div>
 
             {/* Provider Info */}
             {user && (
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <Avatar className="h-8 w-8">
+              <div className="mt-6 p-4 bg-blue-50 rounded-xl">
+                <div className="flex items-center space-x-4">
+                  <Avatar className="h-10 w-10">
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback className="bg-blue-500 text-white text-sm">
                       {getInitials(user.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 truncate">
+                    <p className="text-base font-semibold text-gray-900 truncate">
                       {user.name}
                     </p>
                     {user.specialty && (
-                      <p className="text-xs text-blue-600 font-medium">
+                      <p className="text-sm text-blue-600 font-medium mt-1">
                         {user.specialty}
                       </p>
                     )}
@@ -174,11 +174,11 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
           <SidebarContent className="flex-1">
             {/* Main Navigation */}
             <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-2">
+              <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-8 py-4">
                 Main Menu
               </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
+              <SidebarGroupContent className="px-4">
+                <SidebarMenu className="space-y-2">
                   {mainNavigation.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
@@ -188,13 +188,13 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                       >
                         <button
                           onClick={() => navigate(item.url)}
-                          className="w-full text-left p-3 rounded-lg transition-all duration-200"
+                          className="w-full text-left p-4 rounded-lg transition-all duration-200"
                         >
-                          <div className="flex items-center space-x-3">
-                            <item.icon className="w-5 h-5" />
-                            <div className="flex-1">
-                              <span className="font-medium">{item.title}</span>
-                              <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                          <div className="flex items-center space-x-4">
+                            <item.icon className="w-5 h-5 flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <span className="font-medium text-sm">{item.title}</span>
+                              <p className="text-xs text-gray-500 mt-1 line-clamp-1">{item.description}</p>
                             </div>
                           </div>
                         </button>
@@ -208,11 +208,11 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
             {/* Specialty Navigation */}
             {user?.specialty && (
               <SidebarGroup>
-                <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-2">
+                <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-8 py-4">
                   Specialty Tools
                 </SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
+                <SidebarGroupContent className="px-4">
+                  <SidebarMenu className="space-y-2">
                     {specialtyNavigation.map((item) => (
                       <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
@@ -222,11 +222,11 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                         >
                           <button
                             onClick={() => navigate(item.url)}
-                            className="w-full text-left p-3 rounded-lg transition-all duration-200"
+                            className="w-full text-left p-4 rounded-lg transition-all duration-200"
                           >
-                            <div className="flex items-center space-x-3">
-                              <item.icon className={`w-5 h-5 ${item.color}`} />
-                              <span className="font-medium">{item.title}</span>
+                            <div className="flex items-center space-x-4">
+                              <item.icon className={`w-5 h-5 flex-shrink-0 ${item.color}`} />
+                              <span className="font-medium text-sm">{item.title}</span>
                             </div>
                           </button>
                         </SidebarMenuButton>
