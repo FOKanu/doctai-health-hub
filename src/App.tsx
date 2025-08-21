@@ -12,8 +12,10 @@ import { Shield } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProviderLayout } from './components/layout/ProviderLayout';
 import { EngineerLayout } from './components/layout/EngineerLayout';
-import { ProviderRoute, EngineerRoute, PatientRoute } from './components/auth/RoleBasedRoute';
+import { AdminLayout } from './components/layout/AdminLayout';
+import { ProviderRoute, EngineerRoute, PatientRoute, AdminRoute } from './components/auth/RoleBasedRoute';
 import { ProviderDashboard } from './components/provider/ProviderDashboard';
+import { AdminDashboard } from './components/admin/AdminDashboard';
 import { PatientManagement } from './components/provider/pages/PatientManagement';
 import { PatientDetail } from './components/provider/pages/PatientDetail';
 import { Schedule } from './components/provider/pages/Schedule';
@@ -174,9 +176,20 @@ const App = () => {
 
               {/* Admin Routes - Protected */}
               <Route path="/admin/*" element={
-                <ProviderRoute>
-                  <div>Admin Dashboard</div>
-                </ProviderRoute>
+                <AdminRoute>
+                  <AdminLayout>
+                    <Routes>
+                      <Route path="/dashboard" element={<AdminDashboard />} />
+                      <Route path="/users" element={<div>User Management</div>} />
+                      <Route path="/security" element={<div>Security Settings</div>} />
+                      <Route path="/system" element={<div>System Health</div>} />
+                      <Route path="/data" element={<div>Data Management</div>} />
+                      <Route path="/analytics" element={<div>Analytics</div>} />
+                      <Route path="/settings" element={<div>Admin Settings</div>} />
+                      <Route path="*" element={<AdminDashboard />} />
+                    </Routes>
+                  </AdminLayout>
+                </AdminRoute>
               } />
 
               {/* Compliance Route */}
