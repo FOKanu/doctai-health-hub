@@ -87,6 +87,57 @@ export interface Order {
   notes?: string;
 }
 
+export interface LabTest {
+  id: string;
+  patientId: string;
+  patientName: string;
+  testType: string;
+  testName: string;
+  orderedBy: string;
+  orderedDate: string;
+  completedDate?: string;
+  status: 'Pending' | 'In Progress' | 'Completed' | 'Cancelled';
+  results?: string;
+  normalRange?: string;
+  notes?: string;
+  priority: 'Low' | 'Medium' | 'High' | 'Urgent';
+}
+
+export interface Prescription {
+  id: string;
+  patientId: string;
+  patientName: string;
+  medicationName: string;
+  dosage: string;
+  frequency: string;
+  quantity: number;
+  refillsRemaining: number;
+  prescribedDate: string;
+  expirationDate: string;
+  renewalDate: string;
+  status: 'Active' | 'Expired' | 'Cancelled' | 'Pending Renewal';
+  notes?: string;
+  prescribedBy: string;
+}
+
+export interface VitalRecord {
+  id: string;
+  patientId: string;
+  patientName: string;
+  recordedDate: string;
+  recordedBy: string;
+  bloodPressureSystolic?: number;
+  bloodPressureDiastolic?: number;
+  heartRate?: number;
+  temperature?: number;
+  respiratoryRate?: number;
+  oxygenSaturation?: number;
+  weight?: number;
+  height?: number;
+  bmi?: number;
+  notes?: string;
+}
+
 // Deterministic seed data
 const generatePatients = (): Patient[] => {
   const names = [
@@ -177,6 +228,143 @@ const generateAIInsights = (): AIInsight[] => {
   return insights;
 };
 
+const generateOrders = (): Order[] => {
+  const patients = generatePatients();
+  const orders = [];
+  const today = new Date();
+  
+  for (let i = 0; i < 20; i++) {
+    const patient = patients[i % patients.length];
+    const orderDate = new Date(today.getTime() - (i * 24 * 60 * 60 * 1000));
+    
+    orders.push({
+      id: `ORD${String(i + 1).padStart(3, '0')}`,
+      patientId: patient.id,
+      patientName: patient.name,
+      type: ['Lab', 'Imaging', 'Medication', 'Procedure'][i % 4],
+      status: i % 5 < 2 ? 'Pending' : i % 5 < 4 ? 'In Progress' : 'Completed',
+      orderedBy: 'Dr. Smith',
+      orderedDate: orderDate.toISOString().split('T')[0],
+      completedDate: i % 5 === 4 ? orderDate.toISOString().split('T')[0] : undefined,
+      notes: i % 3 === 0 ? 'Urgent - please prioritize' : undefined
+    });
+  }
+  
+  return orders;
+};
+
+const generateLabTests = (): LabTest[] => {
+  const patients = generatePatients();
+  const labs = [];
+  const today = new Date();
+  
+  const labTypes = [
+    { type: 'Blood', name: 'Complete Blood Count (CBC)' },
+    { type: 'Blood', name: 'Lipid Panel' },
+    { type: 'Blood', name: 'Comprehensive Metabolic Panel' },
+    { type: 'Urine', name: 'Urinalysis' },
+    { type: 'Blood', name: 'Hemoglobin A1C' },
+    { type: 'Blood', name: 'Thyroid Function Tests' }
+  ];
+  
+  for (let i = 0; i < 25; i++) {
+    const patient = patients[i % patients.length];
+    const lab = labTypes[i % labTypes.length];
+    const orderDate = new Date(today.getTime() - (i * 12 * 60 * 60 * 1000));
+    
+    labs.push({
+      id: `LAB${String(i + 1).padStart(3, '0')}`,
+      patientId: patient.id,
+      patientName: patient.name,
+      testType: lab.type,
+      testName: lab.name,
+      orderedBy: 'Dr. Smith',
+      orderedDate: orderDate.toISOString().split('T')[0],
+      completedDate: i % 4 === 3 ? orderDate.toISOString().split('T')[0] : undefined,
+      status: i % 4 < 1 ? 'Pending' : i % 4 < 3 ? 'In Progress' : 'Completed',
+      results: i % 4 === 3 ? 'Within normal limits' : undefined,
+      normalRange: i % 4 === 3 ? '4.0-11.0 K/μL' : undefined,
+      priority: i % 8 < 1 ? 'Urgent' : i % 8 < 3 ? 'High' : i % 8 < 6 ? 'Medium' : 'Low',
+      notes: i % 5 === 0 ? 'Fasting required' : undefined
+    });
+  }
+  
+  return labs;
+};
+
+const generatePrescriptions = (): Prescription[] => {
+  const patients = generatePatients();
+  const prescriptions = [];
+  const today = new Date();
+  
+  const medications = [
+    { name: 'Lisinopril', dosage: '10mg' },
+    { name: 'Metformin', dosage: '500mg' },
+    { name: 'Atorvastatin', dosage: '20mg' },
+    { name: 'Albuterol', dosage: '90mcg' },
+    { name: 'Omeprazole', dosage: '20mg' },
+    { name: 'Amlodipine', dosage: '5mg' }
+  ];
+  
+  for (let i = 0; i < 30; i++) {
+    const patient = patients[i % patients.length];
+    const medication = medications[i % medications.length];
+    const prescribedDate = new Date(today.getTime() - (i * 7 * 24 * 60 * 60 * 1000));
+    const expirationDate = new Date(prescribedDate.getTime() + (365 * 24 * 60 * 60 * 1000));
+    const renewalDate = new Date(prescribedDate.getTime() + (30 * 24 * 60 * 60 * 1000));
+    
+    prescriptions.push({
+      id: `RX${String(i + 1).padStart(3, '0')}`,
+      patientId: patient.id,
+      patientName: patient.name,
+      medicationName: medication.name,
+      dosage: medication.dosage,
+      frequency: ['Once daily', 'Twice daily', 'Three times daily', 'As needed'][i % 4],
+      quantity: [30, 60, 90][i % 3],
+      refillsRemaining: Math.max(0, 5 - (i % 6)),
+      prescribedDate: prescribedDate.toISOString().split('T')[0],
+      expirationDate: expirationDate.toISOString().split('T')[0],
+      renewalDate: renewalDate.toISOString().split('T')[0],
+      status: i % 10 < 7 ? 'Active' : i % 10 < 9 ? 'Pending Renewal' : 'Expired',
+      prescribedBy: 'Dr. Smith',
+      notes: i % 4 === 0 ? 'Take with food' : undefined
+    });
+  }
+  
+  return prescriptions;
+};
+
+const generateVitalRecords = (): VitalRecord[] => {
+  const patients = generatePatients();
+  const vitals = [];
+  const today = new Date();
+  
+  for (let i = 0; i < 40; i++) {
+    const patient = patients[i % patients.length];
+    const recordedDate = new Date(today.getTime() - (i * 6 * 60 * 60 * 1000));
+    
+    vitals.push({
+      id: `VIT${String(i + 1).padStart(3, '0')}`,
+      patientId: patient.id,
+      patientName: patient.name,
+      recordedDate: recordedDate.toISOString().split('T')[0],
+      recordedBy: ['Nurse Johnson', 'MA Williams', 'Dr. Smith'][i % 3],
+      bloodPressureSystolic: 110 + (i % 30),
+      bloodPressureDiastolic: 70 + (i % 20),
+      heartRate: 60 + (i % 40),
+      temperature: 97.5 + (i % 4) * 0.3,
+      respiratoryRate: 12 + (i % 8),
+      oxygenSaturation: 95 + (i % 6),
+      weight: 140 + (i % 80),
+      height: 60 + (i % 20),
+      bmi: 18 + (i % 15),
+      notes: i % 6 === 0 ? 'Patient appears comfortable' : undefined
+    });
+  }
+  
+  return vitals;
+};
+
 // Store
 interface ProviderStore {
   // State
@@ -186,6 +374,9 @@ interface ProviderStore {
   aiInsights: AIInsight[];
   auditLogs: AuditLog[];
   orders: Order[];
+  labTests: LabTest[];
+  prescriptions: Prescription[];
+  vitalRecords: VitalRecord[];
   
   // Actions
   addPatient: (patient: Omit<Patient, 'id'>) => void;
@@ -202,6 +393,18 @@ interface ProviderStore {
   updateAIInsight: (id: string, updates: Partial<AIInsight>) => void;
   addAuditLog: (log: Omit<AuditLog, 'id'>) => void;
   
+  addOrder: (order: Omit<Order, 'id'>) => void;
+  updateOrder: (id: string, updates: Partial<Order>) => void;
+  
+  addLabTest: (labTest: Omit<LabTest, 'id'>) => void;
+  updateLabTest: (id: string, updates: Partial<LabTest>) => void;
+  
+  addPrescription: (prescription: Omit<Prescription, 'id'>) => void;
+  updatePrescription: (id: string, updates: Partial<Prescription>) => void;
+  
+  addVitalRecord: (vitalRecord: Omit<VitalRecord, 'id'>) => void;
+  updateVitalRecord: (id: string, updates: Partial<VitalRecord>) => void;
+  
   // Selectors
   getActivePatients: () => Patient[];
   getTodaysAppointments: () => Appointment[];
@@ -210,6 +413,10 @@ interface ProviderStore {
   getPatientById: (id: string) => Patient | undefined;
   getAppointmentsByPatient: (patientId: string) => Appointment[];
   getAIInsightsByPatient: (patientId: string) => AIInsight[];
+  getPendingOrders: () => Order[];
+  getPendingLabs: () => LabTest[];
+  getActivePrescriptions: () => Prescription[];
+  getRecentVitals: () => VitalRecord[];
 }
 
 export const useProviderStore = create<ProviderStore>()(
@@ -221,7 +428,10 @@ export const useProviderStore = create<ProviderStore>()(
       messages: [],
       aiInsights: generateAIInsights(),
       auditLogs: [],
-      orders: [],
+      orders: generateOrders(),
+      labTests: generateLabTests(),
+      prescriptions: generatePrescriptions(),
+      vitalRecords: generateVitalRecords(),
       
       // Actions
       addPatient: (patientData) => {
@@ -300,6 +510,70 @@ export const useProviderStore = create<ProviderStore>()(
         set((state) => ({ auditLogs: [...state.auditLogs, newLog] }));
       },
       
+      addOrder: (orderData) => {
+        const newOrder: Order = {
+          ...orderData,
+          id: `ORD${String(get().orders.length + 1).padStart(3, '0')}`
+        };
+        set((state) => ({ orders: [...state.orders, newOrder] }));
+      },
+      
+      updateOrder: (id, updates) => {
+        set((state) => ({
+          orders: state.orders.map(order =>
+            order.id === id ? { ...order, ...updates } : order
+          )
+        }));
+      },
+      
+      addLabTest: (labTestData) => {
+        const newLabTest: LabTest = {
+          ...labTestData,
+          id: `LAB${String(get().labTests.length + 1).padStart(3, '0')}`
+        };
+        set((state) => ({ labTests: [...state.labTests, newLabTest] }));
+      },
+      
+      updateLabTest: (id, updates) => {
+        set((state) => ({
+          labTests: state.labTests.map(labTest =>
+            labTest.id === id ? { ...labTest, ...updates } : labTest
+          )
+        }));
+      },
+      
+      addPrescription: (prescriptionData) => {
+        const newPrescription: Prescription = {
+          ...prescriptionData,
+          id: `RX${String(get().prescriptions.length + 1).padStart(3, '0')}`
+        };
+        set((state) => ({ prescriptions: [...state.prescriptions, newPrescription] }));
+      },
+      
+      updatePrescription: (id, updates) => {
+        set((state) => ({
+          prescriptions: state.prescriptions.map(prescription =>
+            prescription.id === id ? { ...prescription, ...updates } : prescription
+          )
+        }));
+      },
+      
+      addVitalRecord: (vitalRecordData) => {
+        const newVitalRecord: VitalRecord = {
+          ...vitalRecordData,
+          id: `VIT${String(get().vitalRecords.length + 1).padStart(3, '0')}`
+        };
+        set((state) => ({ vitalRecords: [...state.vitalRecords, newVitalRecord] }));
+      },
+      
+      updateVitalRecord: (id, updates) => {
+        set((state) => ({
+          vitalRecords: state.vitalRecords.map(vitalRecord =>
+            vitalRecord.id === id ? { ...vitalRecord, ...updates } : vitalRecord
+          )
+        }));
+      },
+      
       // Selectors
       getActivePatients: () => {
         return get().patients.filter(patient => 
@@ -337,6 +611,22 @@ export const useProviderStore = create<ProviderStore>()(
       
       getAIInsightsByPatient: (patientId) => {
         return get().aiInsights.filter(insight => insight.patientId === patientId);
+      },
+      
+      getPendingOrders: () => {
+        return get().orders.filter(order => order.status === 'Pending');
+      },
+      
+      getPendingLabs: () => {
+        return get().labTests.filter(lab => lab.status === 'Pending');
+      },
+      
+      getActivePrescriptions: () => {
+        return get().prescriptions.filter(prescription => prescription.status === 'Active');
+      },
+      
+      getRecentVitals: () => {
+        return get().vitalRecords.slice(0, 10); // Most recent 10
       }
     }),
     {

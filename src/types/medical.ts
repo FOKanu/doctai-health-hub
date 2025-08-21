@@ -90,3 +90,54 @@ export interface HealthAnalysisResponse {
   disclaimer: string;
   simplified: string;
 }
+
+export interface LabTest {
+  id: string;
+  patientId: string;
+  patientName: string;
+  testType: string;
+  testName: string;
+  orderedBy: string;
+  orderedDate: string;
+  completedDate?: string;
+  status: 'Pending' | 'In Progress' | 'Completed' | 'Cancelled';
+  results?: string;
+  normalRange?: string;
+  notes?: string;
+  priority: 'Low' | 'Medium' | 'High' | 'Urgent';
+}
+
+export interface Prescription {
+  id: string;
+  patientId: string;
+  patientName: string;
+  medicationName: string;
+  dosage: string;
+  frequency: string;
+  quantity: number;
+  refillsRemaining: number;
+  prescribedDate: string;
+  expirationDate: string;
+  renewalDate: string;
+  status: 'Active' | 'Expired' | 'Cancelled' | 'Pending Renewal';
+  notes?: string;
+  prescribedBy: string;
+}
+
+export interface VitalRecord {
+  id: string;
+  patientId: string;
+  patientName: string;
+  recordedDate: string;
+  recordedBy: string;
+  bloodPressureSystolic?: number;
+  bloodPressureDiastolic?: number;
+  heartRate?: number;
+  temperature?: number;
+  respiratoryRate?: number;
+  oxygenSaturation?: number;
+  weight?: number;
+  height?: number;
+  bmi?: number;
+  notes?: string;
+}
