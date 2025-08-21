@@ -268,7 +268,7 @@ export const analyzeVitalSigns = async (
   };
 
   const result = await hybridPredictionService.routePrediction(timeSeriesInput);
-  return result.vitalSignsAnalysis as Record<string, unknown>;
+  return result.vitalSignsAnalysis as unknown as Record<string, unknown>;
 };
 
 /**

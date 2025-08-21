@@ -331,41 +331,5 @@ export interface HealthcareDataset {
 }
 
 // =============================================================================
-// EXPORT ALL TYPES
+// EXPORT ALL TYPES - Re-export interfaces as types to avoid conflicts
 // =============================================================================
-
-export type {
-  BaseEntity,
-  User,
-  Address,
-  Patient,
-  MedicalCondition,
-  EmergencyContact,
-  InsuranceInfo,
-  Treatment,
-  Medication,
-  Procedure,
-  Appointment,
-  Provider,
-  Availability,
-  ScanRecord,
-  AnalysisResult,
-  HealthMetrics,
-  VitalSigns,
-  HealthScore,
-  Notification,
-  ApiResponse,
-  PaginatedResponse,
-  EventHandler,
-  FormEventHandler,
-  ChangeEventHandler,
-  ClickEventHandler,
-  Status,
-  SortDirection,
-  SortConfig,
-  FilterConfig,
-  PredictionRequest,
-  PredictionResponse,
-  CloudHealthcareConfig,
-  HealthcareDataset,
-};
