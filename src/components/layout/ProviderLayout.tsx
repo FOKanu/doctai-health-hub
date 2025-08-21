@@ -142,6 +142,15 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
+      {/* Skip to content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-lg z-50"
+        aria-label="Skip to main content"
+      >
+        Skip to main content
+      </a>
+      
       <div className="min-h-screen flex w-full bg-gradient-to-br from-blue-50 to-indigo-100">
         {/* Mobile Header with Hamburger */}
         <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-blue-200 px-4 py-3">
@@ -513,11 +522,51 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 p-6 overflow-auto bg-gradient-to-br from-blue-50/30 to-indigo-100/30">
-            <div className="max-w-7xl mx-auto space-y-6">
+          <main 
+            id="main-content"
+            className="flex-1 p-4 sm:p-6 overflow-auto bg-gradient-to-br from-blue-50/30 to-indigo-100/30"
+            role="main"
+            aria-label="Provider portal main content"
+          >
+            <div className="max-w-7xl mx-auto space-y-4 lg:space-y-6">
               {children}
             </div>
           </main>
+        </div>
+
+        {/* Mobile Utility Bar - Sticky Bottom */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-blue-200 px-4 py-3 z-40">
+          <div className="flex items-center justify-around space-x-2">
+            <Button 
+              size="sm" 
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs"
+              onClick={() => window.dispatchEvent(new CustomEvent('openNewPatientModal'))}
+              aria-label="Create new patient"
+            >
+              <User className="w-4 h-4 mr-1" />
+              New Patient
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="flex-1 border-blue-200 text-blue-700 hover:bg-blue-50 text-xs"
+              onClick={() => navigate('/provider/schedule')}
+              aria-label="Open schedule"
+            >
+              <Calendar className="w-4 h-4 mr-1" />
+              Schedule
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="flex-1 border-blue-200 text-blue-700 hover:bg-blue-50 text-xs"
+              onClick={() => navigate('/provider/messages')}
+              aria-label="Open messages"
+            >
+              <MessageSquare className="w-4 h-4 mr-1" />
+              Messages
+            </Button>
+          </div>
         </div>
       </div>
     </SidebarProvider>

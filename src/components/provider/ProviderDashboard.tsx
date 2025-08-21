@@ -20,16 +20,31 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useProviderStore } from '@/stores/providerStore';
 
 export function ProviderDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  
+  // Get data from store
+  const {
+    getActivePatients,
+    getTodaysAppointments,
+    getPendingAlerts,
+    getAIDiagnosesRate,
+    patients
+  } = useProviderStore();
 
-  // Mock data for the dashboard
+  // Calculate stats from store data
+  const activePatients = getActivePatients();
+  const todaysAppointments = getTodaysAppointments();
+  const pendingAlerts = getPendingAlerts();
+  const aiDiagnosesRate = getAIDiagnosesRate();
+
   const stats = [
     {
       title: "Active Patients",
-      value: "247",
+      value: activePatients.length.toString(),
       change: "+12%",
       icon: Users,
       color: "text-blue-600",
@@ -37,7 +52,7 @@ export function ProviderDashboard() {
     },
     {
       title: "Today's Appointments",
-      value: "18",
+      value: todaysAppointments.length.toString(),
       change: "+3",
       icon: Calendar,
       color: "text-green-600",
@@ -45,7 +60,7 @@ export function ProviderDashboard() {
     },
     {
       title: "Pending Alerts",
-      value: "5",
+      value: pendingAlerts.length.toString(),
       change: "-2",
       icon: AlertTriangle,
       color: "text-orange-600",
@@ -53,7 +68,7 @@ export function ProviderDashboard() {
     },
     {
       title: "AI Diagnoses",
-      value: "89%",
+      value: `${aiDiagnosesRate}%`,
       change: "+5%",
       icon: Brain,
       color: "text-purple-600",
@@ -175,8 +190,8 @@ export function ProviderDashboard() {
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      {/* KPI Cards - Responsive Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6">
         {stats.map((stat, index) => (
           <Card 
             key={stat.title} 
@@ -247,8 +262,8 @@ export function ProviderDashboard() {
         ))}
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main Content Grid - Responsive Layout */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 lg:gap-6">
         {/* Recent Patients */}
         <Card className="lg:col-span-2 card-glass rounded-2xl">
           <CardHeader>
