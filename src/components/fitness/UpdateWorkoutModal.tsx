@@ -92,7 +92,7 @@ export const UpdateWorkoutModal: React.FC<UpdateWorkoutModalProps> = ({
             <Label htmlFor="workoutType">Workout Type</Label>
             <Input
               id="workoutType"
-              value={formData.workoutType}
+              value={formData.workoutType as string}
               onChange={(e) => setFormData(prev => ({ ...prev, workoutType: e.target.value }))}
               placeholder="e.g., Upper Body Strength, HIIT Cardio"
             />

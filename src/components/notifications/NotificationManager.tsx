@@ -74,7 +74,12 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
         case 'medication':
           response = await apiServiceManager.sendMedicationReminder(
             formData.userId,
-            formData.medicationName,
+            {
+              name: formData.medicationName,
+              dosage: formData.dosage,
+              frequency: formData.frequency,
+              time: formData.medicationTime
+            },
             contactInfo
           );
           break;
@@ -82,7 +87,11 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
         case 'emergency':
           response = await apiServiceManager.sendEmergencyAlert(
             formData.userId,
-            formData.emergencyMessage,
+            {
+              type: formData.emergencyType as "health_emergency" | "medication_overdue" | "appointment_missed",
+              severity: formData.severity as "high" | "low" | "medium" | "critical",
+              message: formData.emergencyMessage
+            },
             contactInfo
           );
           break;
@@ -257,7 +266,7 @@ export const NotificationManager: React.FC<NotificationManagerProps> = ({ classN
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {result.map((notification: Notification, index: number) => (
+            {Array.isArray(result) && result.map((notification: any, index: number) => (
               <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                 <div className="flex items-center gap-3">
                   <Bell className="h-4 w-4 text-blue-500" />

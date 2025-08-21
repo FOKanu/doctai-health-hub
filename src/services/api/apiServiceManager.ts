@@ -86,7 +86,7 @@ export class ApiServiceManager {
 
   async sendAppointmentReminder(
     userId: string,
-    appointment: import('@/types/common').Appointment,
+    appointment: { date: string; time: string; doctor: string; specialty: string },
     contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {
@@ -101,7 +101,7 @@ export class ApiServiceManager {
 
   async sendMedicationReminder(
     userId: string,
-    medication: string,
+    medication: { name: string; dosage: string; frequency: string; time: string },
     contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {
@@ -116,7 +116,7 @@ export class ApiServiceManager {
 
   async sendEmergencyAlert(
     userId: string,
-    alert: string,
+    alert: { type: "health_emergency" | "medication_overdue" | "appointment_missed"; severity: "high" | "low" | "medium" | "critical"; message: string },
     contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {
@@ -155,8 +155,8 @@ export class ApiServiceManager {
           maxTokens: 10
         });
         status.openai = true;
-      } catch (error: Error | unknown) {
-        status.errors.push(`OpenAI: ${error.message}`);
+      } catch (error: any) {
+        status.errors.push(`OpenAI: ${error?.message || 'Unknown error'}`);
       }
     }
 
@@ -165,8 +165,8 @@ export class ApiServiceManager {
       try {
         // Test with a simple SMS (won't actually send)
         status.notifications = true;
-      } catch (error: Error | unknown) {
-        status.errors.push(`Notifications: ${error.message}`);
+      } catch (error: any) {
+        status.errors.push(`Notifications: ${error?.message || 'Unknown error'}`);
       }
     }
 
