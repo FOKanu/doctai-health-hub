@@ -171,7 +171,7 @@ export function ProviderDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <Card key={stat.title} className="hover:shadow-lg transition-shadow">
+          <Card key={stat.title} className="card-glass rounded-2xl hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">
                 {stat.title}
@@ -193,7 +193,7 @@ export function ProviderDashboard() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Patients */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 card-glass rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Users className="w-5 h-5" />
@@ -206,7 +206,7 @@ export function ProviderDashboard() {
           <CardContent>
             <div className="space-y-4">
               {recentPatients.map((patient) => (
-                <div key={patient.id} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                <div key={patient.id} className="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-50/50 transition-colors cursor-pointer">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={patient.avatar} alt={patient.name} />
                     <AvatarFallback className="bg-blue-500 text-white">
@@ -220,10 +220,10 @@ export function ProviderDashboard() {
                         <p className="text-sm text-gray-500">{patient.age} years • {patient.lastVisit}</p>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs rounded-full">
                           {patient.status}
                         </Badge>
-                        <Badge className={`text-xs ${getRiskColor(patient.risk)}`}>
+                        <Badge className={`text-xs rounded-full ${getRiskColor(patient.risk)}`}>
                           {patient.risk} Risk
                         </Badge>
                       </div>
@@ -232,14 +232,14 @@ export function ProviderDashboard() {
                 </div>
               ))}
             </div>
-            <Button variant="outline" className="w-full mt-4">
+            <Button variant="outline" className="w-full mt-4 rounded-xl">
               View All Patients
             </Button>
           </CardContent>
         </Card>
 
         {/* AI Insights */}
-        <Card>
+        <Card className="card-glass rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Brain className="w-5 h-5" />
@@ -252,9 +252,9 @@ export function ProviderDashboard() {
           <CardContent>
             <div className="space-y-4">
               {aiInsights.map((insight, index) => (
-                <div key={index} className="p-3 rounded-lg border border-gray-200">
+                <div key={index} className="p-3 rounded-xl border border-gray-200/50 bg-white/30">
                   <div className="flex items-start justify-between mb-2">
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge variant="secondary" className="text-xs rounded-full">
                       {insight.type}
                     </Badge>
                     <div className={`w-2 h-2 rounded-full ${getPriorityColor(insight.priority)}`}></div>
@@ -269,14 +269,14 @@ export function ProviderDashboard() {
                     <span className="text-xs text-gray-500">
                       Confidence: {insight.confidence}%
                     </span>
-                    <Button size="sm" variant="ghost" className="text-xs">
+                    <Button size="sm" variant="ghost" className="text-xs rounded-lg">
                       Review
                     </Button>
                   </div>
                 </div>
               ))}
             </div>
-            <Button variant="outline" className="w-full mt-4">
+            <Button variant="outline" className="w-full mt-4 rounded-xl">
               View All Insights
             </Button>
           </CardContent>
@@ -284,7 +284,7 @@ export function ProviderDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <Card>
+      <Card className="card-glass rounded-2xl">
         <CardHeader>
           <CardTitle>Quick Actions</CardTitle>
           <CardDescription>
@@ -293,19 +293,19 @@ export function ProviderDashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex-col space-y-2">
+            <Button variant="outline" className="h-20 flex-col space-y-2 rounded-xl hover:bg-blue-50/50 transition-colors">
               <Users className="w-6 h-6" />
               <span className="text-sm">New Patient</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col space-y-2">
+            <Button variant="outline" className="h-20 flex-col space-y-2 rounded-xl hover:bg-blue-50/50 transition-colors">
               <Calendar className="w-6 h-6" />
               <span className="text-sm">Schedule</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col space-y-2">
+            <Button variant="outline" className="h-20 flex-col space-y-2 rounded-xl hover:bg-blue-50/50 transition-colors">
               <MessageSquare className="w-6 h-6" />
               <span className="text-sm">Messages</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col space-y-2">
+            <Button variant="outline" className="h-20 flex-col space-y-2 rounded-xl hover:bg-blue-50/50 transition-colors">
               <FileText className="w-6 h-6" />
               <span className="text-sm">Records</span>
             </Button>

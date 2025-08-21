@@ -265,57 +265,76 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
 
         <div className="flex-1 flex flex-col">
           {/* Provider Header */}
-          <header className="bg-white border-b border-blue-200 px-6 py-4 shadow-sm">
+          <header className="bg-white/95 backdrop-blur-sm border-b border-blue-200 px-6 py-4 shadow-sm">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-8">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Provider Dashboard</h1>
-                  <p className="text-sm text-blue-600">
-                    {user?.specialty ? `${user.specialty} • ` : ''}AI-Powered Medical Care
-                  </p>
+                  <h1 className="text-2xl font-bold text-gray-900">DoctAI</h1>
+                  <p className="text-sm text-blue-600 font-medium">Provider Portal</p>
                 </div>
 
-                {/* Quick Action Buttons */}
-                <div className="flex items-center space-x-3">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                    <User className="w-4 h-4 mr-2" />
-                    New Patient
-                  </Button>
-                  <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Schedule
-                  </Button>
-                  <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    Messages
-                  </Button>
+                {/* Search Input */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search patients, records..."
+                    className="w-80 pl-4 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="Search patients and records"
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4">
-                {/* Status Indicators */}
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600">Online</span>
+                {/* Quick Action Buttons */}
+                <Button size="sm" className="bg-blue-600 hover:bg-blue-700" aria-label="Create new patient">
+                  <User className="w-4 h-4 mr-2" />
+                  New Patient
+                </Button>
+                <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50" aria-label="Open schedule">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Schedule
+                </Button>
+                <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50" aria-label="Open messages">
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  Messages
+                </Button>
+
+                {/* Status Pill */}
+                <div className="flex items-center space-x-2 px-3 py-1 bg-green-50 border border-green-200 rounded-full">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-green-700 font-medium">Online</span>
                 </div>
 
                 {/* Notifications */}
-                <Button variant="ghost" size="sm" className="relative">
+                <Button variant="ghost" size="sm" className="relative" aria-label="Notifications">
                   <AlertTriangle className="w-5 h-5 text-orange-500" />
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-xs">
                     3
                   </Badge>
                 </Button>
 
-                {/* User Profile Dropdown */}
-                <UserProfileDropdown />
+                {/* User Avatar */}
+                <div className="flex items-center space-x-3 px-3 py-2 bg-blue-50 border border-blue-200 rounded-xl">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback className="bg-blue-500 text-white text-sm font-medium">
+                      DS
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium text-gray-700">Dr. Sarah</span>
+                </div>
               </div>
             </div>
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 p-6 overflow-auto">
-            <div className="max-w-7xl mx-auto">
+          <main className="flex-1 p-6 overflow-auto bg-gradient-to-br from-blue-50/30 to-indigo-100/30">
+            <div className="max-w-7xl mx-auto space-y-6">
               {children}
             </div>
           </main>
