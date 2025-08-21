@@ -180,7 +180,7 @@ export function ProviderDashboard() {
         {stats.map((stat, index) => (
           <Card 
             key={stat.title} 
-            className="card-glass rounded-2xl hover:shadow-lg transition-all duration-300 cursor-pointer group"
+            className="card-glass rounded-2xl hover:shadow-lg transition-all duration-300 cursor-pointer group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             onClick={() => {
               // Navigate to relevant pages based on KPI
               switch (index) {
@@ -188,10 +188,10 @@ export function ProviderDashboard() {
                   navigate('/provider/patients');
                   break;
                 case 1: // Today's Appointments
-                  navigate('/provider/schedule');
+                  navigate('/provider/schedule?view=today');
                   break;
                 case 2: // Pending Alerts
-                  navigate('/provider/ai-support');
+                  navigate('/provider/clinical?tab=alerts');
                   break;
                 case 3: // AI Diagnoses
                   navigate('/provider/ai-support');
@@ -200,6 +200,32 @@ export function ProviderDashboard() {
                   break;
               }
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                switch (index) {
+                  case 0:
+                    navigate('/provider/patients');
+                    break;
+                  case 1:
+                    navigate('/provider/schedule?view=today');
+                    break;
+                  case 2:
+                    navigate('/provider/clinical?tab=alerts');
+                    break;
+                  case 3:
+                    navigate('/provider/ai-support');
+                    break;
+                  default:
+                    break;
+                }
+              }
+            }}
+            tabIndex={0}
+            role="button"
+            aria-label={`${stat.title}: ${stat.value} - Click to view details`}
+            data-testid={`kpi-${stat.title.toLowerCase().replace(/\s+/g, '-')}`}
+            title={`View ${stat.title.toLowerCase()} details`}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">
@@ -239,8 +265,19 @@ export function ProviderDashboard() {
               {recentPatients.map((patient) => (
                 <div 
                   key={patient.id} 
-                  className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50/50 transition-colors cursor-pointer border border-gray-100"
+                  className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50/50 transition-colors cursor-pointer border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                   onClick={() => navigate(`/provider/patients/${patient.id}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate(`/provider/patients/${patient.id}`);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`View details for ${patient.name}, ${patient.age} years old, ${patient.risk} risk, last seen ${patient.lastVisit}`}
+                  data-testid={`patient-row-${patient.id}`}
+                  title={`Click to view ${patient.name}'s patient record`}
                 >
                   <Avatar className="h-12 w-12">
                     <AvatarImage src={patient.avatar} alt={patient.name} />
@@ -255,10 +292,21 @@ export function ProviderDashboard() {
                         <p className="text-sm text-gray-500">{patient.age} years old • Last seen {patient.lastVisit}</p>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Badge variant="outline" className="text-xs rounded-full px-2 py-1">
+                        <Badge 
+                          variant="outline" 
+                          className="text-xs rounded-full px-2 py-1 focus:outline-none"
+                          tabIndex={-1}
+                          role="status"
+                          aria-label={`Patient status: ${patient.status}`}
+                        >
                           {patient.status}
                         </Badge>
-                        <Badge className={`text-xs rounded-full px-2 py-1 ${getRiskColor(patient.risk)}`}>
+                        <Badge 
+                          className={`text-xs rounded-full px-2 py-1 ${getRiskColor(patient.risk)} focus:outline-none`}
+                          tabIndex={-1}
+                          role="status"
+                          aria-label={`Risk level: ${patient.risk}`}
+                        >
                           {patient.risk}
                         </Badge>
                       </div>
@@ -269,8 +317,12 @@ export function ProviderDashboard() {
             </div>
             <Button 
               variant="outline" 
-              className="w-full mt-6 rounded-xl"
+              className="w-full mt-6 rounded-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
               onClick={() => navigate('/provider/patients')}
+              aria-label="View all patients in patient management"
+              data-testid="view-all-patients-button"
+              title="Navigate to complete patient roster"
+              tabIndex={0}
             >
               View All Patients
             </Button>
@@ -314,8 +366,12 @@ export function ProviderDashboard() {
                     <Button 
                       size="sm" 
                       variant="ghost" 
-                      className="text-xs rounded-lg hover:bg-blue-50"
+                      className="text-xs rounded-lg hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                       onClick={() => navigate(`/provider/ai-support?caseId=${index + 1}&patientId=${insight.patient.replace(' ', '-').toLowerCase()}`)}
+                      aria-label={`Review AI insight for ${insight.patient}: ${insight.type}`}
+                      data-testid={`ai-insight-review-${index}`}
+                      title={`Review ${insight.type} recommendation for ${insight.patient}`}
+                      tabIndex={0}
                     >
                       Review
                     </Button>

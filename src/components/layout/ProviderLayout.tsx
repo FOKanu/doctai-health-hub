@@ -222,8 +222,17 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                       >
                         <button
                           onClick={() => navigate(item.url)}
-                          className="w-full text-left p-4 rounded-lg transition-all duration-200"
-                          title={sidebarCollapsed ? item.title : undefined}
+                          className="w-full text-left p-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                          title={sidebarCollapsed ? item.title : item.description}
+                          aria-label={`Navigate to ${item.title} - ${item.description}`}
+                          data-testid={`nav-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              navigate(item.url);
+                            }
+                          }}
                         >
                           <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-4'}`}>
                             <item.icon className="w-5 h-5 flex-shrink-0" />
@@ -436,7 +445,24 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
               <div className="flex items-center space-x-4">
                 {/* Quick Action Buttons - Hidden on mobile */}
                 <div className="hidden lg:flex items-center space-x-3">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700" aria-label="Create new patient">
+                  <Button 
+                    size="sm" 
+                    className="bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1" 
+                    aria-label="Create new patient"
+                    data-testid="new-patient-button"
+                    title="Add a new patient to your roster"
+                    onClick={() => {
+                      // This will trigger NewPatientModal in the consuming component
+                      window.dispatchEvent(new CustomEvent('openNewPatientModal'));
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        window.dispatchEvent(new CustomEvent('openNewPatientModal'));
+                      }
+                    }}
+                    tabIndex={0}
+                  >
                     <User className="w-4 h-4 mr-2" />
                     New Patient
                   </Button>
