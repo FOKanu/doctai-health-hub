@@ -10,7 +10,7 @@ import { Appointment } from '@/types/common';
 
 interface ScheduleAppointmentModalProps {
   trigger?: React.ReactNode;
-  onScheduleAppointment?: (appointment: Appointment) => void;
+  onScheduleAppointment?: (appointment: any) => void; // Use any to avoid type conflicts
 }
 
 export function ScheduleAppointmentModal({ trigger, onScheduleAppointment }: ScheduleAppointmentModalProps) {
@@ -32,9 +32,21 @@ export function ScheduleAppointmentModal({ trigger, onScheduleAppointment }: Sch
     e.preventDefault();
     const newAppointment = {
       id: Date.now().toString(),
-      ...formData,
-      status: 'pending',
-      createdAt: new Date().toISOString()
+      patientId: 'current-user-id', // Mock patient ID  
+      providerId: 'provider-id', // Mock provider ID
+      type: formData.type as 'consultation' | 'follow-up' | 'procedure' | 'emergency',
+      doctor: formData.doctor,
+      date: formData.date,
+      time: formData.time,
+      dateTime: new Date(`${formData.date}T${formData.time}`),
+      duration: parseInt(formData.duration.split(' ')[0]) || 30, // Extract number from duration string
+      location: formData.location,
+      address: formData.address,
+      insurance: formData.insurance,
+      notes: formData.notes,
+      status: 'scheduled' as const,
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
     
     onScheduleAppointment?.(newAppointment);
@@ -92,12 +104,10 @@ export function ScheduleAppointmentModal({ trigger, onScheduleAppointment }: Sch
                   <SelectValue placeholder="Select specialty" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="general_practitioner">General Practitioner</SelectItem>
-                  <SelectItem value="dermatologist">Dermatologist</SelectItem>
-                  <SelectItem value="oncologist">Oncologist</SelectItem>
-                  <SelectItem value="cardiologist">Cardiologist</SelectItem>
-                  <SelectItem value="neurologist">Neurologist</SelectItem>
-                  <SelectItem value="dentist">Dentist</SelectItem>
+                  <SelectItem value="consultation">Consultation</SelectItem>
+                  <SelectItem value="follow-up">Follow-up</SelectItem>
+                  <SelectItem value="procedure">Procedure</SelectItem>
+                  <SelectItem value="emergency">Emergency</SelectItem>
                 </SelectContent>
               </Select>
             </div>

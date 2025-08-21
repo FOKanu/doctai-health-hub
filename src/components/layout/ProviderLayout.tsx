@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   User,
@@ -41,8 +41,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserProfileDropdown } from '@/components/UserProfileDropdown';
-import { RoleBasedMobileNavigation } from './RoleBasedMobileNavigation';
+import { ProviderStatusIndicator } from '@/components/provider/ProviderStatusIndicator';
+import { NotificationIndicator } from '@/components/provider/NotificationIndicator';
 
 export function ProviderLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -450,19 +450,27 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                   </Button>
                 </div>
 
-                {/* Status Pill */}
-                <div className="flex items-center space-x-2 px-3 py-1 bg-green-50 border border-green-200 rounded-full">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm text-green-700 font-medium">Online</span>
-                </div>
+                {/* Status & Notification Indicators */}
+                <div className="flex items-center space-x-3">
+                  {/* Online/Offline Status Pill */}
+                  <ProviderStatusIndicator />
+                  
+                  {/* Notification Indicator */}
+                  <NotificationIndicator />
 
-                {/* Notifications */}
-                <Button variant="ghost" size="sm" className="relative" aria-label="Notifications">
-                  <AlertTriangle className="w-5 h-5 text-orange-500" />
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-xs">
-                    3
-                  </Badge>
-                </Button>
+                  {/* Emergency Alert */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="p-2 hover:bg-orange-50 rounded-xl relative"
+                    aria-label="View alerts"
+                  >
+                    <AlertTriangle className="w-5 h-5 text-orange-500" />
+                    <Badge className="absolute -top-1 -right-1 h-4 w-4 text-xs bg-orange-500 hover:bg-orange-500 rounded-full p-0 flex items-center justify-center">
+                      1
+                    </Badge>
+                  </Button>
+                </div>
 
                 {/* User Avatar */}
                 <div className="flex items-center space-x-3 px-3 py-2 bg-blue-50 border border-blue-200 rounded-xl">
@@ -485,7 +493,6 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
             </div>
           </main>
         </div>
-        <RoleBasedMobileNavigation role="provider" />
       </div>
     </SidebarProvider>
   );
