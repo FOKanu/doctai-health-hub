@@ -22,22 +22,14 @@ export function AppHeader() {
   return (
     <header className="bg-background border-b border-border px-4 md:px-6 py-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-4">
           <SidebarTrigger className="md:hidden" />
-          {/* Brand Logo with Medical Icon */}
-          <div className="flex items-center space-x-2">
-            <div className="p-2 bg-primary rounded-lg">
-              <Stethoscope className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div>
-              <div className="hidden md:block">
-                <h1 className="text-xl font-semibold text-foreground">DoctAI Dashboard</h1>
-                <p className="text-sm text-muted-foreground">Your AI-powered health companion</p>
-              </div>
-              <div className="md:hidden">
-                <h1 className="text-lg font-semibold text-foreground">DoctAI</h1>
-              </div>
-            </div>
+          <div className="hidden md:block">
+            <h1 className="text-xl font-semibold text-foreground">DoctAI Dashboard</h1>
+            <p className="text-sm text-muted-foreground">Your AI-powered health companion</p>
+          </div>
+          <div className="md:hidden">
+            <h1 className="text-lg font-semibold text-foreground">DoctAI</h1>
           </div>
         </div>
 
