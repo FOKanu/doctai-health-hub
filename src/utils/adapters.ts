@@ -70,13 +70,18 @@ export const isLegacyPredictionResult = (result: unknown): result is LegacyPredi
   return (
     result &&
     typeof result === 'object' &&
-    typeof result.prediction === 'string' &&
-    (result.prediction === 'benign' || result.prediction === 'malignant') &&
-    typeof result.confidence === 'number' &&
-    result.probabilities &&
-    typeof result.probabilities.benign === 'number' &&
-    typeof result.probabilities.malignant === 'number' &&
-    typeof result.timestamp === 'string'
+    result !== null &&
+    'prediction' in result &&
+    typeof (result as any).prediction === 'string' &&
+    ((result as any).prediction === 'benign' || (result as any).prediction === 'malignant') &&
+    'confidence' in result &&
+    typeof (result as any).confidence === 'number' &&
+    'probabilities' in result &&
+    (result as any).probabilities &&
+    typeof (result as any).probabilities.benign === 'number' &&
+    typeof (result as any).probabilities.malignant === 'number' &&
+    'timestamp' in result &&
+    typeof (result as any).timestamp === 'string'
   );
 };
 
@@ -87,16 +92,28 @@ export const isModernPredictionResult = (result: unknown): result is ModernPredi
   return (
     result &&
     typeof result === 'object' &&
-    typeof result.id === 'string' &&
-    typeof result.imageId === 'string' &&
-    typeof result.imageType === 'string' &&
-    typeof result.modelName === 'string' &&
-    typeof result.predictedClass === 'number' &&
-    typeof result.confidence === 'number' &&
-    Array.isArray(result.probabilities) &&
-    Array.isArray(result.classLabels) &&
-    Array.isArray(result.recommendations) &&
-    typeof result.riskLevel === 'string' &&
-    typeof result.createdAt === 'string'
+    result !== null &&
+    'id' in result &&
+    typeof (result as any).id === 'string' &&
+    'imageId' in result &&
+    typeof (result as any).imageId === 'string' &&
+    'imageType' in result &&
+    typeof (result as any).imageType === 'string' &&
+    'modelName' in result &&
+    typeof (result as any).modelName === 'string' &&
+    'predictedClass' in result &&
+    typeof (result as any).predictedClass === 'number' &&
+    'confidence' in result &&
+    typeof (result as any).confidence === 'number' &&
+    'probabilities' in result &&
+    Array.isArray((result as any).probabilities) &&
+    'classLabels' in result &&
+    Array.isArray((result as any).classLabels) &&
+    'recommendations' in result &&
+    Array.isArray((result as any).recommendations) &&
+    'riskLevel' in result &&
+    typeof (result as any).riskLevel === 'string' &&
+    'createdAt' in result &&
+    typeof (result as any).createdAt === 'string'
   );
 };

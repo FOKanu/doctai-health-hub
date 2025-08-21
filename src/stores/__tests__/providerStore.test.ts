@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { useProviderStore } from '../providerStore';
+import { useProviderStore, Patient } from '../providerStore';
 
 // Import the generator functions from the store file
-const generatePatients = () => {
+const generatePatients = (): Patient[] => {
   const names = [
     'Sarah Johnson', 'Michael Chen', 'Emily Rodriguez', 'David Thompson', 'Lisa Wang',
     'James Wilson', 'Maria Garcia', 'Robert Brown', 'Jennifer Lee', 'Christopher Davis',
@@ -15,7 +15,7 @@ const generatePatients = () => {
     id: `P${String(index + 1).padStart(3, '0')}`,
     name,
     age: 25 + (index % 50),
-    sex: index % 3 === 0 ? 'M' : index % 3 === 1 ? 'F' : 'Other',
+    sex: (index % 3 === 0 ? 'M' : index % 3 === 1 ? 'F' : 'Other') as 'M' | 'F' | 'Other',
     mrn: `MRN${String(index + 1).padStart(6, '0')}`,
     phone: `555-${String(100 + index).padStart(3, '0')}-${String(1000 + index).padStart(4, '0')}`,
     email: `${name.toLowerCase().replace(' ', '.')}@email.com`,
