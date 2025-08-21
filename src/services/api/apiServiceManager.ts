@@ -51,10 +51,10 @@ export class ApiServiceManager {
     }
     return await this.openaiService.analyzeHealthInsights({
       symptoms,
-      age: patientContext?.age,
-      gender: patientContext?.gender,
-      medicalHistory: patientContext?.medicalHistory,
-      currentMedications: patientContext?.currentMedications
+      age: patientContext?.age as number,
+      gender: patientContext?.gender as string,
+      medicalHistory: patientContext?.medicalHistory as string[] || [],
+      currentMedications: patientContext?.currentMedications as string[] || []
     });
   }
 
