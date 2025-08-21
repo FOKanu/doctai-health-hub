@@ -35,12 +35,14 @@ jobs:
         run: npm run build
 
       - name: Setup Google Cloud CLI
+        if: ${{ secrets.GCP_SA_KEY != '' && secrets.GCP_PROJECT_ID != '' }}
         uses: google-github-actions/setup-gcloud@v2
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Deploy to Cloud Run
+        if: ${{ secrets.GCP_SA_KEY != '' && secrets.GCP_PROJECT_ID != '' && secrets.GCP_REGION != '' }}
         run: |
           # Create Dockerfile for Cloud Run
           cat > Dockerfile << 'EOF'
@@ -84,33 +86,9 @@ jobs:
             --allow-unauthenticated \
             --set-env-vars NODE_ENV=production
 
-      - name: Update Cloud Storage (Alternative)
-        if: ${{ secrets.GCP_USE_STORAGE == 'true' }}
+      - name: Skip GCP deployment (missing secrets)
+        if: ${{ secrets.GCP_SA_KEY == '' || secrets.GCP_PROJECT_ID == '' || secrets.GCP_REGION == '' }}
         run: |
-          # Deploy to Cloud Storage
-          gsutil -m rsync -r -d dist/ gs://${{ secrets.GCP_STORAGE_BUCKET }}/
-
-          # Make files publicly readable
-          gsutil iam ch allUsers:objectViewer gs://${{ secrets.GCP_STORAGE_BUCKET }}
-
-      - name: Notify deployment
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: deployments } = await github.rest.repos.listDeployments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: context.sha,
-              environment: 'production',
-              per_page: 1
-            });
-
-            if (deployments.length > 0) {
-              await github.rest.repos.createDeploymentStatus({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                deployment_id: deployments[0].id,
-                state: 'success',
-                environment_url: `https://doctai-app-${{ secrets.GCP_REGION }}-${{ secrets.GCP_PROJECT_ID }}.run.app`
-              });
-            }
+          echo "Skipping GCP deployment - missing required secrets"
+          echo "This is expected during development. Set up GCP secrets to enable deployment."
+          echo "Required secrets: GCP_SA_KEY, GCP_PROJECT_ID, GCP_REGION"
