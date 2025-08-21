@@ -22,7 +22,8 @@ import {
   Eye,
   Bone,
   Menu,
-  X
+  X,
+  Bot
 } from 'lucide-react';
 import {
   Sidebar,
@@ -79,7 +80,7 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
     {
       title: "AI Diagnostic Support",
       url: "/provider/ai-support",
-      icon: Brain,
+      icon: Bot,
       description: "Smart diagnosis & alerts"
     },
     {

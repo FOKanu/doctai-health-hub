@@ -20,7 +20,8 @@ import {
   Code,
   Bug,
   Monitor,
-  Zap
+  Zap,
+  Bot
 } from 'lucide-react';
 
 interface RoleBasedMobileNavigationProps {
@@ -38,7 +39,7 @@ export function RoleBasedMobileNavigation({ role }: RoleBasedMobileNavigationPro
           { icon: Home, label: 'Dashboard', path: '/provider/dashboard' },
           { icon: Users, label: 'Patients', path: '/provider/patients' },
           { icon: Stethoscope, label: 'Clinical', path: '/provider/clinical' },
-          { icon: Brain, label: 'AI Support', path: '/provider/ai-support' },
+          { icon: Bot, label: 'AI Support', path: '/provider/ai-support' },
           { icon: Shield, label: 'Compliance', path: '/provider/compliance' },
           { icon: Settings, label: 'Settings', path: '/provider/settings' }
         ];
