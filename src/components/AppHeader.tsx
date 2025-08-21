@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Bell } from 'lucide-react';
+import { Bell, Stethoscope } from 'lucide-react';
 import ResponsiveSearchBar from './ResponsiveSearchBar';
 import { UserProfileDropdown } from './UserProfileDropdown';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,16 +20,24 @@ export function AppHeader() {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-4 md:px-6 py-4">
+    <header className="bg-background border-b border-border px-4 md:px-6 py-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           <SidebarTrigger className="md:hidden" />
-          <div className="hidden md:block">
-            <h1 className="text-xl font-semibold text-gray-900">DoctAI Dashboard</h1>
-            <p className="text-sm text-gray-500">Your AI-powered health companion</p>
-          </div>
-          <div className="md:hidden">
-            <h1 className="text-lg font-semibold text-gray-900">DoctAI</h1>
+          {/* Brand Logo with Medical Icon */}
+          <div className="flex items-center space-x-2">
+            <div className="p-2 bg-primary rounded-lg">
+              <Stethoscope className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <div>
+              <div className="hidden md:block">
+                <h1 className="text-xl font-semibold text-foreground">DoctAI Dashboard</h1>
+                <p className="text-sm text-muted-foreground">Your AI-powered health companion</p>
+              </div>
+              <div className="md:hidden">
+                <h1 className="text-lg font-semibold text-foreground">DoctAI</h1>
+              </div>
+            </div>
           </div>
         </div>
 
