@@ -14,6 +14,18 @@ import { ProviderLayout } from './components/layout/ProviderLayout';
 import { EngineerLayout } from './components/layout/EngineerLayout';
 import { ProviderRoute, EngineerRoute, PatientRoute } from './components/auth/RoleBasedRoute';
 import { ProviderDashboard } from './components/provider/ProviderDashboard';
+import { PatientManagement } from './components/provider/pages/PatientManagement';
+import { PatientDetail } from './components/provider/pages/PatientDetail';
+import { Schedule } from './components/provider/pages/Schedule';
+import { Messages } from './components/provider/pages/Messages';
+import { ClinicalWorkflow } from './components/provider/pages/ClinicalWorkflow';
+import { AIDiagnosticSupport } from './components/provider/pages/AIDiagnosticSupport';
+import { ComplianceCenter } from './components/provider/pages/ComplianceCenter';
+import { ProviderSettings } from './components/provider/pages/ProviderSettings';
+import { Cardiology } from './components/provider/pages/specialties/Cardiology';
+import { Neurology } from './components/provider/pages/specialties/Neurology';
+import { Ophthalmology } from './components/provider/pages/specialties/Ophthalmology';
+import { Orthopedics } from './components/provider/pages/specialties/Orthopedics';
 import { EngineerDashboard } from './components/engineer/EngineerDashboard';
 import LoginScreen from './components/LoginScreen';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -121,16 +133,18 @@ const App = () => {
                   <ProviderLayout>
                     <Routes>
                       <Route path="/dashboard" element={<ProviderDashboard />} />
-                      <Route path="/patients" element={<div>Patient Management</div>} />
-                      <Route path="/clinical" element={<div>Clinical Workflow</div>} />
-                      <Route path="/ai-support" element={<div>AI Diagnostic Support</div>} />
-                      <Route path="/compliance" element={<div>Compliance Center</div>} />
-                      <Route path="/messages" element={<div>Messages/Chat</div>} />
-                      <Route path="/settings" element={<div>Provider Settings</div>} />
-                      <Route path="/cardiology" element={<div>Cardiology Tools</div>} />
-                      <Route path="/neurology" element={<div>Neurology Tools</div>} />
-                      <Route path="/ophthalmology" element={<div>Ophthalmology Tools</div>} />
-                      <Route path="/orthopedics" element={<div>Orthopedics Tools</div>} />
+                      <Route path="/patients" element={<PatientManagement />} />
+                      <Route path="/patients/:id" element={<PatientDetail />} />
+                      <Route path="/schedule" element={<Schedule />} />
+                      <Route path="/messages" element={<Messages />} />
+                      <Route path="/clinical" element={<ClinicalWorkflow />} />
+                      <Route path="/ai-support" element={<AIDiagnosticSupport />} />
+                      <Route path="/compliance" element={<ComplianceCenter />} />
+                      <Route path="/specialty/cardiology" element={<Cardiology />} />
+                      <Route path="/specialty/neurology" element={<Neurology />} />
+                      <Route path="/specialty/ophthalmology" element={<Ophthalmology />} />
+                      <Route path="/specialty/orthopedics" element={<Orthopedics />} />
+                      <Route path="/settings" element={<ProviderSettings />} />
                       <Route path="*" element={<ProviderDashboard />} />
                     </Routes>
                   </ProviderLayout>

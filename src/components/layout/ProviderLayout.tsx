@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   User,
@@ -20,7 +20,9 @@ import {
   Heart,
   Brain,
   Eye,
-  Bone
+  Bone,
+  Menu,
+  X
 } from 'lucide-react';
 import {
   Sidebar,
@@ -46,6 +48,7 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Provider-specific navigation
   const mainNavigation = [
@@ -60,6 +63,12 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
       url: "/provider/patients",
       icon: Users,
       description: "Patient roster & records"
+    },
+    {
+      title: "Schedule",
+      url: "/provider/schedule",
+      icon: Calendar,
+      description: "Manage appointments"
     },
     {
       title: "Clinical Workflow",
@@ -90,25 +99,25 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
   const specialtyNavigation = [
     {
       title: "Cardiology",
-      url: "/provider/cardiology",
+      url: "/provider/specialty/cardiology",
       icon: Heart,
       color: "text-red-600"
     },
     {
       title: "Neurology",
-      url: "/provider/neurology",
+      url: "/provider/specialty/neurology",
       icon: Brain,
       color: "text-purple-600"
     },
     {
       title: "Ophthalmology",
-      url: "/provider/ophthalmology",
+      url: "/provider/specialty/ophthalmology",
       icon: Eye,
       color: "text-blue-600"
     },
     {
       title: "Orthopedics",
-      url: "/provider/orthopedics",
+      url: "/provider/specialty/orthopedics",
       icon: Bone,
       color: "text-orange-600"
     }
@@ -134,20 +143,43 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-blue-50 to-indigo-100">
-        <Sidebar className="hidden md:flex border-r border-blue-200 bg-white/95 backdrop-blur-sm w-80">
+        {/* Mobile Header with Hamburger */}
+        <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-blue-200 px-4 py-3">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="p-2 rounded-lg hover:bg-blue-50 transition-colors"
+              aria-label="Toggle sidebar"
+            >
+              {sidebarCollapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
+            </button>
+            <div className="flex items-center space-x-2">
+              <Stethoscope className="w-6 h-6 text-blue-600" />
+              <span className="text-lg font-bold text-gray-900">DoctAI</span>
+            </div>
+            <div className="w-9"></div> {/* Spacer for centering */}
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <Sidebar className={`hidden md:flex border-r border-blue-200 bg-white/95 backdrop-blur-sm transition-all duration-300 ${
+          sidebarCollapsed ? 'w-20' : 'w-80'
+        }`}>
           <SidebarHeader className="p-8 border-b border-blue-200">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                 <Stethoscope className="w-7 h-7 text-white" />
               </div>
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">DoctAI</h2>
-                <p className="text-sm text-blue-600 font-medium">Provider Portal</p>
-              </div>
+              {!sidebarCollapsed && (
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">DoctAI</h2>
+                  <p className="text-sm text-blue-600 font-medium">Provider Portal</p>
+                </div>
+              )}
             </div>
 
             {/* Provider Info */}
-            {user && (
+            {user && !sidebarCollapsed && (
               <div className="mt-6 p-4 bg-blue-50 rounded-xl">
                 <div className="flex items-center space-x-4">
                   <Avatar className="h-10 w-10">
@@ -174,9 +206,11 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
           <SidebarContent className="flex-1">
             {/* Main Navigation */}
             <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-8 py-4">
-                Main Menu
-              </SidebarGroupLabel>
+              {!sidebarCollapsed && (
+                <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-8 py-4">
+                  Main Menu
+                </SidebarGroupLabel>
+              )}
               <SidebarGroupContent className="px-4">
                 <SidebarMenu className="space-y-2">
                   {mainNavigation.map((item) => (
@@ -189,13 +223,16 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                         <button
                           onClick={() => navigate(item.url)}
                           className="w-full text-left p-4 rounded-lg transition-all duration-200"
+                          title={sidebarCollapsed ? item.title : undefined}
                         >
-                          <div className="flex items-center space-x-4">
+                          <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-4'}`}>
                             <item.icon className="w-5 h-5 flex-shrink-0" />
-                            <div className="flex-1 min-w-0">
-                              <span className="font-medium text-sm">{item.title}</span>
-                              <p className="text-xs text-gray-500 mt-1 line-clamp-1">{item.description}</p>
-                            </div>
+                            {!sidebarCollapsed && (
+                              <div className="flex-1 min-w-0">
+                                <span className="font-medium text-sm">{item.title}</span>
+                                <p className="text-xs text-gray-500 mt-1 line-clamp-1">{item.description}</p>
+                              </div>
+                            )}
                           </div>
                         </button>
                       </SidebarMenuButton>
@@ -208,9 +245,11 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
             {/* Specialty Navigation */}
             {user?.specialty && (
               <SidebarGroup>
-                <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-8 py-4">
-                  Specialty Tools
-                </SidebarGroupLabel>
+                {!sidebarCollapsed && (
+                  <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-8 py-4">
+                    Specialty Tools
+                  </SidebarGroupLabel>
+                )}
                 <SidebarGroupContent className="px-4">
                   <SidebarMenu className="space-y-2">
                     {specialtyNavigation.map((item) => (
@@ -223,10 +262,13 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                           <button
                             onClick={() => navigate(item.url)}
                             className="w-full text-left p-4 rounded-lg transition-all duration-200"
+                            title={sidebarCollapsed ? item.title : undefined}
                           >
-                            <div className="flex items-center space-x-4">
+                            <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-4'}`}>
                               <item.icon className={`w-5 h-5 flex-shrink-0 ${item.color}`} />
-                              <span className="font-medium text-sm">{item.title}</span>
+                              {!sidebarCollapsed && (
+                                <span className="font-medium text-sm">{item.title}</span>
+                              )}
                             </div>
                           </button>
                         </SidebarMenuButton>
@@ -250,25 +292,127 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                     <button
                       onClick={() => navigate(item.url)}
                       className="w-full text-left p-3 rounded-lg transition-all duration-200"
+                      title={sidebarCollapsed ? item.title : undefined}
                     >
-                      <div className="flex items-center space-x-3">
+                      <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'}`}>
                         <item.icon className="w-5 h-5" />
-                        <span className="font-medium">{item.title}</span>
+                        {!sidebarCollapsed && (
+                          <span className="font-medium">{item.title}</span>
+                        )}
                       </div>
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
+
+            {/* Sidebar Toggle Button */}
+            <div className="mt-4 pt-4 border-t border-blue-200">
+              <button
+                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                className="w-full p-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-600 hover:text-blue-700"
+                aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              >
+                <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'}`}>
+                  {sidebarCollapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium">
+                      {sidebarCollapsed ? "Expand" : "Collapse"}
+                    </span>
+                  )}
+                </div>
+              </button>
+            </div>
           </SidebarFooter>
         </Sidebar>
 
+        {/* Mobile Sidebar Overlay */}
+        {!sidebarCollapsed && (
+          <div className="md:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm">
+            <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl">
+              <div className="p-6 border-b border-gray-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+                      <Stethoscope className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-gray-900">DoctAI</h2>
+                      <p className="text-sm text-blue-600">Provider Portal</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSidebarCollapsed(true)}
+                    className="p-2 rounded-lg hover:bg-gray-100"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-4">
+                  <div className="space-y-1">
+                    {mainNavigation.map((item) => (
+                      <button
+                        key={item.title}
+                        onClick={() => {
+                          navigate(item.url);
+                          setSidebarCollapsed(true);
+                        }}
+                        className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors text-left ${
+                          location.pathname === item.url
+                            ? 'bg-blue-100 text-blue-700 border-r-2 border-blue-600'
+                            : 'hover:bg-gray-50'
+                        }`}
+                      >
+                        <item.icon className="w-5 h-5 flex-shrink-0" />
+                        <div>
+                          <span className="font-medium text-sm">{item.title}</span>
+                          <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {user?.specialty && (
+                    <div className="mt-6">
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 py-2">
+                        Specialty Tools
+                      </h3>
+                      <div className="space-y-1">
+                        {specialtyNavigation.map((item) => (
+                          <button
+                            key={item.title}
+                            onClick={() => {
+                              navigate(item.url);
+                              setSidebarCollapsed(true);
+                            }}
+                            className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors text-left ${
+                              location.pathname === item.url
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'hover:bg-gray-50'
+                            }`}
+                          >
+                            <item.icon className={`w-5 h-5 flex-shrink-0 ${item.color}`} />
+                            <span className="font-medium text-sm">{item.title}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex-1 flex flex-col">
           {/* Provider Header */}
-          <header className="bg-white/95 backdrop-blur-sm border-b border-blue-200 px-6 py-4 shadow-sm">
+          <header className="bg-white/95 backdrop-blur-sm border-b border-blue-200 px-6 py-4 shadow-sm md:mt-0 mt-16">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-8">
-                <div>
+                <div className="hidden md:block">
                   <h1 className="text-2xl font-bold text-gray-900">DoctAI</h1>
                   <p className="text-sm text-blue-600 font-medium">Provider Portal</p>
                 </div>
@@ -290,19 +434,21 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
               </div>
 
               <div className="flex items-center space-x-4">
-                {/* Quick Action Buttons */}
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700" aria-label="Create new patient">
-                  <User className="w-4 h-4 mr-2" />
-                  New Patient
-                </Button>
-                <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50" aria-label="Open schedule">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Schedule
-                </Button>
-                <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50" aria-label="Open messages">
-                  <MessageSquare className="w-4 h-4 mr-2" />
-                  Messages
-                </Button>
+                {/* Quick Action Buttons - Hidden on mobile */}
+                <div className="hidden lg:flex items-center space-x-3">
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700" aria-label="Create new patient">
+                    <User className="w-4 h-4 mr-2" />
+                    New Patient
+                  </Button>
+                  <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50" aria-label="Open schedule">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Schedule
+                  </Button>
+                  <Button size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50" aria-label="Open messages">
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Messages
+                  </Button>
+                </div>
 
                 {/* Status Pill */}
                 <div className="flex items-center space-x-2 px-3 py-1 bg-green-50 border border-green-200 rounded-full">
@@ -326,7 +472,7 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                       DS
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-sm font-medium text-gray-700">Dr. Sarah</span>
+                  <span className="text-sm font-medium text-gray-700 hidden sm:block">Dr. Sarah</span>
                 </div>
               </div>
             </div>
