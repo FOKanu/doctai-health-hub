@@ -238,7 +238,7 @@ const DietPlanScreen = () => {
         </TabsContent>
 
         <TabsContent value="meal-plan">
-          <WeeklyMenu meals={todaysMeals} userProfile={userProfile} />
+          <WeeklyMenu meals={todaysMeals} />
         </TabsContent>
 
         <TabsContent value="logging">

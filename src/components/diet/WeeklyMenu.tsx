@@ -19,10 +19,9 @@ interface Meal {
 
 interface WeeklyMenuProps {
   meals: Meal[];
-  userProfile: React.SyntheticEvent;
 }
 
-export const WeeklyMenu: React.FC<WeeklyMenuProps> = ({ meals, userProfile }) => {
+export const WeeklyMenu: React.FC<WeeklyMenuProps> = ({ meals }) => {
   const [selectedDay, setSelectedDay] = useState('today');
 
   const weekDays = [

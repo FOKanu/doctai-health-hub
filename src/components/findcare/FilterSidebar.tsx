@@ -20,7 +20,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   isOpen,
   onClose
 }) => {
-  const updateFilter = (key: keyof FilterOptions, value: React.SyntheticEvent) => {
+  const updateFilter = (key: keyof FilterOptions, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 

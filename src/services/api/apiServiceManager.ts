@@ -86,7 +86,7 @@ export class ApiServiceManager {
 
   async sendAppointmentReminder(
     userId: string,
-    appointment: Appointment,
+    appointment: import('@/types/common').Appointment,
     contactInfo: Record<string, unknown>
   ) {
     if (!this.notificationService) {
