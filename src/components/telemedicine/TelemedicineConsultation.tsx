@@ -25,13 +25,7 @@ import {
   Info
 } from 'lucide-react';
 import { telemedicineService, type HealthcareProvider, type Appointment, type TelemedicineConsultation } from '@/services/telemedicineService';
-
-interface TimeSlot {
-  id: string;
-  time: string;
-  is_available: boolean;
-  duration: number;
-}
+import { type TimeSlot } from '@/types/medical';
 
 interface TelemedicineConsultationProps {
   userId: string;

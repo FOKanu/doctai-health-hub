@@ -144,7 +144,7 @@ export class NotificationService extends BaseApiService {
         statusText: 'SMS sending failed',
         headers: {},
         success: false,
-        error: error.message
+        error: (error as any)?.message || 'Unknown error'
       };
     }
   }
@@ -223,7 +223,7 @@ export class NotificationService extends BaseApiService {
         statusText: 'Email sending failed',
         headers: {},
         success: false,
-        error: error.message
+        error: (error as any)?.message || 'Unknown error'
       };
     }
   }
@@ -254,7 +254,7 @@ export class NotificationService extends BaseApiService {
         statusText: 'Push notification failed',
         headers: {},
         success: false,
-        error: error.message
+        error: (error as any)?.message || 'Unknown error'
       };
     }
   }

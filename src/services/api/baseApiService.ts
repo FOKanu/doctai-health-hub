@@ -89,17 +89,17 @@ export class BaseApiService {
 
       return {
         data: null as T,
-        status: error.response?.status || 0,
-        statusText: error.response?.statusText || 'Network Error',
-        headers: error.response?.headers || {},
+        status: (error as any)?.response?.status || 0,
+        statusText: (error as any)?.response?.statusText || 'Network Error',
+        headers: (error as any)?.response?.headers || {},
         success: false,
-        error: error.message
+        error: (error as any)?.message || 'Unknown error'
       };
     }
   }
 
   protected shouldRetry(error: Error | unknown): boolean {
-    const status = error.response?.status;
+    const status = (error as any)?.response?.status;
     return status >= 500 || status === 429 || !status; // Server errors, rate limit, network errors
   }
 
