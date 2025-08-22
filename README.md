@@ -312,64 +312,22 @@ doctai-health-hub/
 │   ├── 📁 pages/                   # Page components
 │   ├── 📁 types/                   # TypeScript definitions
 │   └── 📁 utils/                   # Utility functions
-├── 📁 config/                      # Configuration files
-│   ├── 📄 tsconfig.json           # TypeScript configuration
-│   ├── 📄 tailwind.config.ts      # Tailwind CSS configuration
-│   ├── 📄 eslint.config.js        # ESLint rules
-│   ├── 📄 jest.config.cjs         # Jest testing configuration
-│   ├── 📄 playwright.config.ts    # E2E testing configuration
-│   ├── 📄 netlify.toml            # Netlify deployment config
-│   ├── 📄 vercel.json             # Vercel deployment config
-│   └── 📄 components.json         # shadcn/ui configuration
-├── 📁 ml/                          # Machine learning models & scripts
+├── 📁 ml_models/                   # Machine learning models
 │   ├── 📁 skin_lesion_classifier/  # Skin cancer detection
 │   ├── 📁 xray_classifier/         # X-ray interpretation
 │   ├── 📁 mri_classifier/          # MRI analysis
 │   ├── 📁 ct_scan_classifier/      # CT scan processing
 │   ├── 📁 eeg_classifier/          # EEG signal processing
-│   ├── 📁 vital_signs_analyzer/    # Vital signs analysis
-│   ├── 📄 data_preparation_pipeline.py  # Data processing scripts
-│   └── 📄 run_data_preparation.sh  # ML setup scripts
-├── 📁 docs/                        # Documentation
-│   ├── 📄 README.md               # Main documentation
-│   ├── 📄 API.md                  # API documentation
-│   ├── 📄 COMPONENTS.md           # Component documentation
-│   ├── 📄 DEPLOYMENT.md           # Deployment guide
-│   ├── 📄 COMPLIANCE.md           # HIPAA compliance guide
-│   ├── 📄 TROUBLESHOOTING.md      # Troubleshooting guide
-│   └── 📄 QA_CHECKLIST.md         # Quality assurance checklist
+│   └── 📁 vital_signs_analyzer/    # Vital signs analysis
 ├── 📁 public/                      # Static assets
+├── 📁 docs/                        # Documentation
 ├── 📁 .github/                     # GitHub configuration
 │   └── 📁 workflows/               # GitHub Actions
 ├── 📁 tests/                       # Test files
 │   └── 📁 e2e/                    # End-to-end tests
 ├── 📁 scripts/                     # Build and deployment scripts
-├── 📁 supabase/                    # Database configuration
-├── 📁 coverage/                    # Test coverage reports
-├── 📁 __mocks__/                   # Test mocks
-├── 📄 package.json                 # Dependencies and scripts
-├── 📄 vite.config.ts              # Vite build configuration
-├── 📄 index.html                  # Entry point
-└── 📄 README.md                   # This file
+└── 📄 Configuration files          # Various config files
 ```
-
-### 🗂️ **Folder Organization Benefits**
-
-The project follows a clean, organized structure designed for maintainability and scalability:
-
-- **📁 config/**: All configuration files centralized for easy management
-- **📁 docs/**: Comprehensive documentation in one location
-- **📁 ml/**: Machine learning models and scripts organized together
-- **📁 src/**: Clean source code structure with logical component grouping
-- **📁 scripts/**: Build and deployment automation
-- **📁 tests/**: Dedicated testing infrastructure
-
-This organization provides:
-- ✅ **Easy Navigation**: Clear folder structure for developers
-- ✅ **Maintainability**: Logical grouping of related files
-- ✅ **Scalability**: Easy to add new features and components
-- ✅ **Professional Standards**: Industry-best practices for project structure
-- ✅ **Team Collaboration**: Clear separation of concerns
 
 ---
 
@@ -392,7 +350,7 @@ nano .env
 npm install
 
 # Install Python dependencies (for ML models)
-pip install -r ml/data_preparation_requirements.txt
+pip install -r ml_models/requirements.txt
 
 # Install additional tools
 npm install -g @playwright/test
@@ -433,17 +391,6 @@ npm run dev:production # Production environment
 ---
 
 ## ⚙️ Configuration
-
-### 📁 Configuration Files
-
-All configuration files are organized in the `config/` folder for easy management:
-
-- **TypeScript**: `config/tsconfig.json`, `config/tsconfig.app.json`
-- **Styling**: `config/tailwind.config.ts`, `config/postcss.config.js`
-- **Linting**: `config/eslint.config.js`
-- **Testing**: `config/jest.config.cjs`, `config/playwright.config.ts`
-- **Deployment**: `config/netlify.toml`, `config/vercel.json`
-- **UI Components**: `config/components.json`
 
 ### Environment Variables
 
