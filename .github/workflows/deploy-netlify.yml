@@ -7,7 +7,6 @@ on:
     workflows: ["CI/CD Pipeline"]
     types:
       - completed
-  workflow_dispatch: # Allow manual runs
 
 jobs:
   deploy:
@@ -32,7 +31,6 @@ jobs:
         run: npm run build
 
       - name: Deploy to Netlify
-        if: ${{ secrets.NETLIFY_AUTH_TOKEN != '' && secrets.NETLIFY_SITE_ID != '' }}
         uses: nwtgck/actions-netlify@v2.0
         with:
           publish-dir: './dist'
@@ -46,10 +44,3 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
-
-      - name: Skip Netlify deployment (missing secrets)
-        if: ${{ secrets.NETLIFY_AUTH_TOKEN == '' || secrets.NETLIFY_SITE_ID == '' }}
-        run: |
-          echo "Skipping Netlify deployment - missing required secrets"
-          echo "This is expected during development. Set up Netlify secrets to enable deployment."
-          echo "Required secrets: NETLIFY_AUTH_TOKEN, NETLIFY_SITE_ID"
