@@ -23,7 +23,9 @@ import {
   Bone,
   Menu,
   X,
-  Bot
+  Bot,
+  LogOut,
+  ChevronDown
 } from 'lucide-react';
 import {
   Sidebar,
@@ -41,6 +43,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAuth } from '@/contexts/AuthContext';
 import { ProviderStatusIndicator } from '@/components/provider/ProviderStatusIndicator';
 import { NotificationIndicator } from '@/components/provider/NotificationIndicator';
@@ -48,7 +58,7 @@ import { NotificationIndicator } from '@/components/provider/NotificationIndicat
 export function ProviderLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Provider-specific navigation
@@ -418,13 +428,28 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                           </button>
                         ))}
                       </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+                     </div>
+                   )}
+                 </div>
+
+                 {/* Mobile Signout Button */}
+                 <div className="mt-6 p-4 border-t border-gray-200">
+                   <Button
+                     onClick={() => {
+                       logout();
+                       setSidebarCollapsed(true);
+                     }}
+                     className="w-full bg-red-600 hover:bg-red-700 text-white"
+                     size="sm"
+                   >
+                     <LogOut className="w-4 h-4 mr-2" />
+                     Sign Out
+                   </Button>
+                 </div>
+               </div>
+             </div>
+           </div>
+         )}
 
         <div className="flex-1 flex flex-col">
           {/* Provider Header */}
@@ -508,16 +533,46 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
                   </Button>
                 </div>
 
-                {/* User Avatar */}
-                <div className="flex items-center space-x-3 px-3 py-2 bg-blue-50 border border-blue-200 rounded-xl">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={user?.avatar} alt={user?.name} />
-                    <AvatarFallback className="bg-blue-500 text-white text-sm font-medium">
-                      DS
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm font-medium text-gray-700 hidden sm:block">Dr. Sarah</span>
-                </div>
+                {/* User Avatar with Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      className="flex items-center space-x-3 px-3 py-2 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors"
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={user?.avatar} alt={user?.name} />
+                        <AvatarFallback className="bg-blue-500 text-white text-sm font-medium">
+                          {user?.name ? getInitials(user.name) : 'DS'}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm font-medium text-gray-700 hidden sm:block">{user?.name}</span>
+                      <ChevronDown className="h-4 w-4 text-gray-500 hidden sm:block" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel className="flex flex-col">
+                      <span className="font-medium">{user?.name}</span>
+                      <span className="text-xs text-muted-foreground">{user?.email}</span>
+                      {user?.specialty && (
+                        <span className="text-xs text-blue-600 font-medium">{user.specialty}</span>
+                      )}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate('/provider/settings')}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      Settings
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={logout}
+                      className="text-red-600 focus:text-red-600 focus:bg-red-50"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </header>
