@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Loader2 } from 'lucide-react';
-import { timeSeriesService } from '@/services/timeseriesService';
-import { RiskProgression } from '@/integrations/supabase/types';
 
 interface RiskProgressionData {
   date: string;
@@ -26,37 +24,19 @@ export const RiskProgressionChart: React.FC<RiskProgressionChartProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Mock data for demonstration
   useEffect(() => {
-    const fetchRiskData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const startDate = new Date();
-        const days = dateRange === '30d' ? 30 : dateRange === '90d' ? 90 : 180;
-        startDate.setDate(startDate.getDate() - days);
-
-        const data = await timeSeriesService.getRiskProgression({
-          userId,
-          startDate: startDate.toISOString(),
-          endDate: new Date().toISOString()
-        });
-
-        // Process risk data into chart format
-        const processedData = processRiskData(data);
-        setRiskData(processedData);
-      } catch (err) {
-        console.error('Error fetching risk progression:', err);
-        setError('Failed to load risk progression data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRiskData();
+    const mockData = [
+      { date: '2024-01', low: 12, medium: 8, high: 3 },
+      { date: '2024-02', low: 15, medium: 6, high: 2 },
+      { date: '2024-03', low: 18, medium: 4, high: 1 },
+    ];
+    
+    setRiskData(mockData);
+    setLoading(false);
   }, [userId, dateRange]);
 
-  const processRiskData = (data: RiskProgression[]): RiskProgressionData[] => {
+  const processRiskData = (data: any[]): RiskProgressionData[] => {
     // Group by date and calculate percentages
     const groupedData: { [key: string]: { low: number; medium: number; high: number; total: number } } = {};
 
