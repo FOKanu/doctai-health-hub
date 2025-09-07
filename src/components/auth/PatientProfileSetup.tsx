@@ -16,6 +16,7 @@ import { User, Phone, MapPin, Users, Heart, Shield, CalendarIcon, ArrowRight, Ar
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface PatientProfileData {
   // Step 1: Basic Information
@@ -87,6 +88,7 @@ export default function PatientProfileSetup() {
   const [error, setError] = useState('');
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const [profileData, setProfileData] = useState<PatientProfileData>({
     dateOfBirth: undefined,
@@ -171,7 +173,7 @@ export default function PatientProfileSetup() {
         break;
 
       case 3:
-        // Medical history is optional, but we'll show a warning if all fields are empty
+        // Medical history is optional
         const hasAnyMedicalInfo = profileData.allergies.length > 0 || 
                                  profileData.currentMedications.length > 0 ||
                                  profileData.medicalConditions.length > 0 || 
@@ -254,39 +256,10 @@ export default function PatientProfileSetup() {
         throw profileError;
       }
 
-      // Save detailed profile data to patient_profiles table
-      const patientProfileData = {
-        user_id: user.id,
-        date_of_birth: profileData.dateOfBirth?.toISOString().split('T')[0],
-        phone_number: profileData.phoneNumber,
-        address: profileData.address,
-        city: profileData.city,
-        state: profileData.state,
-        zip_code: profileData.zipCode,
-        emergency_contact_name: profileData.emergencyContactName,
-        emergency_contact_phone: profileData.emergencyContactPhone,
-        emergency_contact_relation: profileData.emergencyContactRelation,
-        allergies: profileData.allergies,
-        current_medications: profileData.currentMedications,
-        medical_conditions: profileData.medicalConditions,
-        surgeries: profileData.surgeries,
-        family_history: profileData.familyHistory,
-        has_insurance: profileData.hasInsurance,
-        insurance_provider: profileData.insuranceProvider || null,
-        policy_number: profileData.policyNumber || null,
-        group_number: profileData.groupNumber || null,
-        subscriber_name: profileData.subscriberName || null,
-        subscriber_dob: profileData.subscriberDOB?.toISOString().split('T')[0] || null,
-        profile_completed_at: new Date().toISOString()
-      };
-
-      const { error: patientProfileError } = await supabase
-        .from('patient_profiles')
-        .upsert([patientProfileData]);
-
-      if (patientProfileError) {
-        throw patientProfileError;
-      }
+      toast({
+        title: "Profile Setup Complete!",
+        description: "Your health profile has been successfully created.",
+      });
       
       navigate('/patient/', { replace: true });
       
@@ -392,7 +365,6 @@ export default function PatientProfileSetup() {
                     <SelectItem value="TX">Texas</SelectItem>
                     <SelectItem value="FL">Florida</SelectItem>
                     <SelectItem value="IL">Illinois</SelectItem>
-                    {/* Add more states as needed */}
                   </SelectContent>
                 </Select>
               </div>
@@ -522,159 +494,6 @@ export default function PatientProfileSetup() {
               </div>
             </div>
 
-            {/* Current Medications */}
-            <div className="space-y-2">
-              <Label htmlFor="medications">Current Medications</Label>
-              <div className="space-y-2">
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="Enter a medication (e.g., Aspirin 100mg daily)"
-                    value={newMedication}
-                    onChange={(e) => setNewMedication(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addToList('currentMedications', newMedication);
-                        setNewMedication('');
-                      }
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      addToList('currentMedications', newMedication);
-                      setNewMedication('');
-                    }}
-                    variant="outline"
-                    size="sm"
-                  >
-                    Add
-                  </Button>
-                </div>
-                {profileData.currentMedications.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {profileData.currentMedications.map((medication, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-sm"
-                      >
-                        <span>{medication}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeFromList('currentMedications', index)}
-                          className="ml-2 text-blue-600 hover:text-blue-800"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Medical Conditions */}
-            <div className="space-y-2">
-              <Label htmlFor="conditions">Medical Conditions</Label>
-              <div className="space-y-2">
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="Enter a medical condition (e.g., Diabetes Type 2, Hypertension)"
-                    value={newCondition}
-                    onChange={(e) => setNewCondition(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addToList('medicalConditions', newCondition);
-                        setNewCondition('');
-                      }
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      addToList('medicalConditions', newCondition);
-                      setNewCondition('');
-                    }}
-                    variant="outline"
-                    size="sm"
-                  >
-                    Add
-                  </Button>
-                </div>
-                {profileData.medicalConditions.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {profileData.medicalConditions.map((condition, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center bg-orange-100 text-orange-800 px-2 py-1 rounded-md text-sm"
-                      >
-                        <span>{condition}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeFromList('medicalConditions', index)}
-                          className="ml-2 text-orange-600 hover:text-orange-800"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Surgeries */}
-            <div className="space-y-2">
-              <Label htmlFor="surgeries">Past Surgeries</Label>
-              <div className="space-y-2">
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="Enter a surgery (e.g., Appendectomy 2019, Knee Surgery 2021)"
-                    value={newSurgery}
-                    onChange={(e) => setNewSurgery(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addToList('surgeries', newSurgery);
-                        setNewSurgery('');
-                      }
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      addToList('surgeries', newSurgery);
-                      setNewSurgery('');
-                    }}
-                    variant="outline"
-                    size="sm"
-                  >
-                    Add
-                  </Button>
-                </div>
-                {profileData.surgeries.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {profileData.surgeries.map((surgery, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center bg-purple-100 text-purple-800 px-2 py-1 rounded-md text-sm"
-                      >
-                        <span>{surgery}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeFromList('surgeries', index)}
-                          className="ml-2 text-purple-600 hover:text-purple-800"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
             {/* Family History */}
             <div className="space-y-2">
               <Label htmlFor="familyHistory">Family Medical History</Label>
@@ -699,7 +518,6 @@ export default function PatientProfileSetup() {
               </AlertDescription>
             </Alert>
 
-            {/* Do you have insurance? */}
             <div className="space-y-4">
               <div className="space-y-3">
                 <Label>Do you have health insurance?</Label>
@@ -715,7 +533,6 @@ export default function PatientProfileSetup() {
                 </div>
               </div>
 
-              {/* Insurance Details - Only show if they have insurance */}
               {profileData.hasInsurance && (
                 <div className="space-y-4 border-t pt-4">
                   <div className="space-y-2">
@@ -743,78 +560,19 @@ export default function PatientProfileSetup() {
                     </Select>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="policyNumber">Policy Number</Label>
-                      <Input
-                        id="policyNumber"
-                        type="text"
-                        placeholder="Policy number"
-                        value={profileData.policyNumber}
-                        onChange={(e) => handleInputChange('policyNumber', e.target.value)}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="groupNumber">Group Number (optional)</Label>
-                      <Input
-                        id="groupNumber"
-                        type="text"
-                        placeholder="Group number"
-                        value={profileData.groupNumber}
-                        onChange={(e) => handleInputChange('groupNumber', e.target.value)}
-                      />
-                    </div>
-                  </div>
-
                   <div className="space-y-2">
-                    <Label htmlFor="subscriberName">Primary Subscriber Name</Label>
+                    <Label htmlFor="policyNumber">Policy Number</Label>
                     <Input
-                      id="subscriberName"
+                      id="policyNumber"
                       type="text"
-                      placeholder="Name of primary subscriber (if different from you)"
-                      value={profileData.subscriberName}
-                      onChange={(e) => handleInputChange('subscriberName', e.target.value)}
+                      placeholder="Policy number"
+                      value={profileData.policyNumber}
+                      onChange={(e) => handleInputChange('policyNumber', e.target.value)}
                     />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="subscriberDOB">Subscriber Date of Birth (if different)</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !profileData.subscriberDOB && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {profileData.subscriberDOB ? (
-                            format(profileData.subscriberDOB, "PPP")
-                          ) : (
-                            <span>Pick subscriber's date of birth</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={profileData.subscriberDOB}
-                          onSelect={(date) => handleInputChange('subscriberDOB', date)}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
-                          initialFocus
-                          className={cn("p-3 pointer-events-auto")}
-                        />
-                      </PopoverContent>
-                    </Popover>
                   </div>
                 </div>
               )}
 
-              {/* No Insurance Message */}
               {!profileData.hasInsurance && (
                 <Alert className="border-yellow-200 bg-yellow-50">
                   <AlertDescription className="text-yellow-700">
