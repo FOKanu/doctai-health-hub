@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, FileText, Calendar } from 'lucide-react';
-import { analyzeImage, savePredictionToSupabase } from '../services/predictionService';
+import { analyzeImage, savePredictionToSupabase, PredictionResult, HybridAnalysisResult } from '../services/predictionService';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -63,20 +63,45 @@ const UploadScreen = () => {
       // Perform real AI analysis
       const analysisResult = await analyzeImage(selectedFile, imageType as any);
 
-      // Save to database
+      // Save to database - handle both result types
       const imageUrl = URL.createObjectURL(selectedFile);
-      await savePredictionToSupabase(analysisResult, imageUrl);
-
-      // Format result for display
-      const formattedResult = {
-        summary: analysisResult.metadata?.findings || 'Analysis completed successfully.',
-        recommendation: analysisResult.metadata?.recommendations || 'Please consult with your healthcare provider for detailed interpretation.',
-        riskLevel: analysisResult.prediction === 'malignant' ? 'High' : 'Low',
-        confidence: Math.round(analysisResult.confidence * 100),
-        prediction: analysisResult.prediction,
-        probabilities: analysisResult.probabilities,
-        timestamp: analysisResult.timestamp
+      
+      // Type guard to check if it's a PredictionResult
+      const isPredictionResult = (result: PredictionResult | HybridAnalysisResult): result is PredictionResult => {
+        return result && 'prediction' in result && 'confidence' in result;
       };
+
+      if (isPredictionResult(analysisResult)) {
+        await savePredictionToSupabase(analysisResult, imageUrl);
+      }
+
+      // Format result for display - handle both result types
+      let formattedResult;
+      
+      if (isPredictionResult(analysisResult)) {
+        // Handle PredictionResult format
+        formattedResult = {
+          summary: analysisResult.metadata?.findings || ['Analysis completed successfully.'],
+          recommendation: analysisResult.metadata?.recommendations || ['Please consult with your healthcare provider for detailed interpretation.'],
+          riskLevel: analysisResult.prediction === 'malignant' ? 'High' : 'Low',
+          confidence: Math.round(analysisResult.confidence * 100),
+          prediction: analysisResult.prediction,
+          probabilities: analysisResult.probabilities,
+          timestamp: analysisResult.timestamp
+        };
+      } else {
+        // Handle HybridAnalysisResult format
+        const hybridResult = analysisResult as any;
+        formattedResult = {
+          summary: hybridResult.findings || ['Analysis completed successfully.'],
+          recommendation: hybridResult.recommendations || ['Please consult with your healthcare provider for detailed interpretation.'],
+          riskLevel: hybridResult.riskLevel || 'Medium',
+          confidence: Math.round((hybridResult.confidence || 0.8) * 100),
+          prediction: hybridResult.overallAssessment || 'Analysis complete',
+          probabilities: { benign: 0.5, malignant: 0.5 }, // Default for hybrid results
+          timestamp: new Date().toISOString()
+        };
+      }
 
       setResult(formattedResult);
 

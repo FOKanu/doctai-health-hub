@@ -3,13 +3,15 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, Suspense, lazy } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { apiServiceManager } from "./services/api/apiServiceManager";
 import { Shield } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProviderRoute, EngineerRoute, PatientRoute, AdminRoute } from './components/auth/RoleBasedRoute';
 import LoginScreen from './components/LoginScreen';
 import WelcomeScreen from './components/WelcomeScreen';
+import PatientRegistration from './components/auth/PatientRegistration';
+import PatientProfileSetup from './components/auth/PatientProfileSetup';
 
 // Lazy load heavy components for better code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -42,11 +44,10 @@ const Orthopedics = lazy(() => import('./components/provider/pages/specialties/O
 const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
 const EngineerDashboard = lazy(() => import('./components/engineer/EngineerDashboard'));
 
-// Provider review components
-const AnalysisReview = lazy(() => import('./components/provider/pages/AnalysisReview'));
+const AnalysisReview = lazy(() => import('./components/provider/pages/AnalysisReview').then(m => ({ default: m.AnalysisReview })));
 
 // Patient messaging components
-const PatientMessaging = lazy(() => import('./components/patient/PatientMessaging'));
+const PatientMessaging = lazy(() => import('./components/patient/PatientMessaging').then(m => ({ default: m.PatientMessaging })));
 
 const queryClient = new QueryClient();
 
@@ -136,6 +137,16 @@ const App = () => {
             <Routes>
               {/* Public Routes - No authentication required */}
               <Route path="/login" element={<LoginScreen />} />
+              <Route path="/register" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <PatientRegistration />
+                </Suspense>
+              } />
+              <Route path="/patient/profile-setup" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <PatientProfileSetup />
+                </Suspense>
+              } />
               <Route path="/welcome" element={<WelcomeScreen />} />
 
               {/* Root route - handles authentication redirects */}
