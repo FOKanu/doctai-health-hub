@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Download, Filter, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { HealthOverview } from './analytics/HealthOverview';
-import { MetricsDashboard } from './analytics/MetricsDashboard';
 import { RiskPredictions } from './analytics/RiskPredictions';
 import { ImagingStats } from './analytics/ImagingStats';
 import { AppointmentsMedications } from './analytics/AppointmentsMedications';
@@ -142,7 +141,10 @@ const AnalyticsScreen = () => {
         </TabsContent>
 
         <TabsContent value="metrics" className="space-y-6">
-          <MetricsDashboard dateRange={dateRange} selectedMetric={selectedMetric} />
+          <div className="text-center py-8 text-gray-500">
+            <TrendingUp className="w-16 h-16 mx-auto mb-4" />
+            <p>Metrics dashboard coming soon...</p>
+          </div>
         </TabsContent>
 
         <TabsContent value="risks" className="space-y-6">
