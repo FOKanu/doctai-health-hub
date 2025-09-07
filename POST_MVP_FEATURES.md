@@ -130,6 +130,21 @@
 - [ ] **GoogleMapView.tsx** - API key missing, using placeholder locations
 - [ ] **HealthAssistant.tsx** - Mock health insights and recommendations
 
+### **🗑️ Files Deleted by Lovable.dev Bot (Need Re-implementation)**
+- [ ] **src/components/analytics/MetricsDashboard.tsx** - Deleted (399 lines)
+- [ ] **src/components/fitness/FitnessIntegration.tsx** - Deleted (473 lines)
+- [ ] **src/components/fitness/FitnessIntegrationExample.tsx** - Deleted (71 lines)
+- [ ] **src/hooks/useImageUpload.ts** - Deleted (55 lines)
+- [ ] **src/services/fitness/fitbitService.ts** - Deleted (411 lines)
+- [ ] **src/services/fitness/fitnessIntegrationService.ts** - Deleted (496 lines)
+- [ ] **src/services/fitness/googleFitService.ts** - Deleted (351 lines)
+- [ ] **src/services/storageService.ts** - Deleted (163 lines)
+- [ ] **src/services/timeseriesService.ts** - Deleted (459 lines)
+
+### **📊 Database Migrations Added**
+- [ ] **supabase/migrations/20250907150356_b3cf61a0-fa72-4246-b2d2-5e3e547ae4a5.sql** - New migration
+- [ ] **supabase/migrations/20250907150459_4c4d97c2-4dbe-4457-970c-2a9f592ff3bb.sql** - New migration
+
 ---
 
 ## 🎯 **Implementation Priority Matrix**
