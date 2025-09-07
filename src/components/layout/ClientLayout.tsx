@@ -15,7 +15,8 @@ import {
   UserCheck,
   Heart,
   Brain,
-  Shield
+  Shield,
+  MessageSquare
 } from 'lucide-react';
 import {
   Sidebar,
@@ -56,6 +57,11 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       icon: Mail
     },
     {
+      title: "Messages",
+      url: "/patient/messages",
+      icon: MessageSquare
+    },
+    {
       title: "Medical Records",
       url: "/patient/medical-records",
       icon: FolderOpen
@@ -68,6 +74,11 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     {
       title: "Schedule",
       url: "/patient/appointments",
+      icon: Calendar
+    },
+    {
+      title: "Book Appointment",
+      url: "/patient/book-appointment",
       icon: Calendar
     },
     {

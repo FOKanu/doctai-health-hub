@@ -2,40 +2,99 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, FileText, Calendar } from 'lucide-react';
+import { analyzeImage, savePredictionToSupabase } from '../services/predictionService';
+import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 const UploadScreen = () => {
   const navigate = useNavigate();
-  const [selectedFile, setSelectedFile] = useState(null);
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [scanType, setScanType] = useState('');
   const [scanDate, setScanDate] = useState('');
   const [notes, setNotes] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<any>(null);
 
   const scanTypes = ['CT Scan', 'MRI', 'X-Ray', 'EEG', 'Blood Test', 'Other'];
 
-  const handleFileSelect = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!selectedFile || !scanType) {
-      alert('Please select a file and scan type');
+      toast({
+        title: "Missing Information",
+        description: "Please select a file and scan type before analyzing.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to analyze images.",
+        variant: "destructive"
+      });
       return;
     }
 
     setIsAnalyzing(true);
-    // Simulate AI analysis
-    setTimeout(() => {
-      setResult({
-        summary: 'Normal findings with no significant abnormalities detected.',
-        recommendation: 'Continue routine monitoring. Follow up in 6 months.',
-        riskLevel: 'Low',
-        confidence: 92
+
+    try {
+      // Map scan types to image types for AI analysis
+      const imageTypeMap: Record<string, string> = {
+        'CT Scan': 'ct_scan',
+        'MRI': 'mri',
+        'X-Ray': 'xray',
+        'EEG': 'eeg',
+        'Blood Test': 'skin_lesion', // Default fallback
+        'Other': 'skin_lesion'
+      };
+
+      const imageType = imageTypeMap[scanType] || 'skin_lesion';
+
+      // Perform real AI analysis
+      const analysisResult = await analyzeImage(selectedFile, imageType as any);
+
+      // Save to database
+      const imageUrl = URL.createObjectURL(selectedFile);
+      await savePredictionToSupabase(analysisResult, imageUrl);
+
+      // Format result for display
+      const formattedResult = {
+        summary: analysisResult.metadata?.findings || 'Analysis completed successfully.',
+        recommendation: analysisResult.metadata?.recommendations || 'Please consult with your healthcare provider for detailed interpretation.',
+        riskLevel: analysisResult.prediction === 'malignant' ? 'High' : 'Low',
+        confidence: Math.round(analysisResult.confidence * 100),
+        prediction: analysisResult.prediction,
+        probabilities: analysisResult.probabilities,
+        timestamp: analysisResult.timestamp
+      };
+
+      setResult(formattedResult);
+
+      toast({
+        title: "Analysis Complete",
+        description: "Your medical image has been analyzed successfully.",
       });
+
+    } catch (error) {
+      console.error('Error analyzing image:', error);
+      toast({
+        title: "Analysis Failed",
+        description: "Failed to analyze the image. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
       setIsAnalyzing(false);
-    }, 3000);
+    }
   };
 
   return (
@@ -160,10 +219,57 @@ const UploadScreen = () => {
                 <p className="text-gray-600 text-sm">{result.recommendation}</p>
               </div>
 
-              <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                <span className="font-medium">Risk Level:</span>
-                <span className="text-green-600 font-bold">{result.riskLevel}</span>
+              {/* AI Prediction Details */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-3 bg-blue-50 rounded-lg">
+                  <span className="font-medium text-blue-800">AI Prediction:</span>
+                  <p className="text-blue-600 font-bold capitalize">{result.prediction}</p>
+                </div>
+                <div className="p-3 bg-green-50 rounded-lg">
+                  <span className="font-medium text-green-800">Confidence:</span>
+                  <p className="text-green-600 font-bold">{result.confidence}%</p>
+                </div>
               </div>
+
+              {/* Risk Level */}
+              <div className={`flex justify-between items-center p-3 rounded-lg ${
+                result.riskLevel === 'High' ? 'bg-red-50' : 'bg-green-50'
+              }`}>
+                <span className="font-medium">Risk Level:</span>
+                <span className={`font-bold ${
+                  result.riskLevel === 'High' ? 'text-red-600' : 'text-green-600'
+                }`}>
+                  {result.riskLevel}
+                </span>
+              </div>
+
+              {/* Probability Breakdown */}
+              {result.probabilities && (
+                <div className="p-3 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-gray-700 mb-2">Probability Breakdown:</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm">Benign:</span>
+                      <span className="text-sm font-medium">
+                        {Math.round(result.probabilities.benign * 100)}%
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm">Malignant:</span>
+                      <span className="text-sm font-medium">
+                        {Math.round(result.probabilities.malignant * 100)}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Timestamp */}
+              {result.timestamp && (
+                <div className="text-xs text-gray-500">
+                  Analysis completed: {new Date(result.timestamp).toLocaleString()}
+                </div>
+              )}
 
               <div className="flex space-x-3">
                 <button

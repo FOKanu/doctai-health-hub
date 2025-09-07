@@ -25,6 +25,8 @@ import DietPlanScreen from '../components/DietPlanScreen';
 import TotalScansScreen from '../components/TotalScansScreen';
 import RiskAssessmentsScreen from '../components/RiskAssessmentsScreen';
 import TreatmentsScreen from '../components/TreatmentsScreen';
+import { PatientMessaging } from '../components/patient/PatientMessaging';
+import { PatientAppointmentBooking } from '../components/patient/PatientAppointmentBooking';
 
 const Index = () => {
   return (
@@ -65,6 +67,8 @@ const Index = () => {
                     <Route path="/appointments" element={<AppointmentsScreen />} />
                     <Route path="/fitness" element={<FitnessScreen />} />
                     <Route path="/diet" element={<DietPlanScreen />} />
+                    <Route path="/messages" element={<PatientMessaging />} />
+                    <Route path="/book-appointment" element={<PatientAppointmentBooking />} />
                     <Route path="/profile" element={<ProfileScreen />} />
                     <Route path="/settings" element={<SettingsScreen />} />
                     {/* Fallback route for unmatched paths */}

@@ -42,6 +42,12 @@ const Orthopedics = lazy(() => import('./components/provider/pages/specialties/O
 const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
 const EngineerDashboard = lazy(() => import('./components/engineer/EngineerDashboard'));
 
+// Provider review components
+const AnalysisReview = lazy(() => import('./components/provider/pages/AnalysisReview'));
+
+// Patient messaging components
+const PatientMessaging = lazy(() => import('./components/patient/PatientMessaging'));
+
 const queryClient = new QueryClient();
 
 // Initialize API services
@@ -158,12 +164,13 @@ const App = () => {
                         <Route path="/clinical" element={<ClinicalWorkflow />} />
                         <Route path="/ai-support" element={<AIDiagnosticSupport />} />
                         <Route path="/compliance" element={<ComplianceCenter />} />
-                        <Route path="/specialty/cardiology" element={<Cardiology />} />
-                        <Route path="/specialty/neurology" element={<Neurology />} />
-                        <Route path="/specialty/ophthalmology" element={<Ophthalmology />} />
-                        <Route path="/specialty/orthopedics" element={<Orthopedics />} />
-                        <Route path="/settings" element={<ProviderSettings />} />
-                        <Route path="*" element={<ProviderDashboard />} />
+                      <Route path="/specialty/cardiology" element={<Cardiology />} />
+                      <Route path="/specialty/neurology" element={<Neurology />} />
+                      <Route path="/specialty/ophthalmology" element={<Ophthalmology />} />
+                      <Route path="/specialty/orthopedics" element={<Orthopedics />} />
+                      <Route path="/analysis-review" element={<AnalysisReview />} />
+                      <Route path="/settings" element={<ProviderSettings />} />
+                      <Route path="*" element={<ProviderDashboard />} />
                       </Routes>
                     </ProviderLayout>
                   </Suspense>

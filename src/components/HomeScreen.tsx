@@ -7,6 +7,7 @@ import { StatsSection } from './home/StatsSection';
 import { WeeklyGoalsSection } from './home/WeeklyGoalsSection';
 import { HealthAlertsSection } from './home/HealthAlertsSection';
 import { HealthManagementSection } from './home/HealthManagementSection';
+import { NotificationCenter } from './notifications/NotificationCenter';
 
 const HomeScreen = () => {
   const healthScore = 78;
@@ -19,6 +20,7 @@ const HomeScreen = () => {
       <StatsSection />
       <WeeklyGoalsSection />
       <HealthAlertsSection />
+      <NotificationCenter />
       <HealthManagementSection />
     </div>
   );
