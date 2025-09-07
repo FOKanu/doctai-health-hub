@@ -1,511 +1,819 @@
-// Fallback for missing generated types
-interface DatabaseGenerated {
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "12.2.3 (519615d)"
+  }
   public: {
-    Tables: Record<string, any>;
-    Enums: Record<string, any>;
-  };
+    Tables: {
+      data_access_audit: {
+        Row: {
+          accessed_at: string | null
+          id: number
+          ip_address: unknown | null
+          operation: string
+          record_id: string | null
+          table_name: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          accessed_at?: string | null
+          id?: never
+          ip_address?: unknown | null
+          operation: string
+          record_id?: string | null
+          table_name: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          accessed_at?: string | null
+          id?: never
+          ip_address?: unknown | null
+          operation?: string
+          record_id?: string | null
+          table_name?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      health_metrics_timeseries: {
+        Row: {
+          accuracy_score: number | null
+          anonymization_timestamp: string | null
+          created_at: string | null
+          device_source: string | null
+          id: string
+          is_anonymized: boolean | null
+          last_accessed_at: string | null
+          metadata: Json | null
+          metric_type: string | null
+          recorded_at: string | null
+          retention_expires_at: string | null
+          user_id: string | null
+          value: Json | null
+        }
+        Insert: {
+          accuracy_score?: number | null
+          anonymization_timestamp?: string | null
+          created_at?: string | null
+          device_source?: string | null
+          id: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          metric_type?: string | null
+          recorded_at?: string | null
+          retention_expires_at?: string | null
+          user_id?: string | null
+          value?: Json | null
+        }
+        Update: {
+          accuracy_score?: number | null
+          anonymization_timestamp?: string | null
+          created_at?: string | null
+          device_source?: string | null
+          id?: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          metric_type?: string | null
+          recorded_at?: string | null
+          retention_expires_at?: string | null
+          user_id?: string | null
+          value?: Json | null
+        }
+        Relationships: []
+      }
+      image_metadata: {
+        Row: {
+          analysis_result: Json | null
+          anonymization_timestamp: string | null
+          created_at: string | null
+          id: string
+          is_anonymized: boolean | null
+          last_accessed_at: string | null
+          metadata: Json | null
+          retention_expires_at: string | null
+          type: string | null
+          updated_at: string | null
+          url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          analysis_result?: Json | null
+          anonymization_timestamp?: string | null
+          created_at?: string | null
+          id: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          retention_expires_at?: string | null
+          type?: string | null
+          updated_at?: string | null
+          url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          analysis_result?: Json | null
+          anonymization_timestamp?: string | null
+          created_at?: string | null
+          id?: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          retention_expires_at?: string | null
+          type?: string | null
+          updated_at?: string | null
+          url?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      patient_profiles: {
+        Row: {
+          address: string | null
+          allergies: string[] | null
+          city: string | null
+          created_at: string
+          current_medications: string[] | null
+          date_of_birth: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          emergency_contact_relation: string | null
+          family_history: string | null
+          group_number: string | null
+          has_insurance: boolean | null
+          id: string
+          insurance_provider: string | null
+          medical_conditions: string[] | null
+          phone_number: string | null
+          policy_number: string | null
+          profile_completed_at: string | null
+          state: string | null
+          subscriber_dob: string | null
+          subscriber_name: string | null
+          surgeries: string[] | null
+          updated_at: string
+          user_id: string
+          zip_code: string | null
+        }
+        Insert: {
+          address?: string | null
+          allergies?: string[] | null
+          city?: string | null
+          created_at?: string
+          current_medications?: string[] | null
+          date_of_birth?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relation?: string | null
+          family_history?: string | null
+          group_number?: string | null
+          has_insurance?: boolean | null
+          id?: string
+          insurance_provider?: string | null
+          medical_conditions?: string[] | null
+          phone_number?: string | null
+          policy_number?: string | null
+          profile_completed_at?: string | null
+          state?: string | null
+          subscriber_dob?: string | null
+          subscriber_name?: string | null
+          surgeries?: string[] | null
+          updated_at?: string
+          user_id: string
+          zip_code?: string | null
+        }
+        Update: {
+          address?: string | null
+          allergies?: string[] | null
+          city?: string | null
+          created_at?: string
+          current_medications?: string[] | null
+          date_of_birth?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relation?: string | null
+          family_history?: string | null
+          group_number?: string | null
+          has_insurance?: boolean | null
+          id?: string
+          insurance_provider?: string | null
+          medical_conditions?: string[] | null
+          phone_number?: string | null
+          policy_number?: string | null
+          profile_completed_at?: string | null
+          state?: string | null
+          subscriber_dob?: string | null
+          subscriber_name?: string | null
+          surgeries?: string[] | null
+          updated_at?: string
+          user_id?: string
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
+      patient_timelines: {
+        Row: {
+          anonymization_timestamp: string | null
+          baseline_date: string | null
+          condition_type: string | null
+          confidence_score: number | null
+          created_at: string | null
+          id: string
+          is_anonymized: boolean | null
+          last_accessed_at: string | null
+          metadata: Json | null
+          notes: string | null
+          retention_expires_at: string | null
+          severity_score: number | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          anonymization_timestamp?: string | null
+          baseline_date?: string | null
+          condition_type?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          id: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          retention_expires_at?: string | null
+          severity_score?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          anonymization_timestamp?: string | null
+          baseline_date?: string | null
+          condition_type?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          id?: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          retention_expires_at?: string | null
+          severity_score?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string | null
+          display_name: string | null
+          id: string
+          role: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      provider_analytics: {
+        Row: {
+          created_at: string
+          date_range_end: string
+          date_range_start: string
+          generated_at: string
+          id: string
+          provider_id: string
+          report_data: Json
+          report_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date_range_end: string
+          date_range_start: string
+          generated_at?: string
+          id?: string
+          provider_id: string
+          report_data: Json
+          report_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date_range_end?: string
+          date_range_start?: string
+          generated_at?: string
+          id?: string
+          provider_id?: string
+          report_data?: Json
+          report_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      provider_appointments: {
+        Row: {
+          appointment_date: string
+          appointment_type: string
+          created_at: string
+          duration_minutes: number
+          id: string
+          notes: string | null
+          patient_id: string | null
+          provider_id: string
+          reason: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          appointment_date: string
+          appointment_type: string
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          notes?: string | null
+          patient_id?: string | null
+          provider_id: string
+          reason?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          appointment_date?: string
+          appointment_type?: string
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          notes?: string | null
+          patient_id?: string | null
+          provider_id?: string
+          reason?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      provider_patients: {
+        Row: {
+          allergies: string[] | null
+          contact_info: Json | null
+          created_at: string
+          current_medications: Json | null
+          date_of_birth: string | null
+          gender: string | null
+          id: string
+          last_visit_date: string | null
+          medical_history: Json | null
+          next_appointment_date: string | null
+          patient_mrn: string
+          patient_name: string
+          provider_id: string
+          risk_level: string | null
+          updated_at: string
+        }
+        Insert: {
+          allergies?: string[] | null
+          contact_info?: Json | null
+          created_at?: string
+          current_medications?: Json | null
+          date_of_birth?: string | null
+          gender?: string | null
+          id?: string
+          last_visit_date?: string | null
+          medical_history?: Json | null
+          next_appointment_date?: string | null
+          patient_mrn: string
+          patient_name: string
+          provider_id: string
+          risk_level?: string | null
+          updated_at?: string
+        }
+        Update: {
+          allergies?: string[] | null
+          contact_info?: Json | null
+          created_at?: string
+          current_medications?: Json | null
+          date_of_birth?: string | null
+          gender?: string | null
+          id?: string
+          last_visit_date?: string | null
+          medical_history?: Json | null
+          next_appointment_date?: string | null
+          patient_mrn?: string
+          patient_name?: string
+          provider_id?: string
+          risk_level?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      provider_settings: {
+        Row: {
+          ai_settings: Json | null
+          calendar_settings: Json | null
+          created_at: string
+          dashboard_layout: Json | null
+          id: string
+          notification_preferences: Json | null
+          privacy_settings: Json | null
+          provider_id: string
+          theme_preferences: Json | null
+          updated_at: string
+        }
+        Insert: {
+          ai_settings?: Json | null
+          calendar_settings?: Json | null
+          created_at?: string
+          dashboard_layout?: Json | null
+          id?: string
+          notification_preferences?: Json | null
+          privacy_settings?: Json | null
+          provider_id: string
+          theme_preferences?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          ai_settings?: Json | null
+          calendar_settings?: Json | null
+          created_at?: string
+          dashboard_layout?: Json | null
+          id?: string
+          notification_preferences?: Json | null
+          privacy_settings?: Json | null
+          provider_id?: string
+          theme_preferences?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      risk_progressions: {
+        Row: {
+          anonymization_timestamp: string | null
+          condition_type: string | null
+          confidence_score: number | null
+          created_at: string | null
+          factors: Json | null
+          id: string
+          is_anonymized: boolean | null
+          last_accessed_at: string | null
+          metadata: Json | null
+          predicted_date: string | null
+          probability: number | null
+          recorded_at: string | null
+          retention_expires_at: string | null
+          risk_level: string | null
+          user_id: string | null
+        }
+        Insert: {
+          anonymization_timestamp?: string | null
+          condition_type?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          factors?: Json | null
+          id: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          predicted_date?: string | null
+          probability?: number | null
+          recorded_at?: string | null
+          retention_expires_at?: string | null
+          risk_level?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          anonymization_timestamp?: string | null
+          condition_type?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          factors?: Json | null
+          id?: string
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          predicted_date?: string | null
+          probability?: number | null
+          recorded_at?: string | null
+          retention_expires_at?: string | null
+          risk_level?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      rls_policies: {
+        Row: {
+          description: string | null
+          operation: string | null
+          policy_definition: string | null
+          policy_name: string | null
+          table_name: string | null
+        }
+        Insert: {
+          description?: string | null
+          operation?: string | null
+          policy_definition?: string | null
+          policy_name?: string | null
+          table_name?: string | null
+        }
+        Update: {
+          description?: string | null
+          operation?: string | null
+          policy_definition?: string | null
+          policy_name?: string | null
+          table_name?: string | null
+        }
+        Relationships: []
+      }
+      scan_sequences: {
+        Row: {
+          analysis_type: string | null
+          anonymization_timestamp: string | null
+          baseline_image_id: string | null
+          confidence_score: number | null
+          created_at: string | null
+          findings: Json | null
+          id: string
+          image_ids: string | null
+          is_anonymized: boolean | null
+          last_accessed_at: string | null
+          metadata: Json | null
+          progression_score: number | null
+          recommendations: string | null
+          retention_expires_at: string | null
+          sequence_name: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          analysis_type?: string | null
+          anonymization_timestamp?: string | null
+          baseline_image_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          findings?: Json | null
+          id: string
+          image_ids?: string | null
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          progression_score?: number | null
+          recommendations?: string | null
+          retention_expires_at?: string | null
+          sequence_name?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          analysis_type?: string | null
+          anonymization_timestamp?: string | null
+          baseline_image_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          findings?: Json | null
+          id?: string
+          image_ids?: string | null
+          is_anonymized?: boolean | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          progression_score?: number | null
+          recommendations?: string | null
+          retention_expires_at?: string | null
+          sequence_name?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      "Table setup verification": {
+        Row: {
+          check_type: string | null
+          description: string | null
+          expected_status: string | null
+          expected_value: string | null
+          table_name: string | null
+        }
+        Insert: {
+          check_type?: string | null
+          description?: string | null
+          expected_status?: string | null
+          expected_value?: string | null
+          table_name?: string | null
+        }
+        Update: {
+          check_type?: string | null
+          description?: string | null
+          expected_status?: string | null
+          expected_value?: string | null
+          table_name?: string | null
+        }
+        Relationships: []
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      cleanup_expired_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      create_comprehensive_rls_policies: {
+        Args: { p_table_name: string }
+        Returns: undefined
+      }
+      debug_rls_policy: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          current_user_id: string
+          table_name: string
+          user_id_type: string
+        }[]
+      }
+      delete_user_data: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
+      export_user_data: {
+        Args: { p_user_id: string }
+        Returns: {
+          record_data: Json
+          table_name: string
+        }[]
+      }
+      secure_user_data_export: {
+        Args: { p_user_id: string }
+        Returns: {
+          record_data: Json
+          table_name: string
+        }[]
+      }
+    }
+    Enums: {
+      image_type: "skin_lesion" | "ct_scan" | "mri" | "xray" | "eeg"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
 
-export type Database = DatabaseGenerated;
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row'];
-export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
-// Time-series specific types
-export interface PatientTimeline {
-  id: string;
-  user_id: string;
-  condition_type: 'skin_lesion' | 'cardiovascular' | 'respiratory' | 'neurological' | 'metabolic' | 'musculoskeletal' | 'gastrointestinal' | 'endocrine';
-  baseline_date: string;
-  status: 'monitoring' | 'improving' | 'worsening' | 'stable';
-  severity_score?: number;
-  confidence_score?: number;
-  notes?: string;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
 }
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
 
-export interface HealthMetricTimeseries {
-  id: string;
-  user_id: string;
-  metric_type: 'heart_rate' | 'blood_pressure' | 'weight' | 'temperature' | 'sleep_hours' | 'steps' | 'calories' | 'water_intake' | 'blood_glucose' | 'oxygen_saturation';
-  value: unknown;
-  recorded_at: string;
-  device_source?: string;
-  accuracy_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
 }
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
 
-export interface ScanSequence {
-  id: string;
-  user_id: string;
-  sequence_name: string;
-  image_ids: string[];
-  analysis_type: 'progression' | 'treatment_response' | 'baseline' | 'follow_up';
-  baseline_image_id?: string;
-  progression_score?: number;
-  confidence_score?: number;
-  findings?: Record<string, unknown>;
-  recommendations?: string[];
-  metadata?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
 }
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
 
-export interface TreatmentResponse {
-  id: string;
-  user_id: string;
-  timeline_id: string;
-  treatment_name: string;
-  start_date: string;
-  end_date?: string;
-  effectiveness_score?: number;
-  side_effects?: string[];
-  adherence_percentage?: number;
-  notes?: string;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
 }
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
 
-export interface RiskProgression {
-  id: string;
-  user_id: string;
-  condition_type: 'skin_lesion' | 'cardiovascular' | 'respiratory' | 'neurological' | 'metabolic' | 'musculoskeletal' | 'gastrointestinal' | 'endocrine';
-  risk_level: 'low' | 'medium' | 'high';
-  probability: number;
-  factors?: Record<string, unknown>;
-  recorded_at: string;
-  predicted_date?: string;
-  confidence_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
 }
-
-// Health metric value types
-export interface HeartRateValue {
-  value: number;
-  type: 'resting' | 'active' | 'max';
-  unit: 'bpm';
-}
-
-export interface BloodPressureValue {
-  systolic: number;
-  diastolic: number;
-  unit: 'mmHg';
-}
-
-export interface WeightValue {
-  value: number;
-  unit: 'kg' | 'lbs';
-}
-
-export interface TemperatureValue {
-  value: number;
-  unit: 'celsius' | 'fahrenheit';
-}
-
-export interface SleepValue {
-  hours: number;
-  quality?: 'poor' | 'fair' | 'good' | 'excellent';
-  efficiency?: number;
-}
-
-export interface StepsValue {
-  count: number;
-  distance?: number;
-  calories?: number;
-}
-
-export interface WaterIntakeValue {
-  amount: number;
-  unit: 'ml' | 'oz' | 'glasses';
-}
-
-export interface BloodGlucoseValue {
-  value: number;
-  unit: 'mg/dL' | 'mmol/L';
-  context?: 'fasting' | 'post_meal' | 'random';
-}
-
-export interface OxygenSaturationValue {
-  value: number;
-  unit: '%';
-}
-
-// Time-series analytics types
-export interface HealthMetricsTrend {
-  recorded_at: string;
-  value: unknown;
-  trend_direction: 'increasing' | 'decreasing' | 'stable';
-}
-
-export interface PatientProgressionSummary {
-  condition_type: string;
-  status: string;
-  severity_score?: number;
-  days_since_baseline: number;
-  trend: 'positive' | 'negative' | 'neutral';
-}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
 
 export const Constants = {
   public: {
     Enums: {
       image_type: ["skin_lesion", "ct_scan", "mri", "xray", "eeg"],
-      condition_type: ["skin_lesion", "cardiovascular", "respiratory", "neurological", "metabolic", "musculoskeletal", "gastrointestinal", "endocrine"],
-      patient_status: ["monitoring", "improving", "worsening", "stable"],
-      metric_type: ["heart_rate", "blood_pressure", "weight", "temperature", "sleep_hours", "steps", "calories", "water_intake", "blood_glucose", "oxygen_saturation"],
-      analysis_type: ["progression", "treatment_response", "baseline", "follow_up"],
     },
   },
-} as const;
-
-// Extended Health Metrics Types
-export interface CardiovascularMetrics {
-  id: string;
-  user_id: string;
-  heart_rate_resting?: number;
-  heart_rate_active?: number;
-  heart_rate_variability?: number;
-  blood_pressure_systolic?: number;
-  blood_pressure_diastolic?: number;
-  pulse_pressure?: number;
-  mean_arterial_pressure?: number;
-  ecg_rhythm?: 'normal' | 'irregular' | 'atrial_fibrillation' | 'bradycardia' | 'tachycardia';
-  qt_interval?: number;
-  st_segment?: number;
-  recorded_at: string;
-  device_source?: string;
-  accuracy_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-}
-
-export interface RespiratoryMetrics {
-  id: string;
-  user_id: string;
-  respiratory_rate?: number;
-  oxygen_saturation?: number;
-  peak_flow?: number;
-  forced_expiratory_volume?: number;
-  lung_capacity?: number;
-  breathing_pattern?: 'normal' | 'shallow' | 'rapid' | 'irregular' | 'labored';
-  recorded_at: string;
-  device_source?: string;
-  accuracy_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-}
-
-export interface MetabolicMetrics {
-  id: string;
-  user_id: string;
-  blood_glucose_fasting?: number;
-  blood_glucose_postprandial?: number;
-  hba1c?: number;
-  glucose_variability?: number;
-  cholesterol_total?: number;
-  cholesterol_hdl?: number;
-  cholesterol_ldl?: number;
-  triglycerides?: number;
-  cholesterol_ratio?: number;
-  insulin_fasting?: number;
-  insulin_sensitivity?: number;
-  insulin_resistance?: number;
-  ketones?: number;
-  recorded_at: string;
-  device_source?: string;
-  accuracy_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-}
-
-export interface SleepMetrics {
-  id: string;
-  user_id: string;
-  sleep_date: string;
-  total_duration?: number;
-  deep_sleep_duration?: number;
-  rem_sleep_duration?: number;
-  light_sleep_duration?: number;
-  sleep_efficiency?: number;
-  sleep_latency?: number;
-  awakenings_count?: number;
-  restlessness_score?: number;
-  room_temperature?: number;
-  humidity?: number;
-  noise_level?: number;
-  light_level?: number;
-  quality_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-}
-
-export interface FitnessMetrics {
-  id: string;
-  user_id: string;
-  activity_date: string;
-  steps_count?: number;
-  distance_km?: number;
-  calories_burned?: number;
-  active_minutes?: number;
-  sedentary_minutes?: number;
-  workouts_count?: number;
-  workout_duration?: number;
-  workout_intensity?: 'low' | 'moderate' | 'high';
-  workout_type?: 'cardio' | 'strength' | 'flexibility' | 'balance' | 'mixed';
-  vo2_max?: number;
-  strength_upper_body?: number;
-  strength_lower_body?: number;
-  strength_core?: number;
-  flexibility_score?: number;
-  balance_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-}
-
-export interface MentalHealthMetrics {
-  id: string;
-  user_id: string;
-  mood_score?: number;
-  mood_stability?: number;
-  mood_triggers?: string[];
-  stress_level?: number;
-  cortisol_level?: number;
-  perceived_stress_score?: number;
-  memory_score?: number;
-  attention_span?: number;
-  reaction_time?: number;
-  processing_speed?: number;
-  recorded_at: string;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-}
-
-export interface HormonalMetrics {
-  id: string;
-  user_id: string;
-  tsh?: number;
-  t3?: number;
-  t4?: number;
-  thyroid_antibodies?: number;
-  testosterone?: number;
-  estrogen?: number;
-  progesterone?: number;
-  shbg?: number;
-  cortisol_morning?: number;
-  cortisol_evening?: number;
-  cortisol_diurnal_pattern?: number;
-  adrenaline?: number;
-  noradrenaline?: number;
-  recorded_at: string;
-  device_source?: string;
-  accuracy_score?: number;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-}
-
-// Analytics result types
-export interface CardiovascularTrends {
-  recorded_at: string;
-  heart_rate_resting: number;
-  heart_rate_variability: number;
-  blood_pressure_systolic: number;
-  blood_pressure_diastolic: number;
-  trend_direction: 'increasing' | 'decreasing' | 'stable';
-}
-
-export interface SleepQualitySummary {
-  avg_duration: number;
-  avg_efficiency: number;
-  avg_latency: number;
-  quality_trend: 'excellent' | 'good' | 'fair' | 'poor';
-  deep_sleep_percentage: number;
-  rem_sleep_percentage: number;
-}
-
-export interface MetabolicHealthSummary {
-  avg_glucose_fasting: number;
-  avg_hba1c: number;
-  cholesterol_ratio: number;
-  metabolic_risk: 'low' | 'moderate' | 'high';
-  insulin_sensitivity_status: 'excellent' | 'good' | 'fair' | 'poor';
-}
-
-// Telemedicine Integration Types
-export interface HealthcareProvider {
-  id: string;
-  user_id: string;
-  provider_name: string;
-  specialty: 'primary_care' | 'cardiology' | 'dermatology' | 'endocrinology' | 'neurology' | 'psychiatry' | 'orthopedics' | 'pediatrics' | 'gynecology' | 'oncology' | 'pulmonology' | 'gastroenterology' | 'ophthalmology' | 'urology' | 'general';
-  license_number?: string;
-  credentials?: string[];
-  experience_years?: number;
-  languages?: string[];
-  availability_schedule?: Record<string, unknown>;
-  consultation_fee?: number;
-  rating?: number;
-  total_consultations: number;
-  is_verified: boolean;
-  is_available: boolean;
-  profile_image_url?: string;
-  bio?: string;
-  contact_info?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface TelemedicineConsultation {
-  id: string;
-  patient_id: string;
-  provider_id: string;
-  consultation_type: 'video' | 'audio' | 'chat' | 'follow_up' | 'emergency';
-  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'no_show';
-  scheduled_at: string;
-  started_at?: string;
-  ended_at?: string;
-  duration_minutes?: number;
-  meeting_url?: string;
-  meeting_id?: string;
-  consultation_notes?: string;
-  diagnosis?: string;
-  prescriptions?: Record<string, unknown>[];
-  recommendations?: string[];
-  follow_up_date?: string;
-  follow_up_required: boolean;
-  emergency_contact?: string;
-  symptoms?: string[];
-  vital_signs?: Record<string, unknown>;
-  attachments?: Record<string, unknown>[];
-  metadata?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface RemoteMonitoring {
-  id: string;
-  patient_id: string;
-  provider_id?: string;
-  monitoring_type: string;
-  device_id?: string;
-  device_type?: string;
-  is_active: boolean;
-  start_date: string;
-  end_date?: string;
-  monitoring_frequency?: string;
-  alert_thresholds?: Record<string, unknown>;
-  last_reading_at?: string;
-  last_reading_value?: unknown;
-  alert_level?: 'low' | 'medium' | 'high' | 'critical';
-  is_alert_active: boolean;
-  alert_message?: string;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface HealthAlert {
-  id: string;
-  patient_id: string;
-  provider_id?: string;
-  alert_type: string;
-  alert_level: 'low' | 'medium' | 'high' | 'critical';
-  title: string;
-  message: string;
-  metric_name?: string;
-  metric_value?: unknown;
-  threshold_value?: unknown;
-  is_read: boolean;
-  is_acknowledged: boolean;
-  acknowledged_at?: string;
-  acknowledged_by?: string;
-  action_taken?: string;
-  follow_up_required: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Appointment {
-  id: string;
-  patient_id: string;
-  provider_id: string;
-  appointment_type: 'consultation' | 'follow_up' | 'emergency' | 'routine_checkup' | 'specialist_referral';
-  scheduled_at: string;
-  duration_minutes: number;
-  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'no_show';
-  reason?: string;
-  symptoms?: string[];
-  is_urgent: boolean;
-  reminder_sent: boolean;
-  reminder_sent_at?: string;
-  notes?: string;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface ProviderAvailability {
-  id: string;
-  provider_id: string;
-  day_of_week: number;
-  start_time: string;
-  end_time: string;
-  is_available: boolean;
-  consultation_type?: 'video' | 'audio' | 'chat' | 'follow_up' | 'emergency';
-  max_patients_per_slot: number;
-  slot_duration_minutes: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface PatientProviderRelationship {
-  id: string;
-  patient_id: string;
-  provider_id: string;
-  relationship_type: string;
-  start_date: string;
-  end_date?: string;
-  is_active: boolean;
-  notes?: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface ConsultationRecording {
-  id: string;
-  consultation_id: string;
-  recording_url: string;
-  recording_type: string;
-  file_size_bytes?: number;
-  duration_seconds?: number;
-  is_encrypted: boolean;
-  access_level: string;
-  expires_at?: string;
-  created_at: string;
-}
-
-// Telemedicine analytics types
-export interface AvailableAppointmentSlot {
-  start_time: string;
-  end_time: string;
-  is_available: boolean;
-}
-
-export interface PatientHealthSummary {
-  recent_consultations: number;
-  active_monitoring_count: number;
-  unread_alerts: number;
-  last_consultation_date?: string;
-  health_score?: number;
-  risk_level: string;
-}
-
-export interface ConsultationStats {
-  total_consultations: number;
-  completed_consultations: number;
-  cancelled_consultations: number;
-  average_duration_minutes?: number;
-  total_revenue?: number;
-}
+} as const

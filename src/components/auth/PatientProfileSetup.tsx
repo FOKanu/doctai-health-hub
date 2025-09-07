@@ -277,14 +277,16 @@ export default function PatientProfileSetup() {
         group_number: profileData.groupNumber || null,
         subscriber_name: profileData.subscriberName || null,
         subscriber_dob: profileData.subscriberDOB?.toISOString().split('T')[0] || null,
-        profile_completed_at: new Date().toISOString(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        profile_completed_at: new Date().toISOString()
       };
 
-      // Note: This would require creating a patient_profiles table in your database
-      // For MVP, we'll just log this data and proceed
-      console.log('Patient profile data:', patientProfileData);
+      const { error: patientProfileError } = await supabase
+        .from('patient_profiles')
+        .upsert([patientProfileData]);
+
+      if (patientProfileError) {
+        throw patientProfileError;
+      }
       
       navigate('/patient/', { replace: true });
       
