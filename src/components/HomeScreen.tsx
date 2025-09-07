@@ -4,24 +4,25 @@ import { WelcomeSection } from './home/WelcomeSection';
 import { AchievementsSection } from './home/AchievementsSection';
 import { QuickActionsSection } from './home/QuickActionsSection';
 import { StatsSection } from './home/StatsSection';
-import { WeeklyGoalsSection } from './home/WeeklyGoalsSection';
+import { InteractiveMetricsSection } from './home/InteractiveMetricsSection';
+import { HealthInsightsSection } from './home/HealthInsightsSection';
 import { HealthAlertsSection } from './home/HealthAlertsSection';
-import { HealthManagementSection } from './home/HealthManagementSection';
 import { NotificationCenter } from './notifications/NotificationCenter';
+import { useHealthData } from '@/contexts/HealthDataContext';
 
 const HomeScreen = () => {
-  const healthScore = 78;
+  const { healthScore } = useHealthData();
 
   return (
     <div className="space-y-6">
       <WelcomeSection healthScore={healthScore} />
-      <AchievementsSection />
       <QuickActionsSection />
       <StatsSection />
-      <WeeklyGoalsSection />
+      <InteractiveMetricsSection />
+      <HealthInsightsSection />
+      <AchievementsSection />
       <HealthAlertsSection />
       <NotificationCenter />
-      <HealthManagementSection />
     </div>
   );
 };
