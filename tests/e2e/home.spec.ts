@@ -26,3 +26,4 @@ test.describe('Home Page', () => {
     await expect(page.locator('button[aria-label*="menu"]')).toBeVisible();
   });
 });
+
