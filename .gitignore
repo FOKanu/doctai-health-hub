@@ -44,3 +44,6 @@ CI-CD-secrets/
 *.njsproj
 *.sln
 *.sw?
+
+# Project-specific files
+TODO.md
