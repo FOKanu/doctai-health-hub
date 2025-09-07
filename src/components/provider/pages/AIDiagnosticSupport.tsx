@@ -171,7 +171,7 @@ const mockClinicalAlerts: ClinicalAlert[] = [
   }
 ];
 
-export function AIDiagnosticSupport() {
+function AIDiagnosticSupport() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('insights');
   const [searchTerm, setSearchTerm] = useState('');
@@ -619,3 +619,5 @@ export function AIDiagnosticSupport() {
     </div>
   );
 }
+
+export default AIDiagnosticSupport;

@@ -36,7 +36,7 @@ import {
   Crown
 } from 'lucide-react';
 
-export function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
@@ -308,3 +308,5 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
+
+export default AdminLayout;

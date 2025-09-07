@@ -16,7 +16,7 @@ import {
   Timer
 } from 'lucide-react';
 
-export function Ophthalmology() {
+function Ophthalmology() {
   const navigate = useNavigate();
 
   const imagingQueue = [
@@ -249,3 +249,5 @@ export function Ophthalmology() {
     </div>
   );
 }
+
+export default Ophthalmology;

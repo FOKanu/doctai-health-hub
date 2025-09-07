@@ -15,7 +15,7 @@ import {
   Calendar
 } from 'lucide-react';
 
-export function Neurology() {
+function Neurology() {
   const navigate = useNavigate();
 
   const seizureRiskData = [
@@ -231,3 +231,5 @@ export function Neurology() {
     </div>
   );
 }
+
+export default Neurology;

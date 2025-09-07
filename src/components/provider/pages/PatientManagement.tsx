@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { NewPatientModal } from '@/components/provider/modals/NewPatientModal';
 
-export function PatientManagement() {
+function PatientManagement() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [riskFilter, setRiskFilter] = useState('all');
@@ -410,3 +410,5 @@ export function PatientManagement() {
     </div>
   );
 }
+
+export default PatientManagement;

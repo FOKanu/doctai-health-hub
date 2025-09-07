@@ -106,7 +106,7 @@ const mockMedications = [
   }
 ];
 
-export function PatientDetail() {
+function PatientDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
@@ -454,3 +454,5 @@ export function PatientDetail() {
     </div>
   );
 }
+
+export default PatientDetail;

@@ -17,7 +17,7 @@ import {
   Clock
 } from 'lucide-react';
 
-export function Orthopedics() {
+function Orthopedics() {
   const navigate = useNavigate();
 
   const rehabTemplates = [
@@ -280,3 +280,5 @@ export function Orthopedics() {
     </div>
   );
 }
+
+export default Orthopedics;

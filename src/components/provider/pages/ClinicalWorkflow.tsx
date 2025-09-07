@@ -78,7 +78,7 @@ function getPriorityVariant(priority: string) {
   }
 }
 
-export function ClinicalWorkflow() {
+function ClinicalWorkflow() {
   const { toast } = useToast();
   const {
     orders,
@@ -567,3 +567,5 @@ export function ClinicalWorkflow() {
     </div>
   );
 }
+
+export default ClinicalWorkflow;

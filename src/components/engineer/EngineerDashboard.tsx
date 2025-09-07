@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
-export function EngineerDashboard() {
+function EngineerDashboard() {
   const { user } = useAuth();
 
   // System metrics
@@ -383,3 +383,5 @@ export function EngineerDashboard() {
     </div>
   );
 }
+
+export default EngineerDashboard;

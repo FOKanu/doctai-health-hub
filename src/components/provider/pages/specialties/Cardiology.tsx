@@ -16,7 +16,7 @@ import {
   Calculator
 } from 'lucide-react';
 
-export function Cardiology() {
+function Cardiology() {
   const navigate = useNavigate();
 
   const riskStratificationData = [
@@ -226,3 +226,5 @@ export function Cardiology() {
     </div>
   );
 }
+
+export default Cardiology;
