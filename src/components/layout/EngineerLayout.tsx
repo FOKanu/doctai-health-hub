@@ -46,7 +46,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
 import { RoleBasedMobileNavigation } from './RoleBasedMobileNavigation';
 
-export function EngineerLayout({ children }: { children: React.ReactNode }) {
+function EngineerLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
@@ -325,3 +325,5 @@ export function EngineerLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
+
+export default EngineerLayout;

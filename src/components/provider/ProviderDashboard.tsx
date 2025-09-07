@@ -22,7 +22,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { useProviderStore } from '@/stores/providerStore';
 
-export function ProviderDashboard() {
+function ProviderDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
   
@@ -453,3 +453,5 @@ export function ProviderDashboard() {
     </div>
   );
 }
+
+export default ProviderDashboard;

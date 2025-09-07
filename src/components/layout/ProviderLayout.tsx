@@ -55,7 +55,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { ProviderStatusIndicator } from '@/components/provider/ProviderStatusIndicator';
 import { NotificationIndicator } from '@/components/provider/NotificationIndicator';
 
-export function ProviderLayout({ children }: { children: React.ReactNode }) {
+function ProviderLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
@@ -628,3 +628,5 @@ export function ProviderLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
+
+export default ProviderLayout;

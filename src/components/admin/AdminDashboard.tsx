@@ -17,7 +17,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 
-export function AdminDashboard() {
+function AdminDashboard() {
   // Mock data for admin dashboard
   const stats = [
     {
@@ -258,3 +258,5 @@ export function AdminDashboard() {
     </div>
   );
 }
+
+export default AdminDashboard;

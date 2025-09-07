@@ -110,7 +110,7 @@ const mockMessages: Message[] = [
   }
 ];
 
-export function Messages() {
+function Messages() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('inbox');
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
@@ -561,3 +561,5 @@ export function Messages() {
     </div>
   );
 }
+
+export default Messages;

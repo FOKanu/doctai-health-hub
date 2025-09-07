@@ -83,7 +83,7 @@ const mockAccessLogs = [
   }
 ];
 
-export function ComplianceCenter() {
+function ComplianceCenter() {
   const [selectedTab, setSelectedTab] = useState('policies');
 
   const handleExportCSV = () => {
@@ -392,3 +392,5 @@ export function ComplianceCenter() {
     </div>
   );
 }
+
+export default ComplianceCenter;

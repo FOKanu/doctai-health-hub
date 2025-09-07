@@ -106,7 +106,7 @@ const saveSettings = (settings: ProviderSettingsData) => {
   }));
 };
 
-export function ProviderSettings() {
+function ProviderSettings() {
   const [settings, setSettings] = useState<ProviderSettingsData>(defaultSettings);
   const [isSaving, setIsSaving] = useState(false);
   const [savedTab, setSavedTab] = useState<string | null>(null);
@@ -599,3 +599,5 @@ export function ProviderSettings() {
     </div>
   );
 }
+
+export default ProviderSettings;

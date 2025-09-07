@@ -103,7 +103,7 @@ const mockAppointments: AppointmentData[] = [
   }
 ];
 
-export function Schedule() {
+function Schedule() {
   const [view, setView] = useState<'month' | 'week' | 'day'>('week');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [appointments, setAppointments] = useState<AppointmentData[]>(mockAppointments);
@@ -489,3 +489,5 @@ export function Schedule() {
     </div>
   );
 }
+
+export default Schedule;
