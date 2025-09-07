@@ -1,30 +1,30 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Button } from '../ui/button';
 
 describe('Button Component', () => {
   it('renders button with text', () => {
-    const { getByRole } = render(<Button>Click me</Button>);
-    expect(getByRole('button', { name: 'Click me' })).toBeInTheDocument();
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument();
   });
 
   it('renders button with different variants', () => {
-    const { rerender, getByRole } = render(<Button variant="default">Default</Button>);
-    expect(getByRole('button')).toHaveClass('bg-primary');
+    const { rerender } = render(<Button variant="default">Default</Button>);
+    expect(screen.getByRole('button')).toHaveClass('bg-primary');
 
     rerender(<Button variant="destructive">Destructive</Button>);
-    expect(getByRole('button')).toHaveClass('bg-destructive');
+    expect(screen.getByRole('button')).toHaveClass('bg-destructive');
   });
 
   it('handles click events', () => {
     const handleClick = jest.fn();
-    const { getByRole } = render(<Button onClick={handleClick}>Click me</Button>);
+    render(<Button onClick={handleClick}>Click me</Button>);
 
-    getByRole('button').click();
+    screen.getByRole('button').click();
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('can be disabled', () => {
-    const { getByRole } = render(<Button disabled>Disabled</Button>);
-    expect(getByRole('button')).toBeDisabled();
+    render(<Button disabled>Disabled</Button>);
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 });

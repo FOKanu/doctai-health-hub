@@ -7,7 +7,6 @@ import React, { useEffect, Suspense, lazy } from "react";
 import { apiServiceManager } from "./services/api/apiServiceManager";
 import { Shield } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { HealthDataProvider } from '@/contexts/HealthDataContext';
 import { ProviderRoute, EngineerRoute, PatientRoute, AdminRoute } from './components/auth/RoleBasedRoute';
 import LoginScreen from './components/LoginScreen';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -131,125 +130,123 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <HealthDataProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                {/* Public Routes - No authentication required */}
-                <Route path="/login" element={<LoginScreen />} />
-                <Route path="/register" element={
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Public Routes - No authentication required */}
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/register" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <PatientRegistration />
+                </Suspense>
+              } />
+              <Route path="/patient/profile-setup" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <PatientProfileSetup />
+                </Suspense>
+              } />
+              <Route path="/welcome" element={<WelcomeScreen />} />
+
+              {/* Root route - handles authentication redirects */}
+              <Route path="/" element={<RootRoute />} />
+
+              {/* Patient/Client Routes - Protected */}
+              <Route path="/patient/*" element={
+                <PatientRoute>
                   <Suspense fallback={<LoadingSpinner />}>
-                    <PatientRegistration />
+                    <Index />
                   </Suspense>
-                } />
-                <Route path="/patient/profile-setup" element={
+                </PatientRoute>
+              } />
+
+              {/* Provider Routes - Protected */}
+              <Route path="/provider/*" element={
+                <ProviderRoute>
                   <Suspense fallback={<LoadingSpinner />}>
-                    <PatientProfileSetup />
+                    <ProviderLayout>
+                      <Routes>
+                        <Route path="/dashboard" element={<ProviderDashboard />} />
+                        <Route path="/patients" element={<PatientManagement />} />
+                        <Route path="/patients/:id" element={<PatientDetail />} />
+                        <Route path="/schedule" element={<Schedule />} />
+                        <Route path="/messages" element={<Messages />} />
+                        <Route path="/clinical" element={<ClinicalWorkflow />} />
+                        <Route path="/ai-support" element={<AIDiagnosticSupport />} />
+                        <Route path="/compliance" element={<ComplianceCenter />} />
+                      <Route path="/specialty/cardiology" element={<Cardiology />} />
+                      <Route path="/specialty/neurology" element={<Neurology />} />
+                      <Route path="/specialty/ophthalmology" element={<Ophthalmology />} />
+                      <Route path="/specialty/orthopedics" element={<Orthopedics />} />
+                      <Route path="/analysis-review" element={<AnalysisReview />} />
+                      <Route path="/settings" element={<ProviderSettings />} />
+                      <Route path="*" element={<ProviderDashboard />} />
+                      </Routes>
+                    </ProviderLayout>
                   </Suspense>
-                } />
-                <Route path="/welcome" element={<WelcomeScreen />} />
+                </ProviderRoute>
+              } />
 
-                {/* Root route - handles authentication redirects */}
-                <Route path="/" element={<RootRoute />} />
-
-                {/* Patient/Client Routes - Protected */}
-                <Route path="/patient/*" element={
-                  <PatientRoute>
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <Index />
-                    </Suspense>
-                  </PatientRoute>
-                } />
-
-                {/* Provider Routes - Protected */}
-                <Route path="/provider/*" element={
-                  <ProviderRoute>
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <ProviderLayout>
-                        <Routes>
-                          <Route path="/dashboard" element={<ProviderDashboard />} />
-                          <Route path="/patients" element={<PatientManagement />} />
-                          <Route path="/patients/:id" element={<PatientDetail />} />
-                          <Route path="/schedule" element={<Schedule />} />
-                          <Route path="/messages" element={<Messages />} />
-                          <Route path="/clinical" element={<ClinicalWorkflow />} />
-                          <Route path="/ai-support" element={<AIDiagnosticSupport />} />
-                          <Route path="/compliance" element={<ComplianceCenter />} />
-                        <Route path="/specialty/cardiology" element={<Cardiology />} />
-                        <Route path="/specialty/neurology" element={<Neurology />} />
-                        <Route path="/specialty/ophthalmology" element={<Ophthalmology />} />
-                        <Route path="/specialty/orthopedics" element={<Orthopedics />} />
-                        <Route path="/analysis-review" element={<AnalysisReview />} />
-                        <Route path="/settings" element={<ProviderSettings />} />
-                        <Route path="*" element={<ProviderDashboard />} />
-                        </Routes>
-                      </ProviderLayout>
-                    </Suspense>
-                  </ProviderRoute>
-                } />
-
-                {/* Engineer Routes - Protected */}
-                <Route path="/engineer/*" element={
-                  <EngineerRoute>
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <EngineerLayout>
-                        <Routes>
-                          <Route path="/dashboard" element={<EngineerDashboard />} />
-                          <Route path="/dev-tools" element={<div>Development Tools</div>} />
-                          <Route path="/data" element={<div>Data Management</div>} />
-                          <Route path="/security" element={<div>Security & Compliance</div>} />
-                          <Route path="/logs" element={<div>Logs & Alerts</div>} />
-                          <Route path="/settings" element={<div>Engineer Settings</div>} />
-                          <Route path="/infrastructure" element={<div>Infrastructure</div>} />
-                          <Route path="/performance" element={<div>Performance</div>} />
-                          <Route path="/storage" element={<div>Storage</div>} />
-                          <Route path="/network" element={<div>Network</div>} />
-                          <Route path="*" element={<EngineerDashboard />} />
-                        </Routes>
-                      </EngineerLayout>
-                    </Suspense>
-                  </EngineerRoute>
-                } />
-
-                {/* Admin Routes - Protected */}
-                <Route path="/admin/*" element={
-                  <AdminRoute>
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <AdminLayout>
-                        <Routes>
-                          <Route path="/dashboard" element={<AdminDashboard />} />
-                          <Route path="/users" element={<div>User Management</div>} />
-                          <Route path="/security" element={<div>Security Settings</div>} />
-                          <Route path="/system" element={<div>System Health</div>} />
-                          <Route path="/data" element={<div>Data Management</div>} />
-                          <Route path="/analytics" element={<div>Analytics</div>} />
-                          <Route path="/settings" element={<div>Admin Settings</div>} />
-                          <Route path="*" element={<AdminDashboard />} />
-                        </Routes>
-                      </AdminLayout>
-                    </Suspense>
-                  </AdminRoute>
-                } />
-
-                {/* Compliance Route */}
-                <Route path="/compliance" element={
+              {/* Engineer Routes - Protected */}
+              <Route path="/engineer/*" element={
+                <EngineerRoute>
                   <Suspense fallback={<LoadingSpinner />}>
-                    <ComplianceDashboard />
+                    <EngineerLayout>
+                      <Routes>
+                        <Route path="/dashboard" element={<EngineerDashboard />} />
+                        <Route path="/dev-tools" element={<div>Development Tools</div>} />
+                        <Route path="/data" element={<div>Data Management</div>} />
+                        <Route path="/security" element={<div>Security & Compliance</div>} />
+                        <Route path="/logs" element={<div>Logs & Alerts</div>} />
+                        <Route path="/settings" element={<div>Engineer Settings</div>} />
+                        <Route path="/infrastructure" element={<div>Infrastructure</div>} />
+                        <Route path="/performance" element={<div>Performance</div>} />
+                        <Route path="/storage" element={<div>Storage</div>} />
+                        <Route path="/network" element={<div>Network</div>} />
+                        <Route path="*" element={<EngineerDashboard />} />
+                      </Routes>
+                    </EngineerLayout>
                   </Suspense>
-                } />
+                </EngineerRoute>
+              } />
 
-                {/* Fallback */}
-                <Route path="*" element={
+              {/* Admin Routes - Protected */}
+              <Route path="/admin/*" element={
+                <AdminRoute>
                   <Suspense fallback={<LoadingSpinner />}>
-                    <NotFound />
+                    <AdminLayout>
+                      <Routes>
+                        <Route path="/dashboard" element={<AdminDashboard />} />
+                        <Route path="/users" element={<div>User Management</div>} />
+                        <Route path="/security" element={<div>Security Settings</div>} />
+                        <Route path="/system" element={<div>System Health</div>} />
+                        <Route path="/data" element={<div>Data Management</div>} />
+                        <Route path="/analytics" element={<div>Analytics</div>} />
+                        <Route path="/settings" element={<div>Admin Settings</div>} />
+                        <Route path="*" element={<AdminDashboard />} />
+                      </Routes>
+                    </AdminLayout>
                   </Suspense>
-                } />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </HealthDataProvider>
+                </AdminRoute>
+              } />
+
+              {/* Compliance Route */}
+              <Route path="/compliance" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ComplianceDashboard />
+                </Suspense>
+              } />
+
+              {/* Fallback */}
+              <Route path="*" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <NotFound />
+                </Suspense>
+              } />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
